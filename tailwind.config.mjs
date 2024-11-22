@@ -13,8 +13,12 @@ export default {
         'menu-1': '#28BCCB',
         'menu-2': '#87CB28',
         'menu-3': '#FBAAFF',
+        'dark': {
+          // Define dark mode colors
+        }
       },
     },
   },
   plugins: [],
+  darkMode: 'class',
 };
