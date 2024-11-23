@@ -1,0 +1,23 @@
+---
+interface Props {
+  headings?: { id: string; text: string; depth: number }[];
+}
+
+const { headings = [] } = Astro.props;
+---
+
+<div class="toc">
+  <h2 class="text-xl font-medium mb-4">Contents</h2>
+  <ul class="space-y-2">
+    {headings.map((heading) => (
+      <li style={`margin-left: ${(heading.depth - 1) * 1}rem`}>
+        <a 
+          href={`#${heading.id}`}
+          class="text-gray-600 dark:text-gray-300 hover:text-accent-light transition-colors"
+        >
+          {heading.text}
+        </a>
+      </li>
+    ))}
+  </ul>
+</div> 

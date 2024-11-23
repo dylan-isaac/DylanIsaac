@@ -21,10 +21,17 @@ const highlights = [
     description: "Making automation tools and AI technologies accessible to underserved communities."
   }
 ];
+
+// Get headings from the content
+const headings = [
+  { id: "hero", text: "Introduction", depth: 1 },
+  { id: "current-work", text: "Current Work", depth: 2 },
+  // Add other headings as needed
+];
 ---
 
-<Layout title="Dylan Isaac - Engineer & Designer">
-  <Header />
+<Layout title="Dylan Isaac - Engineer & Designer" headings={headings}>
+  <Header headings={headings} />
   <main id="main" class="max-w-2xl mx-auto px-6 md:px-8 py-16 space-y-16">
     <!-- Hero Section -->
     <section class="space-y-6">
