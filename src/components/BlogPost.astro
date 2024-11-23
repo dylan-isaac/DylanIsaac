@@ -7,15 +7,15 @@ interface Props {
 
 const { title, subtitle, isExpanded = false } = Astro.props;
 ---
-<article class="border-b border-gray-200 py-4">
-  <button class="w-full text-left group" aria-expanded={isExpanded}>
+<article class="border-b border-surface-secondary dark:border-dark-surface-secondary py-4">
+  <button class="w-full text-left group focus-ring rounded-md" aria-expanded={isExpanded}>
     <div class="flex items-center">
-      <span class="transform group-aria-expanded:rotate-180 transition-transform">
+      <span class="transform group-aria-expanded:rotate-180 transition-transform text-content-muted">
         {isExpanded ? '▼' : '▶'}
       </span>
-      <h3 class="text-xl font-medium ml-2">{title}</h3>
+      <h3 class="text-h3 font-medium ml-2">{title}</h3>
     </div>
-    <p class="text-gray-600 ml-6">{subtitle}</p>
+    <p class="text-content-muted ml-6">{subtitle}</p>
   </button>
   {isExpanded && <slot />}
 </article>

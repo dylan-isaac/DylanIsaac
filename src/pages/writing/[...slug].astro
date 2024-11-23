@@ -1,0 +1,23 @@
+---
+import { getCollection } from 'astro:content';
+import WritingLayout from '../../layouts/WritingLayout.astro';
+
+// Generate static paths for all writing posts
+export async function getStaticPaths() {
+  const posts = await getCollection('writing');
+  return posts.map(post => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+
+// Get the post data from the props
+const { post } = Astro.props;
+
+// Render the post content to HTML
+const { Content } = await post.render();
+---
+
+<WritingLayout frontmatter={post.data}>
+  <Content />
+</WritingLayout> 

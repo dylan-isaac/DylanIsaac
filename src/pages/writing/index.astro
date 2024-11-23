@@ -1,0 +1,53 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import { getCollection } from 'astro:content';
+import { format } from 'date-fns';
+
+const posts = await getCollection('writing');
+const sortedPosts = posts.sort((a, b) => b.data.publishDate.getTime() - a.data.publishDate.getTime());
+
+const tagColors = ['tag-primary', 'tag-secondary', 'tag-accent'];
+---
+
+<Layout title="Writing | Dylan Isaac">
+  <Header />
+  <main id="main" class="max-w-4xl mx-auto px-6 md:px-8 py-16">
+    <div class="max-w-content mx-auto">
+      <h1 class="text-h1 font-bold mb-16">Writing</h1>
+      <div class="space-y-16">
+        {sortedPosts.map(post => (
+          <article class="group">
+            <a href={`/writing/${post.slug}`} class="block space-y-4">
+              <time datetime={post.data.publishDate.toISOString()} 
+                    class="text-small text-content-muted dark:text-dark-content-muted">
+                {format(post.data.publishDate, 'MMMM d, yyyy')}
+              </time>
+              
+              <div class="space-y-2">
+                <h2 class="text-h2 font-bold group-hover:text-primary transition-colors">
+                  {post.data.title}
+                </h2>
+                {post.data.description && (
+                  <p class="body-text">
+                    {post.data.description}
+                  </p>
+                )}
+              </div>
+
+              {post.data.tags && post.data.tags.length > 0 && (
+                <div class="flex flex-wrap gap-3">
+                  {post.data.tags.map((tag, index) => (
+                    <span class={`tag ${tagColors[index % tagColors.length]}`}>
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              )}
+            </a>
+          </article>
+        ))}
+      </div>
+    </div>
+  </main>
+</Layout> 
