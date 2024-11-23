@@ -3,15 +3,21 @@ import Heading from './Heading.astro';
 
 interface Props {
   title: string;
-  backgroundColor: string;
+  backgroundColor: 'primary' | 'secondary' | 'accent';
 }
 
 const { title, backgroundColor } = Astro.props;
+
+const bgColorMap = {
+  primary: 'bg-primary/10 dark:bg-primary/20',
+  secondary: 'bg-secondary/10 dark:bg-secondary/20',
+  accent: 'bg-accent/10 dark:bg-accent/20'
+};
 ---
 <section>
   <Heading 
     level={2} 
-    class={`text-h2 font-bold mb-lg p-sm inline-block ${backgroundColor} text-content rounded-lg focus-ring`}
+    class={`text-h2 font-bold mb-lg p-sm inline-block ${bgColorMap[backgroundColor]} text-content dark:text-dark-content rounded-lg focus-ring`}
   >
     {title}
   </Heading>

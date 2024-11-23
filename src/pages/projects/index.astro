@@ -29,7 +29,7 @@ const sortedProjects = projects.sort((a, b) => Number(b.data.featured) - Number(
             {project.data.url && (
               <a 
                 href={project.data.url}
-                class="inline-flex items-center text-accent-light hover:underline"
+                class="inline-flex items-center text-content-muted hover:text-primary transition-colors focus-ring"
                 target="_blank"
                 rel="noopener noreferrer"
               >

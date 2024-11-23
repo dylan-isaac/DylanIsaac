@@ -9,7 +9,7 @@ const expertise = [
     description: "Specializing in creating inclusive digital experiences and implementing WCAG guidelines."
   },
   {
-    area: "AI Development",
+    area: "AI Development", 
     description: "Building intelligent systems that enhance human capabilities rather than replace them."
   },
   {
@@ -37,12 +37,12 @@ const values = [
 <Layout title="Contact | Dylan Isaac">
   <Header />
   <main id="main" class="max-w-4xl mx-auto px-6 md:px-8 py-16">
-    <h1 class="text-4xl font-bold mb-12">Let's Work Together</h1>
+    <h1 class="text-4xl font-bold mb-12 text-content dark:text-dark-content">Let's Work Together</h1>
 
     <div class="space-y-12">
       <!-- Contact Section -->
-      <Section title="Get in Touch" backgroundColor="bg-menu-1">
-        <p class="text-lg mb-4">
+      <Section title="Get in Touch" backgroundColor="primary">
+        <p class="text-lg mb-4 text-content dark:text-dark-content">
           I'm always interested in discussing new projects and opportunities.
         </p>
         <a 
@@ -55,23 +55,23 @@ const values = [
       </Section>
 
       <!-- Info Sections -->
-      <Section title="Areas of Expertise" backgroundColor="bg-menu-2">
+      <Section title="Areas of Expertise" backgroundColor="secondary">
         <ul class="space-y-6">
           {expertise.map(({ area, description }) => (
             <li>
-              <h3 class="text-xl font-medium mb-2">{area}</h3>
-              <p class="text-gray-600 dark:text-gray-300">{description}</p>
+              <h3 class="text-xl font-medium mb-2 text-content dark:text-dark-content">{area}</h3>
+              <p class="text-content-muted dark:text-dark-content-muted">{description}</p>
             </li>
           ))}
         </ul>
       </Section>
 
-      <Section title="Values" backgroundColor="bg-menu-3">
+      <Section title="Values" backgroundColor="accent">
         <ul class="space-y-6">
           {values.map(({ title, description }) => (
             <li>
-              <h3 class="text-xl font-medium mb-2">{title}</h3>
-              <p class="text-gray-600 dark:text-gray-300">{description}</p>
+              <h3 class="text-xl font-medium mb-2 text-content dark:text-dark-content">{title}</h3>
+              <p class="text-content-muted dark:text-dark-content-muted">{description}</p>
             </li>
           ))}
         </ul>

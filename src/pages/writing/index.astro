@@ -1,13 +1,12 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import Header from '../../components/Header.astro';
+import Tag from '../../components/Tag.astro';
 import { getCollection } from 'astro:content';
 import { format } from 'date-fns';
 
 const posts = await getCollection('writing');
 const sortedPosts = posts.sort((a, b) => b.data.publishDate.getTime() - a.data.publishDate.getTime());
-
-const tagColors = ['tag-primary', 'tag-secondary', 'tag-accent'];
 ---
 
 <Layout title="Writing | Dylan Isaac">
@@ -38,9 +37,7 @@ const tagColors = ['tag-primary', 'tag-secondary', 'tag-accent'];
               {post.data.tags && post.data.tags.length > 0 && (
                 <div class="flex flex-wrap gap-3">
                   {post.data.tags.map((tag, index) => (
-                    <span class={`tag ${tagColors[index % tagColors.length]}`}>
-                      {tag}
-                    </span>
+                    <Tag name={tag} colorIndex={index} />
                   ))}
                 </div>
               )}

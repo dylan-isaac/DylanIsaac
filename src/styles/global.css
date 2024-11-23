@@ -3,6 +3,26 @@
 @tailwind utilities;
 
 @layer base {
+  :root {
+    --selection-bg: rgb(255 105 180 / 0.2);
+    --selection-text: theme('colors.content.DEFAULT');
+  }
+
+  .dark {
+    --selection-bg: rgb(255 105 180 / 0.3);
+    --selection-text: theme('colors.dark-content.DEFAULT');
+  }
+
+  ::selection {
+    background: var(--selection-bg) !important;
+    color: var(--selection-text);
+  }
+  
+  ::-moz-selection {
+    background: var(--selection-bg);
+    color: var(--selection-text);
+  }
+
   body {
     @apply text-content dark:text-dark-content bg-surface dark:bg-dark-surface;
   }
