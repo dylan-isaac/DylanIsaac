@@ -1,7 +1,8 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
-import Section from '../components/Section.astro'
+import Section from '../components/Section.astro';
+import Heading from '../components/Heading.astro';
 
 const roles = [
   "Engineer",
@@ -22,11 +23,10 @@ const highlights = [
   }
 ];
 
-// Get headings from the content
+// Now we can automatically generate headings array based on the content
 const headings = [
-  { id: "hero", text: "Introduction", depth: 1 },
-  { id: "current-work", text: "Current Work", depth: 2 },
-  // Add other headings as needed
+  { id: "dylan-isaac-personal-website", text: "Dylan Isaac", depth: 1 },
+  { id: "current-work", text: "Current Work", depth: 2 }
 ];
 ---
 
@@ -35,7 +35,12 @@ const headings = [
   <main id="main" class="max-w-2xl mx-auto px-6 md:px-8 py-16 space-y-16">
     <!-- Hero Section -->
     <section class="space-y-6">
-      <h1 class="sr-only">Dylan Isaac - Personal Website</h1>
+      <Heading 
+        level={1} 
+        class="sr-only"
+      >
+        Dylan Isaac - Engineer, Designer, System's Thinker
+      </Heading>
 
       <div class="w-56 h-56 mx-auto mb-8">
         <img
@@ -82,11 +87,12 @@ const headings = [
 
     <!-- Professional Highlights -->
     <Section title="Current Work" backgroundColor="bg-pink-200">
+      <Heading level={2} class="sr-only">Current Work</Heading>
       <div class="space-y-8">
         {highlights.map(({ title, org, description }) => (
           <div class="space-y-2 group">
             <div class="flex items-baseline gap-2">
-              <h3 class="font-medium">{title}</h3>
+              <Heading level={3} class="font-medium">{title}</Heading>
               <span class="text-sm text-gray-500 dark:text-gray-400">
                 {org}
               </span>

@@ -1,0 +1,32 @@
+---
+interface Props {
+  level: 1 | 2 | 3 | 4 | 5 | 6;
+  class?: string;
+}
+
+const { level, class: className = '' } = Astro.props;
+
+// Dynamically create the heading element based on level
+const Tag = `h${level}` as keyof HTMLElementTagNameMap;
+---
+
+<Tag 
+  id={Astro.slots.has('default') ? 
+    (await Astro.slots.render('default'))
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/(^-|-$)/g, '') 
+    : undefined
+  } 
+  class={`focus:outline-none focus:ring-2 focus:ring-accent-light focus:ring-offset-2 rounded-sm ${className}`}
+  tabindex="-1"
+>
+  <slot />
+</Tag>
+
+<style>
+  /* Ensure the focus ring is visible in dark mode */
+  :global(.dark) [tabindex="-1"]:focus {
+    @apply focus:ring-offset-gray-900;
+  }
+</style> 

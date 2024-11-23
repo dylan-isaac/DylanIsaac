@@ -2,13 +2,11 @@
 interface Props {
   title: string;
   description?: string;
-  headings?: { id: string; text: string; depth: number }[];
 }
 
 const { 
   title, 
-  description = "Dylan Isaac's portfolio - Developer and Accessibility Expert",
-  headings = []
+  description = "Dylan Isaac",
 } = Astro.props;
 ---
 

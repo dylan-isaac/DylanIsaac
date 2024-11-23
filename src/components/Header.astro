@@ -15,7 +15,7 @@ const headings = await Astro.props.headings || [];
 
 <a 
   href="#main" 
-  class="fixed top-4 left-4 bg-accent-light px-4 py-2 rounded-md z-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent-light"
+  class="sr-only focus:not-sr-only fixed top-4 left-4 bg-accent-light px-4 py-2 rounded-md z-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent-light"
 >
   Skip to content
 </a>
@@ -102,8 +102,9 @@ const headings = await Astro.props.headings || [];
   const menuToggle = document.getElementById('menu-toggle');
   const tocSidebar = document.getElementById('toc-sidebar');
   
-  // Function to check if there's enough room for the menu
-  const hasEnoughRoom = () => window.innerWidth >= 768;
+  // Function to check if there's enough room for the menu AND content
+  // 896px (max-w-4xl) + 256px (w-64 sidebar) + 64px (padding buffer) = 1216px
+  const hasEnoughRoom = () => window.innerWidth >= 1216;
 
   // Set initial state without animation
   if (hasEnoughRoom()) {

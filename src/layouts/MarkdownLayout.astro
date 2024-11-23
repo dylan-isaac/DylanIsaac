@@ -1,0 +1,16 @@
+---
+import Header from '../components/Header.astro';
+import Layout from './Layout.astro';
+
+const { frontmatter, headings } = Astro.props;
+
+// Headings are automatically provided by Astro for Markdown files
+// in the format: { depth: number, slug: string, text: string }
+---
+
+<Layout title={frontmatter.title} headings={headings}>
+  <Header headings={headings} />
+  <main id="main" class="max-w-2xl mx-auto px-6 md:px-8 py-16">
+    <slot />
+  </main>
+</Layout> 
