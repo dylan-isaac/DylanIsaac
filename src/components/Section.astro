@@ -7,8 +7,8 @@ interface Props {
 const { title, backgroundColor } = Astro.props;
 ---
 <section>
-  <h2 class={`text-3xl font-bold mb-6 p-2 inline-block ${backgroundColor} rounded-lg`}>{title}</h2>
-  <div class="bg-white p-6">
+  <h2 class={`text-3xl font-bold mb-6 p-2 inline-block ${backgroundColor} text-gray-900  rounded-lg`}>{title}</h2>
+  <div class="bg-white dark:bg-gray-800 p-6 rounded-lg">
     <slot />
   </div>
 </section>
