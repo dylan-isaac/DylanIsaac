@@ -2,6 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
 import Section from '../components/Section.astro';
+import ArrowLink from '../components/ArrowLink.astro';
 
 const expertise = [
   {
@@ -41,17 +42,13 @@ const values = [
 
     <div class="space-y-12">
       <!-- Contact Section -->
-      <Section title="Get in Touch" backgroundColor="primary">
-        <p class="text-lg mb-4 text-content dark:text-dark-content">
+      <Section title="Get in Touch" backgroundColor='primary'>
+        <p class="text-lg mb-4">
           I'm always interested in discussing new projects and opportunities.
         </p>
-        <a 
-          href="mailto:your.email@example.com" 
-          class="inline-flex items-center text-xl font-medium hover:text-accent-light transition-colors"
-        >
+        <ArrowLink href="mailto:your.email@example.com">
           your.email@example.com
-          <span class="ml-2" aria-hidden="true">→</span>
-        </a>
+        </ArrowLink>
       </Section>
 
       <!-- Info Sections -->

@@ -2,6 +2,7 @@
 import Layout from '../../layouts/Layout.astro';
 import Header from '../../components/Header.astro';
 import Tag from '../../components/Tag.astro';
+import Heading from '../../components/Heading.astro';
 import { getCollection } from 'astro:content';
 import { format } from 'date-fns';
 
@@ -11,40 +12,52 @@ const sortedPosts = posts.sort((a, b) => b.data.publishDate.getTime() - a.data.p
 
 <Layout title="Writing | Dylan Isaac">
   <Header />
-  <main id="main" class="max-w-4xl mx-auto px-6 md:px-8 py-16">
-    <div class="max-w-content mx-auto">
-      <h1 class="text-h1 font-bold mb-16">Writing</h1>
-      <div class="space-y-16">
-        {sortedPosts.map(post => (
-          <article class="group">
-            <a href={`/writing/${post.slug}`} class="block space-y-4">
-              <time datetime={post.data.publishDate.toISOString()} 
-                    class="text-small text-content-muted dark:text-dark-content-muted">
-                {format(post.data.publishDate, 'MMMM d, yyyy')}
-              </time>
-              
-              <div class="space-y-2">
-                <h2 class="text-h2 font-bold group-hover:text-primary transition-colors">
-                  {post.data.title}
-                </h2>
-                {post.data.description && (
-                  <p class="body-text">
-                    {post.data.description}
-                  </p>
+  <main id="main" class="max-w-content-wide mx-auto px-6 md:px-8 py-16">
+    <div class="max-w-content">
+      <Heading level={1} class="text-h1 font-bold mb-16">Writing</Heading>
+      
+      <section id="recent-posts">
+        <Heading level={2} class="sr-only">Recent Posts</Heading>
+        <div class="space-y-16">
+          {sortedPosts.map(post => (
+            <article class="group">
+              <a href={`/writing/${post.slug}`} class="block space-y-4">
+                {post.data.image && (
+                  <img 
+                    src={post.data.image.src} 
+                    alt={post.data.image.alt}
+                    class="w-full h-48 object-cover rounded-lg"
+                  />
                 )}
-              </div>
-
-              {post.data.tags && post.data.tags.length > 0 && (
-                <div class="flex flex-wrap gap-3">
-                  {post.data.tags.map((tag, index) => (
-                    <Tag name={tag} colorIndex={index} />
-                  ))}
+                
+                <time datetime={post.data.publishDate.toISOString()} 
+                      class="text-small text-content-muted dark:text-dark-content-muted">
+                  {format(post.data.publishDate, 'MMMM d, yyyy')}
+                </time>
+                
+                <div class="space-y-2">
+                  <Heading level={3} class="text-h2 font-bold group-hover:text-primary transition-colors">
+                    {post.data.title}
+                  </Heading>
+                  {post.data.description && (
+                    <p class="body-text">
+                      {post.data.description}
+                    </p>
+                  )}
                 </div>
-              )}
-            </a>
-          </article>
-        ))}
-      </div>
+
+                {post.data.tags && post.data.tags.length > 0 && (
+                  <div class="flex flex-wrap gap-3">
+                    {post.data.tags.map((tag, index) => (
+                      <Tag name={tag} colorIndex={index} />
+                    ))}
+                  </div>
+                )}
+              </a>
+            </article>
+          ))}
+        </div>
+      </section>
     </div>
   </main>
 </Layout> 
