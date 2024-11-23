@@ -1,0 +1,44 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import { getCollection } from 'astro:content';
+
+const projects = await getCollection('projects');
+const sortedProjects = projects.sort((a, b) => Number(b.data.featured) - Number(a.data.featured));
+---
+
+<Layout title="Projects | Dylan Isaac">
+  <Header />
+  <main id="main" class="max-w-4xl mx-auto px-6 md:px-8 py-16">
+    <h1 class="text-4xl font-bold mb-8">Projects</h1>
+    <div class="grid gap-8 md:grid-cols-2">
+      {sortedProjects.map(project => (
+        <article class="bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow">
+          {project.data.image && (
+            <img 
+              src={project.data.image.src} 
+              alt={project.data.image.alt}
+              class="w-full h-48 object-cover"
+            />
+          )}
+          <div class="p-6">
+            <h2 class="text-2xl font-medium mb-2">{project.data.title}</h2>
+            <p class="text-gray-600 dark:text-gray-300 mb-4">
+              {project.data.description}
+            </p>
+            {project.data.url && (
+              <a 
+                href={project.data.url}
+                class="inline-flex items-center text-accent-light hover:underline"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                View Project <span class="ml-1">→</span>
+              </a>
+            )}
+          </div>
+        </article>
+      ))}
+    </div>
+  </main>
+</Layout> 

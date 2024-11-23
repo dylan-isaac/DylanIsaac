@@ -5,9 +5,9 @@ import Section from '../components/Section.astro';
 import Heading from '../components/Heading.astro';
 
 const roles = [
-  "Engineer",
-  "Designer",
-  "Systems Thinker"
+  { text: "Engineer", color: "bg-primary" },
+  { text: "Designer", color: "bg-secondary" },
+  { text: "Systems Thinker", color: "bg-accent" }
 ];
 
 const highlights = [
@@ -30,7 +30,7 @@ const headings = [
 ];
 ---
 
-<Layout title="Dylan Isaac - Engineer & Designer" headings={headings}>
+<Layout title="Dylan Isaac - Engineer & Designer">
   <Header headings={headings} />
   <main id="main" class="max-w-2xl mx-auto px-6 md:px-8 py-16 space-y-16">
     <!-- Hero Section -->
@@ -54,14 +54,16 @@ const headings = [
         />
       </div>
 
-      <div class="space-y-2 flex justify-center">
-        <div class="flex gap-2 items-center">
+      <div class="flex justify-center">
+        <div class="flex items-center gap-3">
           {roles.map((role, index) => (
             <>
-              <span class="text-lg text-gray-600 dark:text-gray-300">{role}</span>
+              <span class="text-lg text-content-muted dark:text-dark-content-muted">
+                {role.text}
+              </span>
               {index < roles.length - 1 && (
                 <span 
-                  class={`w-1.5 h-1.5 rounded-full bg-menu-${index + 1}`}
+                  class={`w-2 h-2 rounded-full ${role.color} animate-pulse`}
                   aria-hidden="true"
                 ></span>
               )}

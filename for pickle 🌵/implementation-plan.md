@@ -1,6 +1,6 @@
 # Implementation Plan
 
-## Phase 1: Core Structure
+<!-- ## Phase 1: Core Structure
 ### Layout & Navigation
 - Skip link (focus-visible only)
 - Main nav (Writing, Projects, Hire)
@@ -14,7 +14,7 @@
 - WCAG 2.1 AA compliance (astro scans should be good)
 - Keyboard navigation
 - Screen reader support (use semantic elements and add aria-labels and descriptions and describedby to improve page understanding)
-- Proper heading structure
+- Proper heading structure -->
 
 ## Phase 2: Content Foundation
 ### Content Structure

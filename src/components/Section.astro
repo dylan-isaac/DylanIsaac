@@ -11,11 +11,11 @@ const { title, backgroundColor } = Astro.props;
 <section>
   <Heading 
     level={2} 
-    class={`text-3xl font-bold mb-6 p-2 inline-block ${backgroundColor} text-gray-900 rounded-lg focus:ring-offset-white dark:focus:ring-offset-gray-900`}
+    class={`text-h2 font-bold mb-lg p-sm inline-block ${backgroundColor} text-content rounded-lg focus-ring`}
   >
     {title}
   </Heading>
-  <div class="bg-white dark:bg-gray-800 p-6 rounded-lg">
+  <div class="bg-surface-secondary dark:bg-dark-surface-secondary rounded-lg p-lg">
     <slot />
   </div>
 </section>

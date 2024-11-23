@@ -1,0 +1,52 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply text-content dark:text-dark-content bg-surface dark:bg-dark-surface;
+  }
+}
+
+@layer components {
+  .tag {
+    @apply inline-flex items-center 
+           px-4 py-1.5 
+           rounded-full 
+           text-surface
+           text-small font-medium;
+  }
+
+  .tag-primary {
+    @apply bg-primary;
+  }
+
+  .tag-secondary {
+    @apply bg-secondary;
+  }
+
+  .tag-accent {
+    @apply bg-accent;
+  }
+
+  .focus-ring {
+    @apply focus:outline-none focus:ring-2 focus:ring-primary 
+           focus:ring-offset-2 dark:focus:ring-offset-dark-surface;
+  }
+
+  .heading-1 {
+    @apply text-h1 font-bold text-content dark:text-dark-content;
+  }
+
+  .heading-2 {
+    @apply text-h2 font-bold text-content dark:text-dark-content;
+  }
+
+  .heading-3 {
+    @apply text-h3 font-medium text-content dark:text-dark-content;
+  }
+
+  .body-text {
+    @apply text-body text-content-muted dark:text-dark-content-muted;
+  }
+} 

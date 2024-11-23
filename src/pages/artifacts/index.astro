@@ -1,0 +1,70 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import { getCollection } from 'astro:content';
+
+const artifacts = await getCollection('artifacts');
+
+// Group artifacts by type
+const groupedArtifacts = artifacts.reduce((acc, artifact) => {
+  const { type } = artifact.data;
+  if (!acc[type]) acc[type] = [];
+  acc[type].push(artifact);
+  return acc;
+}, {} as Record<string, typeof artifacts>);
+---
+
+<Layout title="Artifacts | Dylan Isaac">
+  <Header />
+  <main id="main" class="max-w-4xl mx-auto px-6 md:px-8 py-16">
+    <h1 class="text-4xl font-bold mb-8">Artifacts</h1>
+    
+    {Object.entries(groupedArtifacts).map(([type, items]) => (
+      <section class="mb-12">
+        <h2 class="text-2xl font-medium mb-6 capitalize">{type}s</h2>
+        <div class="grid gap-6 md:grid-cols-2">
+          {items.map(artifact => (
+            <article class="bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-md">
+              {artifact.data.type === 'image' && (
+                <img 
+                  src={artifact.data.content} 
+                  alt={artifact.data.title}
+                  class="w-full h-48 object-cover"
+                />
+              )}
+              {artifact.data.type === 'video' && (
+                <video 
+                  src={artifact.data.content}
+                  controls
+                  class="w-full"
+                  aria-label={artifact.data.title}
+                />
+              )}
+              {artifact.data.type === 'audio' && (
+                <audio 
+                  src={artifact.data.content}
+                  controls
+                  class="w-full p-4"
+                  aria-label={artifact.data.title}
+                />
+              )}
+              {artifact.data.type === 'link' && (
+                <a 
+                  href={artifact.data.content}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="block p-4 hover:bg-gray-50 dark:hover:bg-gray-700"
+                >
+                  {artifact.data.title} →
+                </a>
+              )}
+              <div class="p-4">
+                <h3 class="text-xl font-medium">{artifact.data.title}</h3>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+    ))}
+  </main>
+</Layout> 

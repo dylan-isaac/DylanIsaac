@@ -3,28 +3,27 @@ import ThemeToggle from './ThemeToggle.astro';
 import TableOfContents from './TableOfContents.astro';
 
 const navItems = [
-  { href: "/writing", label: "Writing", dotColor: "bg-menu-1" },
-  { href: "/projects", label: "Projects", dotColor: "bg-menu-2" },
-  { href: "/artifacts", label: "Artifacts", dotColor: "bg-menu-3" },
-  { href: "/hire", label: "Hire", dotColor: "bg-accent-yellow" }
+  { href: "/writing", label: "Writing", dotColor: "bg-primary" },
+  { href: "/projects", label: "Projects", dotColor: "bg-secondary" },
+  { href: "/artifacts", label: "Artifacts", dotColor: "bg-accent" },
+  { href: "/contact", label: "Contact", dotColor: "bg-accent-yellow" }
 ];
 
-// Get headings from the page content
 const headings = await Astro.props.headings || [];
 ---
 
 <a 
   href="#main" 
-  class="sr-only focus:not-sr-only fixed top-4 left-4 bg-accent-light px-4 py-2 rounded-md z-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent-light"
+  class="sr-only focus:not-sr-only fixed top-4 left-4 bg-accent px-4 py-2 rounded-md z-50 focus-ring"
 >
   Skip to content
 </a>
 
-<div class="sticky top-0 z-40 bg-white dark:bg-gray-900">
-  <header class="border-b border-accent-yellow">
-    <div class="max-w-4xl mx-auto px-6 md:px-8 py-6">
+<div class="sticky top-0 z-40 bg-surface dark:bg-dark-surface">
+  <header class="border-b border-surface-secondary dark:border-dark-surface-secondary">
+    <div class="max-w-4xl mx-auto px-6 md:px-8 py-md">
       <div class="flex justify-between items-center">
-        <a href="/" class="text-2xl font-medium hover:text-accent-light transition-colors">
+        <a href="/" class="text-h3 font-medium hover:text-primary transition-colors">
           dylan isaac
         </a>
         
@@ -34,7 +33,7 @@ const headings = await Astro.props.headings || [];
             <>
               <a 
                 href={item.href} 
-                class="hover:text-accent-light transition-colors"
+                class="hover:text-primary transition-colors"
               >
                 {item.label}
               </a>
@@ -55,11 +54,11 @@ const headings = await Astro.props.headings || [];
             aria-label="Toggle table of contents"
             aria-expanded="false"
             aria-controls="toc-sidebar"
-            class="flex flex-col gap-1.5 p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
+            class="flex flex-col gap-1.5 p-2 hover:bg-surface-secondary dark:hover:bg-dark-surface-secondary rounded-lg transition-colors"
           >
-            <span class="w-5 h-0.5 bg-menu-1"></span>
-            <span class="w-5 h-0.5 bg-menu-2"></span>
-            <span class="w-5 h-0.5 bg-menu-3"></span>
+            <span class="w-5 h-0.5 bg-primary"></span>
+            <span class="w-5 h-0.5 bg-secondary"></span>
+            <span class="w-5 h-0.5 bg-accent"></span>
           </button>
         </div>
       </div>
@@ -71,7 +70,7 @@ const headings = await Astro.props.headings || [];
     id="toc-sidebar"
     role="complementary"
     aria-labelledby="toc-heading"
-    class="fixed right-0 top-[89px] bottom-0 w-64 bg-white dark:bg-gray-900 transform translate-x-full transition-transform duration-200 ease-in-out overflow-y-auto"
+    class="fixed right-0 top-[89px] bottom-0 w-64 bg-surface dark:bg-dark-surface transform translate-x-full transition-transform duration-200 ease-in-out overflow-y-auto"
   >
     <div class="p-6">
       <!-- Mobile-only Navigation -->
@@ -81,7 +80,7 @@ const headings = await Astro.props.headings || [];
             <li>
               <a 
                 href={item.href} 
-                class="block hover:text-accent-light transition-colors"
+                class="block hover:text-accent transition-colors"
               >
                 {item.label}
               </a>
