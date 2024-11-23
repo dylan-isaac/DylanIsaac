@@ -1,17 +1,51 @@
 ---
+import ThemeToggle from './ThemeToggle.astro';
+
+const navItems = [
+  { href: "/writing", label: "Writing", dotColor: "bg-menu-1" },
+  { href: "/projects", label: "Projects", dotColor: "bg-menu-2" },
+  { href: "/artifacts", label: "Artifacts", dotColor: "bg-menu-3" },
+  { href: "/hire", label: "Hire", dotColor: "bg-accent-yellow" }
+];
 ---
+
 <header class="border-b border-accent-yellow">
-  <div class="max-w-4xl mx-auto px-6 md:px-8 py-4">
-    <nav class="flex justify-between items-center">
-      <h1 class="text-2xl font-medium">dylan isaac</h1>
-      <button 
-        aria-label="Menu"
-        class="space-y-2 p-2"
-      >
-        <div class="w-6 h-1 rounded-full bg-menu-1"></div>
-        <div class="w-6 h-1 rounded-full bg-menu-2"></div>
-        <div class="w-6 h-1 rounded-full bg-menu-3"></div>
-      </button>
-    </nav>
+  <div class="max-w-4xl mx-auto px-6 md:px-8 py-6">
+    <div class="flex justify-between items-center">
+      <a href="/" class="text-2xl font-medium hover:text-accent-light transition-colors">
+        dylan isaac
+      </a>
+      
+      <nav class="flex items-center gap-6 mr-8">
+        {navItems.map((item, index) => (
+          <>
+            <a 
+              href={item.href} 
+              class="hover:text-accent-light transition-colors"
+            >
+              {item.label}
+            </a>
+            {index < navItems.length - 1 && (
+              <span 
+                class={`w-1.5 h-1.5 rounded-full ${item.dotColor}`} 
+                aria-hidden="true"
+              ></span>
+            )}
+          </>
+        ))}
+      </nav>
+
+      <div class="flex items-center gap-4">
+        <ThemeToggle />
+        <button 
+          aria-label="Menu"
+          class="flex flex-col gap-1.5 p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg transition-colors"
+        >
+          <span class="w-5 h-0.5 bg-menu-1"></span>
+          <span class="w-5 h-0.5 bg-menu-2"></span>
+          <span class="w-5 h-0.5 bg-menu-3"></span>
+        </button>
+      </div>
+    </div>
   </div>
 </header>
