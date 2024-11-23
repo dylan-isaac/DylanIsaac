@@ -1,4 +1,6 @@
 ---
+import Heading from './Heading.astro';
+
 interface Props {
   title: string;
   backgroundColor: string;
@@ -7,7 +9,12 @@ interface Props {
 const { title, backgroundColor } = Astro.props;
 ---
 <section>
-  <h2 class={`text-3xl font-bold mb-6 p-2 inline-block ${backgroundColor} text-gray-900  rounded-lg`}>{title}</h2>
+  <Heading 
+    level={2} 
+    class={`text-3xl font-bold mb-6 p-2 inline-block ${backgroundColor} text-gray-900 rounded-lg focus:ring-offset-white dark:focus:ring-offset-gray-900`}
+  >
+    {title}
+  </Heading>
   <div class="bg-white dark:bg-gray-800 p-6 rounded-lg">
     <slot />
   </div>
