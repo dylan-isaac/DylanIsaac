@@ -1,23 +1,68 @@
----
-interface Props {
-  headings?: { id: string; text: string; depth: number }[];
-}
-
-const { headings = [] } = Astro.props;
----
-
-<div class="toc">
-  <h2 class="text-xl font-medium mb-4">Contents</h2>
-  <ul class="space-y-2">
-    {headings.map((heading) => (
-      <li style={`margin-left: ${(heading.depth - 1) * 1}rem`}>
-        <a 
-          href={`#${heading.id}`}
-          class="text-gray-600 dark:text-gray-300 hover:text-accent-light transition-colors"
-        >
-          {heading.text}
-        </a>
-      </li>
-    ))}
+<nav class="toc" aria-labelledby="toc-heading">
+  <h2 id="toc-heading" class="text-xl font-medium mb-4">Contents</h2>
+  <ul class="space-y-2" id="toc-list">
+    <!-- JavaScript will populate this list -->
   </ul>
-</div> 
+</nav>
+
+<script>
+  function initTableOfContents() {
+    // Get all h1, h2, and h3 elements with IDs, excluding those in the TOC
+    const headings = document.querySelectorAll('main h1[id], main h2[id], main h3[id]');
+    const tocList = document.getElementById('toc-list');
+    
+    if (!tocList) {
+      document.querySelector('.toc')?.classList.add('hidden');
+      return;
+    }
+
+    headings.forEach((heading) => {
+      const id = heading.id;
+      if (!id) return;
+
+      // Create list item
+      const li = document.createElement('li');
+      
+      // Calculate indentation based on heading level
+      const depth = parseInt(heading.tagName[1]);
+      li.style.marginLeft = `${(depth - 1) * 1}rem`;
+
+      // Create link
+      const a = document.createElement('a');
+      a.href = `#${id}`;
+      a.textContent = heading.textContent || '';
+      a.className = 'text-gray-600 dark:text-gray-300 hover:text-accent-light transition-colors';
+      
+      // Add smooth scrolling behavior
+      a.addEventListener('click', (e) => {
+        e.preventDefault();
+        const targetHeading = document.getElementById(id);
+        if (targetHeading) {
+          targetHeading.scrollIntoView({ behavior: 'smooth' });
+          // Set focus on the heading after scrolling
+          targetHeading.setAttribute('tabindex', '-1');
+          targetHeading.focus({ preventScroll: true });
+          history.pushState(null, '', `#${id}`);
+        }
+      });
+
+      li.appendChild(a);
+      tocList.appendChild(li);
+    });
+
+    // Hide the TOC if there are no headings
+    if (!tocList.children.length) {
+      document.querySelector('.toc')?.classList.add('hidden');
+    }
+  }
+
+  // Initialize when the DOM is ready
+  initTableOfContents();
+</script>
+
+<style>
+  .toc {
+    position: sticky;
+    top: 2rem;
+  }
+</style> 

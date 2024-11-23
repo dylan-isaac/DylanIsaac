@@ -3,10 +3,11 @@ import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
 import Section from '../components/Section.astro';
 import Heading from '../components/Heading.astro';
+import ArrowLink from '../components/ArrowLink.astro';
+import TableOfContents from '../components/TableOfContents.astro';
 
 const roles = [
-  { text: "Engineer", color: "bg-primary" },
-  { text: "Designer", color: "bg-secondary" },
+  { text: "Enablement Engineer", color: "bg-accent" },
   { text: "Systems Thinker", color: "bg-accent" }
 ];
 
@@ -23,23 +24,18 @@ const highlights = [
   }
 ];
 
-// Now we can automatically generate headings array based on the content
-const headings = [
-  { id: "dylan-isaac-personal-website", text: "Dylan Isaac", depth: 1 },
-  { id: "current-work", text: "Current Work", depth: 2 }
-];
 ---
 
 <Layout title="Dylan Isaac - Engineer & Designer">
-  <Header headings={headings} />
+  <Header />
   <main id="main" class="max-w-2xl mx-auto px-6 md:px-8 py-16 space-y-16">
     <!-- Hero Section -->
-    <section class="space-y-6">
+    <section class="space-y-6 max-w-2xl">
       <Heading 
-        level={1} 
+        level={1}
         class="sr-only"
       >
-        Dylan Isaac - Engineer, Designer, System's Thinker
+        Dylan Isaac
       </Heading>
 
       <div class="w-56 h-56 mx-auto mb-8">
@@ -77,7 +73,7 @@ const headings = [
         <strong>empowering people</strong>. 
       </p>
         
-        <p class="text-lg leading-relaxed">
+      <p class="text-lg leading-relaxed">
         My current focus is on leveraging generative AI to create more 
         intuitive and accessible computing experiences - 
         <em>
@@ -89,17 +85,16 @@ const headings = [
 
     <!-- Professional Highlights -->
     <Section title="Current Work" backgroundColor="primary">
-      <Heading level={2} class="sr-only">Current Work</Heading>
-      <div class="space-y-8">
+      <div class="space-y-lg max-w-2xl">
         {highlights.map(({ title, org, description }) => (
-          <div class="space-y-2 group">
+          <div class="space-y-sm group">
             <div class="flex items-baseline gap-2">
-              <Heading level={3} class="font-medium">{title}</Heading>
-              <span class="text-content-muted dark:text-dark-content-muted">
+              <Heading level={3} class="text-h4 font-medium">{title}</Heading>
+              <span class="text-h4 text-content-muted dark:text-dark-content-muted">
                 {org}
               </span>
             </div>
-            <p class="text-content-muted dark:text-dark-content-muted leading-relaxed">
+            <p class="text-body text-content-muted dark:text-dark-content-muted leading-relaxed">
               {description}
             </p>
           </div>
@@ -108,22 +103,17 @@ const headings = [
     </Section>
 
     <!-- Quick Links -->
-    <nav class="flex gap-6 text-sm" aria-label="Quick links">
-      <a 
-        href="/writing" 
-        class="group flex items-center gap-1 text-gray-600 dark:text-gray-300 hover:text-menu-1 transition-colors"
-      >
-        Read my writing
-        <span class="group-hover:translate-x-1 transition-transform">→</span>
-      </a>
-      <a 
-        href="/projects" 
-        class="group flex items-center gap-1 text-gray-600 dark:text-gray-300 hover:text-menu-2 transition-colors"
-      >
-        View my projects
-        <span class="group-hover:translate-x-1 transition-transform">→</span>
-      </a>
-    </nav>
+    <section id="lets-work-together">
+      <h2 class="sr-only">Let's Work Together</h2>
+      <nav class="flex gap-6" aria-label="Quick links">
+        <ArrowLink href="/writing">
+          Read my writing
+        </ArrowLink>
+        <ArrowLink href="/projects">
+          View my projects
+        </ArrowLink>
+      </nav>
+    </section>
   </main>
 </Layout>
 

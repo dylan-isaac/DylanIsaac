@@ -1,0 +1,36 @@
+---
+interface Props {
+  href: string;
+  external?: boolean;
+  class?: string;
+}
+
+const { 
+  href,
+  external = false,
+  class: className 
+} = Astro.props;
+
+const externalProps = external ? {
+  target: "_blank",
+  rel: "noopener noreferrer"
+} : {};
+---
+
+<a 
+  href={href}
+  class:list={[
+    "group inline-flex items-center gap-1",
+    "text-content-muted hover:text-primary transition-colors text-lg",
+    className
+  ]}
+  {...externalProps}
+>
+  <slot />
+  <span 
+    class="group-hover:translate-x-1 transition-transform"
+    aria-hidden="true"
+  >
+    →
+  </span>
+</a> 

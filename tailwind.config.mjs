@@ -26,27 +26,27 @@ export default {
         },
         // Semantic colors
         content: {
-          DEFAULT: '#1F2937', // gray-800
-          muted: '#6B7280', // gray-500
-          subtle: '#9CA3AF', // gray-400
-          inverted: '#FFFFFF',
+          DEFAULT: '#1F2937',
+          muted: '#6B7280',
+          subtle: '#9CA3AF',
+          inverted: '#FEFCFA',
         },
         surface: {
-          DEFAULT: '#FFFFFF',
-          secondary: '#F3F4F6', // gray-100
-          muted: '#F9FAFB', // gray-50
+          DEFAULT: '#FEFCFA',
+          secondary: '#FDF9F6',
+          muted: '#FAF7F3',
         },
         // Dark mode variants
         'dark-content': {
-          DEFAULT: '#F9FAFB', // gray-50
-          muted: '#D1D5DB', // gray-300
-          subtle: '#9CA3AF', // gray-400
-          inverted: '#111827', // gray-900
+          DEFAULT: '#F9FAFB',
+          muted: '#D1D5DB',
+          subtle: '#9CA3AF',
+          inverted: '#1A1A1A',
         },
         'dark-surface': {
-          DEFAULT: '#111827', // gray-900
-          secondary: '#1F2937', // gray-800
-          muted: '#374151', // gray-700
+          DEFAULT: '#1A1A1A',
+          secondary: '#242424',
+          muted: '#2A2A2A',
         },
       },
       spacing: {
@@ -62,6 +62,7 @@ export default {
         'h1': ['3rem', { lineHeight: '1.2', letterSpacing: '-0.01em' }],
         'h2': ['2.25rem', { lineHeight: '1.3' }],
         'h3': ['1.5rem', { lineHeight: '1.4' }],
+        'h4': ['1.25rem', { lineHeight: '1.4' }],
         'body': ['1.125rem', { lineHeight: '1.5' }],
         'small': ['0.875rem', { lineHeight: '1.5' }],
       },

@@ -8,8 +8,6 @@ const navItems = [
   { href: "/artifacts", label: "Artifacts", dotColor: "bg-accent" },
   { href: "/contact", label: "Contact", dotColor: "bg-accent-yellow" }
 ];
-
-const headings = await Astro.props.headings || [];
 ---
 
 <a 
@@ -70,7 +68,7 @@ const headings = await Astro.props.headings || [];
     id="toc-sidebar"
     role="complementary"
     aria-labelledby="toc-heading"
-    class="fixed right-0 top-[89px] bottom-0 w-64 bg-surface dark:bg-dark-surface transform translate-x-full transition-transform duration-200 ease-in-out overflow-y-auto"
+    class="fixed right-0 top-[89px] bottom-0 w-64 bg-surface dark:bg-dark-surface transform translate-x-full overflow-y-auto"
   >
     <div class="p-6">
       <!-- Mobile-only Navigation -->
@@ -91,7 +89,7 @@ const headings = await Astro.props.headings || [];
 
       <!-- Table of Contents -->
       <nav aria-labelledby="toc-heading">
-        <TableOfContents headings={headings} />
+        <TableOfContents />
       </nav>
     </div>
   </div>
@@ -102,7 +100,6 @@ const headings = await Astro.props.headings || [];
   const tocSidebar = document.getElementById('toc-sidebar');
   
   // Function to check if there's enough room for the menu AND content
-  // 896px (max-w-4xl) + 256px (w-64 sidebar) + 64px (padding buffer) = 1216px
   const hasEnoughRoom = () => window.innerWidth >= 1216;
 
   // Set initial state without animation
@@ -114,9 +111,9 @@ const headings = await Astro.props.headings || [];
     menuToggle?.setAttribute('aria-expanded', 'false');
   }
 
-  // Add transition class after initial load
-  requestAnimationFrame(() => {
-    tocSidebar?.classList.add('transition-transform');
+  // Add transition class after initial state is set
+  window.addEventListener('load', () => {
+    tocSidebar?.classList.add('transition-transform', 'duration-200', 'ease-in-out');
   });
 
   // Toggle menu on button click
