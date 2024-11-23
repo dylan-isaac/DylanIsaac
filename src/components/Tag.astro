@@ -1,0 +1,16 @@
+---
+interface Props {
+  name: string;
+  colorIndex: number;
+}
+
+const { name, colorIndex } = Astro.props;
+
+const tagClass = colorIndex % 3 === 0 ? 'bg-primary hover:bg-primary-light' : 
+                 colorIndex % 3 === 1 ? 'bg-secondary hover:bg-secondary-light' : 
+                 'bg-accent hover:bg-accent-light';
+---
+
+<span class={`inline-flex items-center px-4 py-1.5 rounded-full text-surface font-medium text-small transition-colors ${tagClass}`}>
+  {name}
+</span> 

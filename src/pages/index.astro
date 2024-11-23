@@ -88,18 +88,18 @@ const headings = [
     </section>
 
     <!-- Professional Highlights -->
-    <Section title="Current Work" backgroundColor="bg-pink-200">
+    <Section title="Current Work" backgroundColor="primary">
       <Heading level={2} class="sr-only">Current Work</Heading>
       <div class="space-y-8">
         {highlights.map(({ title, org, description }) => (
           <div class="space-y-2 group">
             <div class="flex items-baseline gap-2">
               <Heading level={3} class="font-medium">{title}</Heading>
-              <span class="text-sm text-gray-500 dark:text-gray-400">
+              <span class="text-content-muted dark:text-dark-content-muted">
                 {org}
               </span>
             </div>
-            <p class="text-gray-600 dark:text-gray-300 leading-relaxed">
+            <p class="text-content-muted dark:text-dark-content-muted leading-relaxed">
               {description}
             </p>
           </div>

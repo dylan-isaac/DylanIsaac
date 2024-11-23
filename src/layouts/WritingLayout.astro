@@ -1,14 +1,13 @@
 ---
 import Layout from './Layout.astro';
 import Header from '../components/Header.astro';
+import Tag from '../components/Tag.astro';
 import { format } from 'date-fns';
 
 const { frontmatter } = Astro.props;
 const { title, publishDate, description, tags } = frontmatter;
 
 const formattedDate = format(publishDate, 'MMMM d, yyyy');
-
-const tagColors = ['tag-primary', 'tag-secondary', 'tag-accent'];
 ---
 
 <Layout title={`${title} | Dylan Isaac`} description={description}>
@@ -32,16 +31,9 @@ const tagColors = ['tag-primary', 'tag-secondary', 'tag-accent'];
         
         {tags && tags.length > 0 && (
           <div class="flex flex-wrap gap-3">
-            {tags.map((tag, index) => {
-              const tagClass = index % 3 === 0 ? 'bg-primary' : 
-                              index % 3 === 1 ? 'bg-secondary' : 
-                              'bg-accent';
-              return (
-                <span class={`inline-flex items-center px-4 py-1.5 rounded-full text-surface ${tagClass}`}>
-                  {tag}
-                </span>
-              );
-            })}
+            {tags.map((tag, index) => (
+              <Tag name={tag} colorIndex={index} />
+            ))}
           </div>
         )}
       </header>
