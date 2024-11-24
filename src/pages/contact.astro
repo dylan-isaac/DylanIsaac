@@ -2,53 +2,103 @@
 import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
 import Section from '../components/Section.astro';
-import ArrowLink from '../components/ArrowLink.astro';
+import EmailCTA from '../components/EmailCTA.astro';
 
 const expertise = [
   {
-    area: "Accessibility Engineering",
-    description: "Specializing in creating inclusive digital experiences and implementing WCAG guidelines."
+    area: "Enablement Engineering",
+    description: "I specialize in designing technology that amplifies human agency, connecting people to the knowledge and tools they need to thrive. From adaptive interfaces to accessible systems, my work focuses on meeting people where they are and empowering them to succeed."
   },
   {
-    area: "AI Development", 
-    description: "Building intelligent systems that enhance human capabilities rather than replace them."
+    area: "Automation Expert",
+    description: "Reclaiming our time and attention is one of the most impactful things technology can do. I design systems that automate unfulfilling tasks, like managing repetitive workflows or generating actionable insights from data, freeing up space for creativity and growth."
   },
   {
-    area: "System Design",
-    description: "Architecting scalable, maintainable solutions with a focus on user experience."
+    area: "Semantic Analysis & Information Science",
+    description: "I'm fascinated by how we can go beyond simple language to truly capture and convey our perspectives and visions. Information science and semantics provide the tools to connect ideas and meaning in ways that feel both intuitive and powerful. I focus on building systems that organize and interpret information in ways that allow complex concepts to be understood, connected, and acted upon—ultimately making knowledge more accessible, actionable, and inspiring."
+  },
+  {
+    area: "Prompt Engineering & LLM Integration",
+    description: "Language models are tools for turning intention into action. I specialize in designing prompts and workflows that empower people to configure their aspirations and carry them out authentically. By aligning technology with our reflective \"System 2\" thinking, I help create tools that enable us to live with more agency and purpose."
+  },
+  {
+    area: "Systems Thinker",
+    description: "Every problem exists within a web of interconnected systems. By understanding the relationships between people, tools, and processes, I create solutions that work harmoniously within existing structures to make meaningful change with minimal friction. My approach combines holistic thinking with targeted action to ensure solutions are not just effective, but sustainable and impactful."
   }
 ];
 
 const values = [
   {
-    title: "Accessibility First",
-    description: "Every project starts with accessibility as a core requirement, not an afterthought."
+    title: "Empowerment",
+    description: "Technology should amplify human agency, enabling people to live authentically and on their own terms."
   },
   {
-    title: "Human-Centered",
-    description: "Technology should adapt to human needs, not the other way around."
+    title: "Accessibility",
+    description: "Everyone deserves equal access to information and opportunity. I'm dedicated to building systems that break down barriers."
   },
   {
-    title: "Open Collaboration",
-    description: "Building in the open and sharing knowledge to create better solutions together."
+    title: "Authenticity", 
+    description: "Living true to yourself and your values is vital. I create tools that help others embrace their individuality and purpose."
+  },
+  {
+    title: "Equity",
+    description: "Technology should serve everyone, not just the privileged. I focus on creating inclusive solutions that level the playing field."
+  },
+  {
+    title: "Transparency",
+    description: "I value clarity and openness in everything I build, ensuring trust and understanding in both process and outcomes."
+  },
+  {
+    title: "Sustainability",
+    description: "Lasting change comes from thoughtful solutions that align with people's needs and the systems they inhabit."
+  },
+  {
+    title: "Collaboration",
+    description: "No one shapes the world alone. I believe in the power of shared knowledge and working together to create meaningful impact."
   }
 ];
+
+const interests = [
+  {
+    title: "AI and Human Potential",
+    description: "Exploring how AI can bridge the gap between intention and action by amplifying human potential. I'm interested in how aligning AI systems with our reflective, values-driven thinking can create tools that enhance authenticity and agency, helping people achieve their aspirations in ways that feel deeply personal and empowering."
+  },
+  {
+    title: "Digital Accessibility",
+    description: "Rethinking accessibility as an evolving, proactive approach to inclusivity. I'm fascinated by how innovations in technology, like AI-driven remediation and adaptive interfaces, can transform accessibility from a compliance exercise into a dynamic field that empowers users of all abilities to fully engage with the digital world."
+  },
+  {
+    title: "System Design",
+    description: "Understanding how systems shape human experience is a passion of mine. I'm interested in designing frameworks that balance modularity and adaptability, creating tools that simplify complex workflows while remaining flexible to individual needs. By focusing on the intersection of usability and innovation, I aim to make systems that empower both individuals and teams."
+  },
+  {
+    title: "Automation",
+    description: "Exploring ways to automate repetitive, unfulfilling tasks to free up time and energy for creativity and connection. I'm particularly intrigued by how automation can serve as a tool for reclaiming focus, simplifying life's complexities, and enabling people to spend more time on what truly matters—whether that's pursuing passion projects or building deeper relationships."
+  },
+  {
+    title: "Intersection of Philosophy, Psychology, Technology, and Creativity",
+    description: "Exploring how epistemology, Jung's collective unconscious, and latent space converge to shape our understanding of knowledge and creativity. I'm fascinated by how ideas remix and evolve, connecting individual perspectives to shared cultural narratives through technological systems."
+  },
+  {
+    title: "Nature and Patterns",
+    description: "Drawing inspiration from the natural world, I study how principles from ecosystems inform better designs and systems. From social insects like ants to the problem-solving behaviors of slime molds, these natural networks echo patterns seen in social systems, offering profound lessons for innovation."
+  }
+];
+
 ---
 
 <Layout title="Contact | Dylan Isaac">
   <Header />
   <main id="main" class="max-w-4xl mx-auto px-6 md:px-8 py-16">
-    <h1 class="text-4xl font-bold mb-12 text-content dark:text-dark-content">Let's Work Together</h1>
+    <h1 class="text-4xl font-bold mb-12 text-content dark:text-dark-content">Let's Shape the World Together</h1>
 
     <div class="space-y-12">
       <!-- Contact Section -->
       <Section title="Get in Touch" backgroundColor='primary'>
-        <p class="text-lg mb-4">
-          I'm always interested in discussing new projects and opportunities.
+        <p class="text-lg mb-6">
+          I believe in building tools and systems that <strong>empower people</strong>. If that speaks to you, let's connect. Email me, and let's start creating something incredible.
         </p>
-        <ArrowLink href="mailto:your.email@example.com">
-          your.email@example.com
-        </ArrowLink>
+        <EmailCTA email="me@dylanisa.ac" />
       </Section>
 
       <!-- Info Sections -->
@@ -66,6 +116,16 @@ const values = [
       <Section title="Values" backgroundColor="accent">
         <ul class="space-y-6">
           {values.map(({ title, description }) => (
+            <li>
+              <h3 class="text-xl font-medium mb-2 text-content dark:text-dark-content">{title}</h3>
+              <p class="text-content-muted dark:text-dark-content-muted">{description}</p>
+            </li>
+          ))}
+        </ul>
+      </Section>
+      <Section title="Interests & Explorations" backgroundColor="accent-yellow">
+        <ul class="space-y-6">
+          {interests.map(({ title, description }) => (
             <li>
               <h3 class="text-xl font-medium mb-2 text-content dark:text-dark-content">{title}</h3>
               <p class="text-content-muted dark:text-dark-content-muted">{description}</p>

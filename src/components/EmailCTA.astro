@@ -1,0 +1,54 @@
+---
+interface Props {
+  email: string;
+  class?: string;
+}
+
+const { 
+  email,
+  class: className 
+} = Astro.props;
+
+// Create mailto link
+const mailtoLink = `mailto:${email}`;
+---
+
+<a 
+  href={mailtoLink}
+  class:list={[
+    "group inline-flex items-center gap-3 p-4",
+    "bg-surface-secondary dark:bg-dark-surface-secondary",
+    "rounded-lg border-2 border-content/10 dark:border-dark-content/10",
+    "hover:border-primary dark:hover:border-primary-light",
+    "transition-all duration-300",
+    className
+  ]}
+  aria-label={`Send email to ${email}`}
+>
+  <span class="inline-flex items-center gap-2">
+    <svg 
+      xmlns="http://www.w3.org/2000/svg" 
+      class="w-6 h-6 text-primary dark:text-primary-light group-hover:scale-110 transition-transform" 
+      fill="none" 
+      viewBox="0 0 24 24" 
+      stroke="currentColor"
+      aria-hidden="true"
+    >
+      <path 
+        stroke-linecap="round" 
+        stroke-linejoin="round" 
+        stroke-width="2" 
+        d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+      />
+    </svg>
+    <span class="text-lg font-medium text-content dark:text-dark-content">
+      {email}
+    </span>
+  </span>
+  <span 
+    class="text-primary dark:text-primary-light group-hover:translate-x-1 transition-transform"
+    aria-hidden="true"
+  >
+    →
+  </span>
+</a> 
