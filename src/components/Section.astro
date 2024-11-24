@@ -3,7 +3,7 @@ import Heading from './Heading.astro';
 
 interface Props {
   title: string;
-  backgroundColor: 'primary' | 'secondary' | 'accent';
+  backgroundColor: 'primary' | 'secondary' | 'accent' | 'accent-yellow';
 }
 
 const { title, backgroundColor } = Astro.props;
@@ -11,7 +11,8 @@ const { title, backgroundColor } = Astro.props;
 const bgColorMap = {
   primary: 'bg-primary/10 dark:bg-primary/20',
   secondary: 'bg-secondary/10 dark:bg-secondary/20',
-  accent: 'bg-accent/10 dark:bg-accent/20'
+  accent: 'bg-accent/10 dark:bg-accent/20',
+  'accent-yellow': 'bg-accent-yellow/10 dark:bg-accent-yellow/20'
 };
 ---
 <section>
