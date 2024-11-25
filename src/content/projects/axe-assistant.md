@@ -4,7 +4,7 @@ description: "AI-powered accessibility assistant! An accessibility expert availa
 tags: ["AI", "Accessibility", "Developer Tools"]
 featured: true
 image:
-  src: "images/axe-assistant.jpg"
+  src: "/images/axe-assistant.jpg"
   alt: "A close-up of computer code with accessibility symbols overlaid"
 url: "https://dequeuniversity.com/introducing-axe-assistant"
 --- 
