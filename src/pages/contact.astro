@@ -30,31 +30,33 @@ const expertise = [
 const values = [
   {
     title: "Empowerment",
+    emoji: "💪",
     description: "Technology should amplify human agency, enabling people to live authentically and on their own terms."
   },
   {
     title: "Accessibility",
+    emoji: "🌈",
     description: "Everyone deserves equal access to information and opportunity. I'm dedicated to building systems that break down barriers."
   },
   {
     title: "Authenticity", 
+    emoji: "💅",
     description: "Living true to yourself and your values is vital. I create tools that help others embrace their individuality and purpose."
   },
   {
     title: "Equity",
+    emoji: "⚖️",
     description: "Technology should serve everyone, not just the privileged. I focus on creating inclusive solutions that level the playing field."
   },
   {
     title: "Transparency",
+    emoji: "🔍",
     description: "I value clarity and openness in everything I build, ensuring trust and understanding in both process and outcomes."
   },
   {
     title: "Sustainability",
+    emoji: "🌱",
     description: "Lasting change comes from thoughtful solutions that align with people's needs and the systems they inhabit."
-  },
-  {
-    title: "Collaboration",
-    description: "No one shapes the world alone. I believe in the power of shared knowledge and working together to create meaningful impact."
   }
 ];
 
@@ -114,14 +116,17 @@ const interests = [
       </Section>
 
       <Section title="Values" backgroundColor="accent">
-        <ul class="space-y-6">
-          {values.map(({ title, description }) => (
-            <li>
-              <h3 class="text-xl font-medium mb-2 text-content dark:text-dark-content">{title}</h3>
-              <p class="text-content-muted dark:text-dark-content-muted">{description}</p>
-            </li>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {values.map(({ title, emoji, description }) => (
+            <div class="bg-surface dark:bg-dark-surface p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
+              <div class="text-4xl mb-4 flex justify-center" role="img" aria-hidden="true">
+                {emoji}
+              </div>
+              <h3 class="text-xl font-medium mb-2 text-content dark:text-dark-content text-center">{title}</h3>
+              <p class="text-content-muted dark:text-dark-content-muted text-center">{description}</p>
+            </div>
           ))}
-        </ul>
+        </div>
       </Section>
       <Section title="Interests & Explorations" backgroundColor="accent-yellow">
         <ul class="space-y-6">

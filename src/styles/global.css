@@ -26,9 +26,28 @@
   body {
     @apply text-content dark:text-dark-content bg-surface dark:bg-dark-surface;
   }
+
+  /* Simple underlined links by default */
+  a {
+    text-decoration-line: underline;
+    text-decoration-thickness: 2px;
+    text-decoration-color: rgb(255 105 180 / 0.3);
+    text-underline-offset: 4px;
+    color: theme('colors.primary.DEFAULT');
+  }
+
+  .dark a {
+    color: theme('colors.primary.light');
+    text-decoration-color: rgb(255 140 198 / 0.3);
+  }
 }
 
 @layer components {
+  /* Add a utility class to remove link styling when needed */
+  .no-underline-link {
+    @apply no-underline hover:no-underline;
+  }
+
   .tag {
     @apply inline-flex items-center 
            px-4 py-1.5 
