@@ -11,16 +11,18 @@ const roles = [
 ];
 
 const highlights = [
-  {
-    title: "AI Accessibility Engineer",
-    org: "Deque Systems",
-    description: "Leading development of AI-driven tools like axe Assistant to automate digital accessibility testing and remediation."
-  },
-  {
-    title: "Co-founder",
-    org: "Automate the Suck out of Life",
-    description: "Making automation tools and AI technologies accessible to underserved communities."
-  }
+{
+  "title": "AI Accessibility Engineer",
+  "org": "Deque Systems",
+  "orgUrl": "https://deque.com",
+  "description": "Leading the development of AI-driven tools like <a href=\"https://dequeuniversity.com/introducing-axe-assistant\">axe Assistant</a>, I focus on creating accessibility solutions that integrate seamlessly across all stages of the Software Development Lifecycle. My mission is to ensure our <strong>digital world</strong> reflects and serves the diverse lived experiences of <strong>all people</strong>."
+},
+{
+  "title": "Co-founder",
+  "org": "Automate the Suck out of Life",
+  "orgUrl": "https://automatethesuckoutof.life",
+  "description": "I believe technology should <strong>empower</strong> and <strong>enable</strong> humans, not distract or oppress us. AtSooL's mission is to amplify society's most essential roles by designing simple systems that automate away monotony, giving people the freedom to focus on what brings them meaning and purpose."
+}
 ];
 
 ---
@@ -85,17 +87,23 @@ const highlights = [
     <!-- Professional Highlights -->
     <Section title="Current Work" backgroundColor="primary">
       <div class="space-y-lg max-w-2xl">
-        {highlights.map(({ title, org, description }) => (
+        {highlights.map(({ title, org, orgUrl, description }) => (
           <div class="space-y-sm group">
             <div class="flex items-baseline gap-2">
               <Heading level={3} class="text-h4 font-medium">{title}</Heading>
-              <span class="text-h4 text-content-muted dark:text-dark-content-muted">
+              <a 
+                href={orgUrl}
+                class="text-h4 text-content-muted dark:text-dark-content-muted underline decoration-1 underline-offset-4 hover:decoration-2 focus:decoration-2 hover:text-accent focus:text-accent transition-all"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 {org}
-              </span>
+              </a>
             </div>
-            <p class="text-body text-content-muted dark:text-dark-content-muted leading-relaxed">
-              {description}
-            </p>
+            <p 
+              class="text-body text-content-muted dark:text-dark-content-muted leading-relaxed [&_a]:text-content-muted [&_a]:dark:text-dark-content-muted [&_a]:underline [&_a]:decoration-1 [&_a]:underline-offset-4 [&_a]:hover:decoration-2 [&_a]:focus:decoration-2 [&_a]:hover:text-accent [&_a]:focus:text-accent [&_a]:transition-all" 
+              set:html={description} 
+            />
           </div>
         ))}
       </div>

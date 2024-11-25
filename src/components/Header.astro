@@ -5,14 +5,14 @@ import TableOfContents from './TableOfContents.astro';
 const navItems = [
   { href: "/writing", label: "Writing", dotColor: "bg-primary" },
   { href: "/projects", label: "Projects", dotColor: "bg-secondary" },
-  { href: "/artifacts", label: "Artifacts", dotColor: "bg-accent" },
+  // { href: "/artifacts", label: "Artifacts", dotColor: "bg-accent" },
   { href: "/contact", label: "Contact", dotColor: "bg-accent-yellow" }
 ];
 ---
 
 <a 
   href="#main" 
-  class="sr-only focus:not-sr-only fixed top-4 left-4 bg-accent px-4 py-2 rounded-md z-50 focus-ring"
+  class="sr-only focus:not-sr-only fixed top-4 left-4 bg-accent px-4 py-2 rounded-md z-50 focus-ring no-underline-link"
 >
   Skip to content
 </a>
@@ -21,7 +21,10 @@ const navItems = [
   <header class="border-b border-accent-yellow dark:border-accent-yellow">
     <div class="max-w-4xl mx-auto px-6 md:px-8 py-md">
       <div class="flex justify-between items-center">
-        <a href="/" class="text-h3 font-medium hover:text-primary transition-colors">
+        <a 
+          href="/" 
+          class="text-h3 font-medium hover:text-primary transition-colors no-underline-link"
+        >
           dylan isaac
         </a>
         
@@ -31,7 +34,7 @@ const navItems = [
             <>
               <a 
                 href={item.href} 
-                class="hover:text-primary transition-colors"
+                class="hover:text-primary transition-colors no-underline-link"
               >
                 {item.label}
               </a>
@@ -78,7 +81,7 @@ const navItems = [
             <li>
               <a 
                 href={item.href} 
-                class="block hover:text-accent transition-colors"
+                class="block hover:text-accent transition-colors no-underline-link"
               >
                 {item.label}
               </a>

@@ -107,9 +107,13 @@ export default {
             },
             a: {
               color: theme('colors.primary.DEFAULT'),
-              textDecoration: 'none',
+              textDecoration: 'underline',
+              textDecorationColor: 'rgb(255 105 180 / 0.3)', // primary color with 30% opacity
+              textUnderlineOffset: '4px',
+              textDecorationThickness: '2px',
+              transition: 'all 300ms',
               '&:hover': {
-                textDecoration: 'underline',
+                textDecorationColor: theme('colors.primary.DEFAULT'),
               },
             },
           },
@@ -122,6 +126,13 @@ export default {
             '--tw-prose-bold': theme('colors.dark-content.DEFAULT'),
             '--tw-prose-code': theme('colors.dark-content.DEFAULT'),
             '--tw-prose-quotes': theme('colors.dark-content.muted'),
+            a: {
+              color: theme('colors.primary.light'),
+              textDecorationColor: 'rgb(255 140 198 / 0.3)', // primary-light color with 30% opacity
+              '&:hover': {
+                textDecorationColor: theme('colors.primary.light'),
+              },
+            },
           },
         },
       }),
