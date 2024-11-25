@@ -5,6 +5,6 @@ tags: ["AI", "Accessibility", "Developer Tools"]
 featured: true
 image:
   src: "/images/axe-assistant.jpg"
-  alt: "A close-up of computer code with accessibility symbols overlaid"
+  alt: "Screenshot of axe Assistant discussing Section 508 compliance"
 url: "https://dequeuniversity.com/introducing-axe-assistant"
 --- 
