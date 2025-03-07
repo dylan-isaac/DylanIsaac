@@ -5,7 +5,7 @@ import Tag from '../components/Tag.astro';
 import { format } from 'date-fns';
 
 const { frontmatter } = Astro.props;
-const { title, publishDate, description, tags } = frontmatter;
+const { title, publishDate, description, tags, draft } = frontmatter;
 
 const formattedDate = format(publishDate, 'MMMM d, yyyy');
 ---
@@ -14,6 +14,12 @@ const formattedDate = format(publishDate, 'MMMM d, yyyy');
   <Header />
   <main id="main" class="max-w-4xl mx-auto px-6 md:px-8 py-2xl">
     <article class="max-w-content mx-auto">
+      {draft && (
+        <div class="mb-2xl p-md bg-accent/10 border-l-4 border-accent rounded" role="alert">
+          <p class="text-lg font-medium">📝 Work in Progress</p>
+          <p>This is a draft post. Ideas and text are subject to change.</p>
+        </div>
+      )}
       <header class="mb-2xl space-y-lg">
         <div class="space-y-sm">
           <time datetime={publishDate.toISOString()} 

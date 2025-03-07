@@ -7,7 +7,9 @@ import { getCollection } from 'astro:content';
 import { format } from 'date-fns';
 
 const posts = await getCollection('writing');
-const sortedPosts = posts.sort((a, b) => b.data.publishDate.getTime() - a.data.publishDate.getTime());
+const isDevelopment = import.meta.env.DEV;
+const filteredPosts = posts.filter(post => isDevelopment || !post.data.draft);
+const sortedPosts = filteredPosts.sort((a, b) => b.data.publishDate.getTime() - a.data.publishDate.getTime());
 ---
 
 <Layout title="Writing | Dylan Isaac">
