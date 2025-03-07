@@ -8,6 +8,7 @@ export const collections = {
       description: z.string(),
       tags: z.array(z.string()).default([]),
       type: z.enum(['article', 'note', 'tutorial']).default('article'),
+      draft: z.boolean().default(false),
       image: z.object({
         src: z.string(),
         alt: z.string(),
