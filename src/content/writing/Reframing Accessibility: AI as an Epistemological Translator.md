@@ -4,7 +4,7 @@ publishDate: 2025-03-06T12:00:00.000Z
 description: "Exploring how AI can bridge the gap between creator intent and inclusive user experiences by serving as an epistemological translator for accessibility"
 tags: ["AI", "Accessibility", "Inclusive Design", "Technology"]
 type: "article"
-draft: true
+draft: false
 ---
 
 ## Introduction
