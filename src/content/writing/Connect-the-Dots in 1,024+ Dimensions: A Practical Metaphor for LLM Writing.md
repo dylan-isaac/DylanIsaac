@@ -15,7 +15,7 @@ I stopped him. "You just spent five minutes explaining this perfectly. You alrea
 
 Think about what just happened: In explaining that feature, he effortlessly laid out the core concepts, identified common pitfalls, referenced documentation he'd used, and provided concrete examples. That explanation wasn't created from nothing—it was a verbal trace through his existing knowledge map. The dots already exist in his mind, shaped by his expertise and the resources he's consumed. He doesn't need time to create content; he needs five minutes to dump those dots onto a page.
 
-The advice I gave him was simple: Take those key points you just articulated—your perspective, the resources you mentioned, maybe that killer example—and give them to an AI. Let it interpolate the prose between your dots. You're not starting from a blank page; you're revealing the high-dimensional map that already exists in your expertise. The blank page isn't empty; it's an invisible field of dots you've already connected in your mind.
+The advice I gave him was simple: Take those key points you just articulated—your perspective, the resources you mentioned, maybe that killer example—and give them to an AI. Let it interpolate the prose between your dots. You're not starting from a blank page; you're revealing the high-dimensional map that already exists in your expertise. The blank page isn't empty; it's an invisible field of dots you've already connected in your mind. What I was describing has recently gotten a name in AI circles—context engineering—but you don't need to learn it because you're already doing it.
 
 This essay will show you exactly how to use this technique. First, I'll give you the recipe. Then we'll explore why it works through the connect-the-dots metaphor. Finally, we'll tackle common problems and their fixes.
 
@@ -97,6 +97,8 @@ The "connect-the-dots" model works because AI doesn't create from nothing; it tr
 
 The Adobe Pen tool is a useful mental model. You don't paint pixels one by one; you place anchor points and let the software interpolate the curves. Adobe's documentation on the Pen tool explains that using fewer anchor points creates smoother, more manageable curves—a principle that directly applies to LLM writing. Just as excessive points make curves harder to edit, too many constraints can make prose feel stilted. Writing with LLMs follows the same principle: you place the dots (outline items, quotes, data), and the model interpolates the prose between them.
 
+This isn't just a helpful metaphor. When AI researchers talk about 'context engineering'—structuring knowledge so LLMs can use it effectively—they're describing exactly this process. Your dots are context. Your outline is context architecture. You're not learning a new skill; you're applying expertise you already have.
+
 ### From Children's Puzzle to High-Dimensional Manifold
 
 In a classic connect-the-dots puzzle, a child reveals a picture by drawing straight lines from one numbered dot to the next. The dots are the constraints. The lines are the completion path.
@@ -173,6 +175,6 @@ The next time you find yourself explaining something with clarity—whether it's
 
 You don't need hours to 'write from scratch.' You need five minutes to capture those dots—your key points, the resources you'd cite, the examples you'd use. Feed them to an AI with clear constraints about voice and structure. Verify the connections. Edit for flow.
 
-The anxiety my coworker felt is universal. But the blank page isn't a void to be feared. It's an invisible connect-the-dots drawing you've already completed in your mind through years of learning and experience. The AI doesn't create your expertise—it simply traces the lines between points you've already mastered.
+The anxiety my coworker felt is universal. But the blank page isn't a void to be feared. It's an invisible connect-the-dots drawing you've already completed in your mind through years of learning and experience. What the AI industry calls context engineering, you call explaining something clearly. The only difference is recognizing that your mental organization is already the structure AI needs. The AI doesn't create your expertise—it simply traces the lines between points you've already mastered.
 
 Better dots always beat more dots. And you already have them. You prove it every time you explain something well.
