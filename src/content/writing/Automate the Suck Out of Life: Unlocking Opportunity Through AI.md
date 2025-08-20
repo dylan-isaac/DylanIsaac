@@ -7,6 +7,7 @@ type: "article"
 image:
   src: "/images/rising-tide.jpeg"
   alt: ""
+draft: true
 ---
 
 "Talent is evenly distributed; opportunity is not." This simple yet profound statement encapsulates the driving force behind our mission at *Automate the Suck out of Life*. I came across this quote in a video from Freethink titled [*AI Is Shifting the Workforce Constantly*](https://youtu.be/pHpBwTxHfkc), and it has stuck with me ever since. It's a stark reminder that while brilliance and capability exist everywhere, systemic barriers often prevent people from reaching their full potential. Our goal is to use AI to change that.
