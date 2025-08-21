@@ -9,7 +9,11 @@ draft: false
 
 ## My Career's Shared Thread
 
-My career trajectory might seem random—frontend engineer, accessibility coach, AI engineer. But there's a thread I only recently recognized: I've always been a translator between worlds.
+I spent years doing what seemed like completely different jobs—full-stack developer, accessibility coach, AI engineer—before I realized I'd been doing the same job all along.
+
+I've always been a translator between worlds.
+
+As a developer, I translated between front-end and back-end. As an accessibility coach, between disabled and non-disabled experiences. Now as an AI engineer, between human intention and machine comprehension. But no role embodied this translation work more than coaching.
 
 As an accessibility coach, I embedded myself in product teams. Not to enforce rules, but to translate. I'd sit with a designer who understood visual hierarchy perfectly but had never considered how that hierarchy translates to someone navigating by keyboard. I'd work with developers who could optimize React hook but had never thought about how their loading states affect screen reader users. My job wasn't just teaching accessibility—it was translating one world's logic into another's language.
 
@@ -169,12 +173,12 @@ Then it generates not just a description, but an equivalent experience:
 **Alt text:** "Scatter plot showing four words plotted by gender and age coordinates in semantic feature space."
 
 **Structured alternative for those who want details:**
-| Word | Gender | Age | Semantic Position |
-|------|--------|-----|------------------|
-| man | 1 | 7 | Male adult characteristics |
-| woman | 9 | 7 | Female adult characteristics |
-| boy | 1 | 2 | Male child characteristics |
-| girl | 9 | 2 | Female child characteristics |
+| Word | Gender (X-axis) | Age (Y-axis) | Semantic Position |
+|------|-----------------|--------------|------------------|
+| man | 1 (male) | 7 (adult) | Male adult characteristics |
+| woman | 9 (female) | 7 (adult) | Female adult characteristics |
+| boy | 1 (male) | 2 (child) | Male child characteristics |
+| girl | 9 (female) | 2 (child) | Female child characteristics |
 
 ## Patterns as Infrastructure
 
@@ -208,7 +212,7 @@ Now it's our turn. And the stakes are higher.
 
 Marshall McLuhan: "We shape our tools, and thereafter our tools shape us."
 
-Never more true than now. The AI systems we build today will shape how billions interact with information, services, each other. We continue this current trajectory where we build systems that demand human adaptation, that gatekeep knowledge, that maintain existing power structures, that continue the onslaught of slop and enshittification.
+Never more true than now. The AI systems we build today will shape how billions interact with information, services, each other. We continue on this trajectory where we build systems that demand human adaptation, that gatekeep knowledge, that maintain existing power structures, that continue the onslaught of slop and enshittification.
 
 Or we can build ladders.
 
@@ -238,4 +242,4 @@ Because here's the truth: The most profound innovations don't come from making p
 
 The question isn't whether AI will change how knowledge moves through the world. The question is whether that knowledge will flow freely or be dammed up behind artificial walls.
 
-This is why I call to you. Build ladders. The world is waiting to climb.
+This is why I call to you: Build ladders. The world is waiting to climb.
