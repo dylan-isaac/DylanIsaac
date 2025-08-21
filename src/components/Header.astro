@@ -17,13 +17,14 @@ const navItems = [
   Skip to content
 </a>
 
-<div class="sticky top-0 z-40 bg-surface dark:bg-dark-surface">
+<div id="header-wrapper" class="sticky top-0 z-40 bg-surface dark:bg-dark-surface transition-all duration-200">
   <header class="border-b border-accent-yellow dark:border-accent-yellow">
-    <div class="max-w-4xl mx-auto px-6 md:px-8 py-md">
+    <div id="header-content" class="max-w-4xl mx-auto px-6 md:px-8 py-md transition-all duration-200">
       <div class="flex justify-between items-center">
         <a 
           href="/" 
-          class="text-h3 font-medium hover:text-primary transition-colors no-underline-link"
+          id="logo-text"
+          class="text-h3 font-medium hover:text-primary transition-all duration-200 no-underline-link"
         >
           dylan isaac
         </a>
@@ -71,7 +72,7 @@ const navItems = [
     id="toc-sidebar"
     role="complementary"
     aria-labelledby="toc-heading"
-    class="fixed right-0 top-[89px] bottom-0 w-64 bg-surface dark:bg-dark-surface transform translate-x-full overflow-y-auto"
+    class="fixed right-0 top-[89px] bottom-0 w-64 bg-surface dark:bg-dark-surface transform translate-x-full overflow-y-auto transition-all duration-200"
   >
     <div class="p-6">
       <!-- Mobile-only Navigation -->
@@ -101,18 +102,118 @@ const navItems = [
 <script>
   const menuToggle = document.getElementById('menu-toggle');
   const tocSidebar = document.getElementById('toc-sidebar');
+  const headerContent = document.getElementById('header-content');
+  const logoText = document.getElementById('logo-text');
   
   // Function to check if there's enough room for the menu AND content
   const hasEnoughRoom = () => window.innerWidth >= 1216;
+  
+  // Handle header shrinking on scroll
+  const handleScroll = () => {
+    const scrollY = window.scrollY;
+    const isScrolled = scrollY > 50;
+    const headerWrapper = document.getElementById('header-wrapper');
+    const header = headerWrapper?.querySelector('header');
+    
+    // Toggle a single class on document body for cleaner CSS control
+    if (isScrolled) {
+      document.body.classList.add('header-scrolled');
+      // Set explicit height on header
+      if (header) {
+        header.style.height = '48px'; // Much smaller fixed height
+        header.style.transition = 'all 200ms ease';
+      }
+      headerContent?.classList.remove('py-md');
+      headerContent?.classList.add('py-1');
+      if (headerContent) {
+        headerContent.style.height = '48px';
+      }
+      logoText?.classList.remove('text-h3');
+      logoText?.classList.add('text-base'); // Smaller text
+      if (tocSidebar) {
+        tocSidebar.style.top = '48px'; // Match header height
+      }
+      headerWrapper?.classList.add('shadow-md');
+    } else {
+      document.body.classList.remove('header-scrolled');
+      // Remove height restriction
+      if (header) {
+        header.style.height = 'auto';
+      }
+      headerContent?.classList.remove('py-1');
+      headerContent?.classList.add('py-md');
+      if (headerContent) {
+        headerContent.style.height = 'auto';
+      }
+      logoText?.classList.remove('text-base');
+      logoText?.classList.add('text-h3');
+      if (tocSidebar) {
+        tocSidebar.style.top = '89px';
+      }
+      headerWrapper?.classList.remove('shadow-md');
+    }
+  };
+  
+  // Initial check on load
+  handleScroll();
+  
+  // Add scroll listener with throttling
+  let scrollTimeout: number;
+  window.addEventListener('scroll', () => {
+    if (scrollTimeout) {
+      window.cancelAnimationFrame(scrollTimeout);
+    }
+    scrollTimeout = window.requestAnimationFrame(() => {
+      handleScroll();
+    });
+  }, { passive: true });
+  
+  // Storage key for sidebar state
+  const SIDEBAR_STATE_KEY = 'tocSidebarExpanded';
+  
+  // Check if we're on desktop (only save/load state on desktop)
+  const isDesktop = () => window.innerWidth >= 1024; // md breakpoint and up
+  
+  // Get saved state from localStorage (only on desktop)
+  const getSavedState = () => {
+    // Don't use saved state on mobile/tablet
+    if (!isDesktop()) {
+      return false; // Always collapsed on mobile/tablet
+    }
+    
+    const saved = localStorage.getItem(SIDEBAR_STATE_KEY);
+    if (saved !== null) {
+      return saved === 'true';
+    }
+    // Default to expanded if there's enough room
+    return hasEnoughRoom();
+  };
+  
+  // Save state to localStorage (only on desktop)
+  const saveState = (isExpanded: boolean) => {
+    // Only save state on desktop
+    if (isDesktop()) {
+      localStorage.setItem(SIDEBAR_STATE_KEY, isExpanded.toString());
+    }
+  };
+  
+  // Apply state to UI
+  const applyState = (isExpanded: boolean, skipAnimation = false) => {
+    menuToggle?.setAttribute('aria-expanded', isExpanded.toString());
+    
+    if (skipAnimation) {
+      tocSidebar?.classList.toggle('translate-x-full', !isExpanded);
+    } else {
+      // Use setTimeout to ensure transition happens
+      requestAnimationFrame(() => {
+        tocSidebar?.classList.toggle('translate-x-full', !isExpanded);
+      });
+    }
+  };
 
-  // Set initial state without animation
-  if (hasEnoughRoom()) {
-    tocSidebar?.classList.remove('translate-x-full');
-    menuToggle?.setAttribute('aria-expanded', 'true');
-  } else {
-    tocSidebar?.classList.add('translate-x-full');
-    menuToggle?.setAttribute('aria-expanded', 'false');
-  }
+  // Set initial state
+  const initialState = getSavedState();
+  applyState(initialState, true); // Skip animation on initial load
 
   // Add transition class after initial state is set
   window.addEventListener('load', () => {
@@ -122,14 +223,32 @@ const navItems = [
   // Toggle menu on button click
   menuToggle?.addEventListener('click', () => {
     const isExpanded = menuToggle.getAttribute('aria-expanded') === 'true';
-    menuToggle.setAttribute('aria-expanded', (!isExpanded).toString());
-    tocSidebar?.classList.toggle('translate-x-full');
+    const newState = !isExpanded;
+    applyState(newState);
+    saveState(newState);
   });
 
-  // Update menu state on resize
+  // Handle resize events
+  let previousWidth = window.innerWidth;
   window.addEventListener('resize', () => {
-    const shouldExpand = hasEnoughRoom();
-    menuToggle?.setAttribute('aria-expanded', shouldExpand.toString());
-    tocSidebar?.classList.toggle('translate-x-full', !shouldExpand);
+    const currentWidth = window.innerWidth;
+    const wasDesktop = previousWidth >= 1024;
+    const nowDesktop = currentWidth >= 1024;
+    
+    // If we've moved from desktop to mobile/tablet
+    if (wasDesktop && !nowDesktop) {
+      // Always collapse on mobile/tablet
+      applyState(false);
+      // Clear saved state when going to mobile
+      localStorage.removeItem(SIDEBAR_STATE_KEY);
+    } 
+    // If we've moved from mobile/tablet to desktop
+    else if (!wasDesktop && nowDesktop) {
+      // Restore saved state or use default
+      const savedState = getSavedState();
+      applyState(savedState);
+    }
+    
+    previousWidth = currentWidth;
   });
 </script>

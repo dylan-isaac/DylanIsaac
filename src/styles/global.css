@@ -3,9 +3,24 @@
 @tailwind utilities;
 
 @layer base {
+  
+  html {
+    scroll-padding-top: 110px; /* Account for sticky header with extra buffer */
+    scroll-behavior: smooth;
+  }
 
   body {
     @apply text-content dark:text-dark-content bg-surface dark:bg-dark-surface;
+  }
+  
+  /* Offset for anchor links to account for sticky header */
+  h1[id],
+  h2[id],
+  h3[id],
+  h4[id],
+  h5[id],
+  h6[id] {
+    scroll-margin-top: 110px;
   }
 
   /* Simple underlined links by default */
@@ -28,6 +43,44 @@
   /* Add a utility class to remove link styling when needed */
   .no-underline-link {
     @apply no-underline hover:no-underline;
+  }
+  
+  /* Header shrink styles when scrolled - fixed height container */
+  body.header-scrolled header {
+    height: 48px !important;
+    overflow: hidden;
+  }
+  
+  body.header-scrolled #header-content {
+    height: 48px !important;
+    padding-top: 0.25rem !important;  /* 4px */
+    padding-bottom: 0.25rem !important; /* 4px */
+  }
+  
+  body.header-scrolled #header-content > div {
+    height: 100% !important;
+    display: flex !important;
+    align-items: center !important;
+  }
+  
+  body.header-scrolled #logo-text {
+    font-size: 1rem !important; /* Smaller text */
+    line-height: 1.2 !important;
+  }
+  
+  body.header-scrolled #toc-sidebar {
+    top: 48px !important; /* Match header height */
+  }
+  
+  /* Add subtle shadow when scrolled */
+  body.header-scrolled #header-wrapper {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08), 
+                0 1px 2px rgba(0, 0, 0, 0.04) !important;
+  }
+  
+  .dark body.header-scrolled #header-wrapper {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3), 
+                0 1px 2px rgba(0, 0, 0, 0.2) !important;
   }
 
   .tag {
