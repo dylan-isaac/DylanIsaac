@@ -12,15 +12,16 @@
   a {
     text-decoration-line: underline;
     text-decoration-thickness: 2px;
-    text-decoration-color: rgb(255 105 180 / 0.3);
+    text-decoration-color: rgb(136 14 79 / 0.3);
     text-underline-offset: 4px;
-    color: theme('colors.primary.DEFAULT');
+    color: theme('colors.primary.dark');
   }
 
   .dark a {
     color: theme('colors.primary.light');
-    text-decoration-color: rgb(255 140 198 / 0.3);
+    text-decoration-color: rgb(255 179 217 / 0.4);
   }
+  
 }
 
 @layer components {
@@ -33,20 +34,29 @@
     @apply inline-flex items-center 
            px-4 py-1.5 
            rounded-full 
-           text-surface
-           text-small font-medium;
+           text-small font-medium
+           transition-all;
   }
 
   .tag-primary {
-    @apply bg-primary;
+    @apply bg-transparent text-primary-dark border-4 border-primary 
+           hover:bg-primary/10
+           dark:text-primary-light dark:border-primary-light 
+           dark:hover:bg-primary/20;
   }
 
   .tag-secondary {
-    @apply bg-secondary;
+    @apply bg-transparent text-secondary-dark border-4 border-secondary 
+           hover:bg-secondary/10
+           dark:text-secondary-light dark:border-secondary-light 
+           dark:hover:bg-secondary/20;
   }
 
   .tag-accent {
-    @apply bg-accent;
+    @apply bg-transparent text-accent-dark border-4 border-accent 
+           hover:bg-accent/10
+           dark:text-accent-light dark:border-accent-light 
+           dark:hover:bg-accent/20;
   }
 
   .focus-ring {

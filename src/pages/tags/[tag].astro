@@ -1,0 +1,116 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Tag from '../../components/Tag.astro';
+import Heading from '../../components/Heading.astro';
+import ArrowLink from '../../components/ArrowLink.astro';
+import { getAllUniqueTags, getPostsByTag, getRelatedTags, slugifyTag, normalizeTag } from '../../utils/tags';
+import { format } from 'date-fns';
+
+export async function getStaticPaths() {
+  const tagCounts = await getAllUniqueTags();
+  
+  return Array.from(tagCounts.keys()).map(tag => ({
+    params: { tag: slugifyTag(tag) },
+    props: { originalTag: tag }
+  }));
+}
+
+const { tag } = Astro.params;
+const { originalTag } = Astro.props;
+
+const posts = await getPostsByTag(originalTag);
+const relatedTags = await getRelatedTags(originalTag);
+const allTags = await getAllUniqueTags();
+const currentTagIndex = Array.from(allTags.keys()).indexOf(originalTag);
+---
+
+<Layout 
+  title={`${originalTag} Articles | Dylan Isaac`}
+  description={`Articles and writings about ${originalTag.toLowerCase()}. Explore thoughts on ${originalTag.toLowerCase()} and related topics.`}
+>
+  <Header />
+  <main id="main" class="max-w-content-wide mx-auto px-6 md:px-8 py-16">
+    <div class="max-w-content">
+      <div class="mb-16">
+        <div class="flex items-center gap-4 mb-8">
+          <ArrowLink href="/tags" class="text-base">
+            ← All Topics
+          </ArrowLink>
+        </div>
+        <div class="flex items-center gap-4">
+          <Heading level={1} class="text-h1 font-bold">Articles tagged with</Heading>
+          <Tag name={originalTag} colorIndex={currentTagIndex} clickable={false} />
+        </div>
+        <p class="mt-4 text-content-muted dark:text-dark-content-muted">
+          {posts.length} {posts.length === 1 ? 'article' : 'articles'} found
+        </p>
+      </div>
+      
+      <section id="tagged-posts">
+        <Heading level={2} class="sr-only">Articles</Heading>
+        <div class="space-y-16">
+          {posts.map(post => (
+            <article class="group">
+              <a href={`/writing/${post.slug}`} class="block space-y-4">
+                {post.data.image && (
+                  <img 
+                    src={post.data.image.src} 
+                    alt={post.data.image.alt}
+                    class="w-full h-48 object-cover rounded-lg"
+                  />
+                )}
+                
+                <time datetime={post.data.publishDate.toISOString()} 
+                      class="text-small text-content-muted dark:text-dark-content-muted">
+                  {format(post.data.publishDate, 'MMMM d, yyyy')}
+                </time>
+                
+                <div class="space-y-3">
+                  <Heading level={3} class="text-h2 font-bold group-hover:text-primary transition-colors">
+                    {post.data.title}
+                  </Heading>
+                  {post.data.description && (
+                    <p class="body-text mb-6">
+                      {post.data.description}
+                    </p>
+                  )}
+                </div>
+
+                {post.data.tags && post.data.tags.length > 0 && (
+                  <div class="flex flex-wrap gap-3 mt-6">
+                    {post.data.tags.map((postTag, index) => (
+                      <Tag 
+                        name={postTag} 
+                        colorIndex={Array.from(allTags.keys()).indexOf(postTag)} 
+                      />
+                    ))}
+                  </div>
+                )}
+              </a>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      {relatedTags.size > 0 && (
+        <aside class="mt-16 pt-16 border-t border-content-subtle/20 dark:border-dark-content-subtle/20">
+          <Heading level={2} class="text-h3 font-medium mb-8">Related Topics</Heading>
+          <div class="flex flex-wrap gap-3">
+            {Array.from(relatedTags.entries()).map(([relatedTag, count], index) => (
+              <div class="inline-flex items-center gap-2">
+                <Tag 
+                  name={relatedTag} 
+                  colorIndex={Array.from(allTags.keys()).indexOf(relatedTag)} 
+                />
+                <span class="text-small text-content-muted dark:text-dark-content-muted">
+                  ({count})
+                </span>
+              </div>
+            ))}
+          </div>
+        </aside>
+      )}
+    </div>
+  </main>
+</Layout>

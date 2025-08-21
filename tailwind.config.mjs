@@ -10,18 +10,18 @@ export default {
         // Primary palette
         primary: {
           DEFAULT: '#FF69B4', // Pink
-          light: '#FF8CC6',
-          dark: '#D14B91',
+          light: '#FFB3D9', // Lighter pink for dark backgrounds
+          dark: '#880E4F', // Much darker for excellent contrast on light backgrounds
         },
         secondary: {
           DEFAULT: '#28BCCB', // Cyan
           light: '#4FD8E6',
-          dark: '#1E8F9B',
+          dark: '#006064', // Much darker cyan
         },
         accent: {
           DEFAULT: '#87CB28', // Green
           light: '#A1E042',
-          dark: '#699C1F',
+          dark: '#2E5600', // Very dark green for maximum contrast
           yellow: '#FFEA31',
         },
         // Semantic colors
@@ -73,14 +73,19 @@ export default {
       typography: ({ theme }) => ({
         DEFAULT: {
           css: {
-            '--tw-prose-body': theme('colors.content.DEFAULT'),
-            '--tw-prose-headings': theme('colors.content.DEFAULT'),
-            '--tw-prose-links': theme('colors.primary.DEFAULT'),
-            '--tw-prose-bold': theme('colors.content.DEFAULT'),
-            '--tw-prose-code': theme('colors.content.DEFAULT'),
-            '--tw-prose-quotes': theme('colors.content.muted'),
             maxWidth: 'none',
             fontSize: theme('fontSize.body[0]'),
+            color: theme('colors.content.DEFAULT'),
+            a: {
+              color: '#880E4F',
+              textDecoration: 'underline',
+              textDecorationColor: 'rgb(136 14 79 / 0.3)',
+              textUnderlineOffset: '4px',
+              textDecorationThickness: '2px',
+              '&:hover': {
+                textDecorationColor: '#880E4F',
+              },
+            },
             h1: {
               fontSize: theme('fontSize.h1[0]'),
               lineHeight: theme('fontSize.h1[1].lineHeight'),
@@ -105,32 +110,16 @@ export default {
             p: {
               marginBottom: theme('spacing.md'),
             },
-            a: {
-              color: theme('colors.primary.DEFAULT'),
-              textDecoration: 'underline',
-              textDecorationColor: 'rgb(255 105 180 / 0.3)', // primary color with 30% opacity
-              textUnderlineOffset: '4px',
-              textDecorationThickness: '2px',
-              transition: 'all 300ms',
-              '&:hover': {
-                textDecorationColor: theme('colors.primary.DEFAULT'),
-              },
-            },
           },
         },
-        dark: {
+        invert: {
           css: {
-            '--tw-prose-body': theme('colors.dark-content.DEFAULT'),
-            '--tw-prose-headings': theme('colors.dark-content.DEFAULT'),
-            '--tw-prose-links': theme('colors.primary.light'),
-            '--tw-prose-bold': theme('colors.dark-content.DEFAULT'),
-            '--tw-prose-code': theme('colors.dark-content.DEFAULT'),
-            '--tw-prose-quotes': theme('colors.dark-content.muted'),
+            color: theme('colors.dark-content.DEFAULT'),
             a: {
-              color: theme('colors.primary.light'),
-              textDecorationColor: 'rgb(255 140 198 / 0.3)', // primary-light color with 30% opacity
+              color: '#FFB3D9',
+              textDecorationColor: 'rgb(255 179 217 / 0.4)',
               '&:hover': {
-                textDecorationColor: theme('colors.primary.light'),
+                textDecorationColor: '#FFB3D9',
               },
             },
           },

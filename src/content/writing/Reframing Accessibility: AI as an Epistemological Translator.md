@@ -1,8 +1,8 @@
 ---
 title: "Reframing Accessibility: AI as an Epistemological Translator"
 publishDate: 2025-03-06T12:00:00.000Z
-description: "Exploring how AI can bridge the gap between creator intent and inclusive user experiences by serving as an epistemological translator for accessibility"
-tags: ["AI", "Accessibility", "Inclusive Design", "Technology"]
+description: "How AI can translate between different ways of knowing, making accessibility a natural part of creation rather than compliance"
+tags: ["AI", "Accessibility", "Patterns", "Translation", "Epistemology", "Human-Centered-Tech"]
 type: "article"
 draft: false
 ---

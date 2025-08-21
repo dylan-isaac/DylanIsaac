@@ -2,7 +2,7 @@
 title: "Building Ladders: Extending Human Agency with AI"
 publishDate: 2025-08-20T12:00:00.000Z
 description: "How AI can bridge the gap between human intent and digital experiences by adapting to people rather than forcing them to adapt"
-tags: ["AI", "Accessibility", "Human-Agency", "Inclusive-Design", "AI-Engineering", "Epistemology"]
+tags: ["AI", "Accessibility", "Patterns", "Translation", "Agency", "Human-Centered-Tech", "Open-Source"]
 type: "article"
 draft: false
 ---

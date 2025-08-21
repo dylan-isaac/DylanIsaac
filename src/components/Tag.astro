@@ -1,16 +1,31 @@
 ---
+import { slugifyTag } from '../utils/tags';
+
 interface Props {
   name: string;
   colorIndex: number;
+  clickable?: boolean;
 }
 
-const { name, colorIndex } = Astro.props;
+const { name, colorIndex, clickable = true } = Astro.props;
 
-const tagClass = colorIndex % 3 === 0 ? 'bg-primary hover:bg-primary-light' : 
-                 colorIndex % 3 === 1 ? 'bg-secondary hover:bg-secondary-light' : 
-                 'bg-accent hover:bg-accent-light';
+const tagClass = colorIndex % 3 === 0 ? 'bg-transparent text-primary-dark border-4 border-primary hover:bg-primary/10 dark:text-primary-light dark:border-primary-light dark:hover:bg-primary/20' : 
+                 colorIndex % 3 === 1 ? 'bg-transparent text-secondary-dark border-4 border-secondary hover:bg-secondary/10 dark:text-secondary-light dark:border-secondary-light dark:hover:bg-secondary/20' : 
+                 'bg-transparent text-accent-dark border-4 border-accent hover:bg-accent/10 dark:text-accent-light dark:border-accent-light dark:hover:bg-accent/20';
+
+const tagSlug = slugifyTag(name);
 ---
 
-<span class={`inline-flex items-center px-4 py-1.5 rounded-full text-surface font-medium text-small transition-colors ${tagClass}`}>
-  {name}
-</span> 
+{clickable ? (
+  <a 
+    href={`/tags/${tagSlug}`}
+    class={`inline-flex items-center px-4 py-1.5 rounded-full font-medium text-small transition-all no-underline hover:scale-105 focus-ring ${tagClass}`}
+    aria-label={`View all posts tagged with ${name}`}
+  >
+    {name}
+  </a>
+) : (
+  <span class={`inline-flex items-center px-4 py-1.5 rounded-full font-medium text-small transition-all ${tagClass}`}>
+    {name}
+  </span>
+)} 
