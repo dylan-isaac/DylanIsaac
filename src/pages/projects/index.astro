@@ -10,7 +10,10 @@ const projects = await getCollection('projects');
 const sortedProjects = projects.sort((a, b) => Number(b.data.featured) - Number(a.data.featured));
 ---
 
-<Layout title="Projects | Dylan Isaac">
+<Layout 
+  title="Projects | Dylan Isaac"
+  description="Portfolio of accessibility tools, AI applications, and systems design projects. Building technology that adapts to human needs."
+>
   <Header />
   <main id="main" class="max-w-content-wide mx-auto px-6 md:px-8 py-16">
     <div class="max-w-content">

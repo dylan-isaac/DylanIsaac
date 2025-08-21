@@ -1,0 +1,20 @@
+{
+  "name": "Dylan Isaac - Enablement Engineer",
+  "short_name": "Dylan Isaac",
+  "description": "Personal website exploring AI, accessibility, and human agency",
+  "theme_color": "#eab308",
+  "background_color": "#fafafa",
+  "display": "standalone",
+  "orientation": "any",
+  "scope": "/",
+  "start_url": "/",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["technology", "education", "productivity"]
+}

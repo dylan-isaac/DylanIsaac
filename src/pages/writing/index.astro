@@ -12,7 +12,10 @@ const filteredPosts = posts.filter(post => isDevelopment || !post.data.draft);
 const sortedPosts = filteredPosts.sort((a, b) => b.data.publishDate.getTime() - a.data.publishDate.getTime());
 ---
 
-<Layout title="Writing | Dylan Isaac">
+<Layout 
+  title="Writing | Dylan Isaac"
+  description="Thoughts on accessibility, AI, systems thinking, and building technology that empowers people. Articles and notes by Dylan Isaac."
+>
   <Header />
   <main id="main" class="max-w-content-wide mx-auto px-6 md:px-8 py-16">
     <div class="max-w-content">
