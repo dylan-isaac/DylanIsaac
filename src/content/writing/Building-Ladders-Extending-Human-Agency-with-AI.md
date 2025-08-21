@@ -59,7 +59,7 @@ Here's the key insight: The creator's epistemology—their way of understanding 
 
 The creator's intention exists in one representation (visual design, HTML structure, content relationships) and can be interpolated through noticing and comparing various details on the page in tandem with the content itself. 
 
-I can write these observation instructions and recipes in reusable prompts. Then that makes my accessibility expertise a reusable pattern that can snap a creator's intention to the nearest mapping to the accessibility APIs that others depend on. I imagine it working somewhat like a drum machine's beat quantizing functionality that can snap an imperfectly timed beat to the nearest correctly timed beat.
+I can write these observation instructions and recipes in reusable prompts. Then that makes my accessibility expertise a reusable pattern that can snap a creator's intention to the nearest mapping to the accessibility APIs that others depend on. I imagine it working somewhat like a [drum machine's beat quantizing functionality](https://nickcesarz.com/the-case-for-quantizing-drums/) that can snap an imperfectly timed beat to the nearest correctly timed beat.
 
 For alt text, I can use the following information that can be programmatically extracted from any page and transform it into a contextual alternative for that photo that fits within the needed ~120 character mark for an ideal alt text size for screen reader UX. 
 
@@ -68,7 +68,7 @@ For alt text, I can use the following information that can be programmatically e
 - **Visual design** encodes importance through the image itself (the 1000 words in an image)
 - **Structural patterns** show usage through element positioning
 
-I took my years of creating alt text, mapped it to a [prompt template format](https://github.com/dylansheffer/alt-text-prompt) with output instructions specific to screen reader UX, and created a reusable pattern others can apply. This pattern captures how an accessibility expert thinks about this translation problem. Now a creator can express their vision using their own words and have their intention snap to the correct symbolic representation for users who depend on accessibility metadata.
+I took my years of creating alt text, mapped it to a [prompt](https://github.com/dylan-isaac/Building-Ladders--Extending-Human-Agency-with-AI--Talk-/blob/main/Demo/prompt.md) with output instructions specific to screen reader UX, and created a reusable pattern others can apply. This pattern captures how an accessibility expert thinks about this translation problem. Now a creator can express their vision using their own words and have their intention snap to the correct symbolic representation for users who depend on accessibility metadata.
 
 <details>
 <summary><strong>View the Alt Text Prompt Template</strong></summary>
@@ -160,6 +160,7 @@ When I see a graph labeled "Semantic Feature Space" with four words plotted by g
 The AI does the same synthesis:
 
 ![Semantic Feature Space graph showing 'man', 'woman', 'boy', and 'girl' plotted on axes of Gender (x) and Age (y)](/images/semantic-feature-space.png)
+*Source: [CMU Word Embedding Demo Tutorial](https://www.cs.cmu.edu/~dst/WordEmbeddingDemo/tutorial.html)*
 
 It reads the surrounding text: *"Two refer to males, two to females. Two refer to adults, two to children."* It sees the graph structure. It understands from the page context this is educational material about word embeddings.
 
@@ -177,7 +178,7 @@ Then it generates not just a description, but an equivalent experience:
 
 ## Patterns as Infrastructure
 
-This approach is already emerging at scale. Fabric, an open-source framework by Daniel Miessler, collects "patterns"—battle-tested prompts encoding expert thinking. Each pattern is a ladder. What I've shown with accessibility, others are doing for security analysis, content creation, code review.
+This approach is already emerging at scale. [Fabric](https://github.com/danielmiessler/fabric), an open-source framework by Daniel Miessler, collects "patterns"—battle-tested prompts encoding expert thinking. Each pattern is a ladder. What I've shown with accessibility, others are doing for security analysis, content creation, code review.
 
 The philosophy is profound: "AI isn't a thing; it's a magnifier of a thing. And that thing is human creativity." Experts aren't losing their value by sharing patterns—they're multiplying their impact. The infrastructure for sharing expertise is being built.
 
