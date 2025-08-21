@@ -4,15 +4,10 @@ import Header from '../components/Header.astro';
 import Tag from '../components/Tag.astro';
 import { format } from 'date-fns';
 
-const { frontmatter } = Astro.props;
+const { frontmatter, readingTime = 1 } = Astro.props;
 const { title, publishDate, description, tags, draft, image } = frontmatter;
 
 const formattedDate = format(publishDate, 'MMMM d, yyyy');
-
-// Calculate reading time (assuming 200 words per minute)
-const content = Astro.props.compiledContent ? Astro.props.compiledContent() : '';
-const words = content.trim().split(/\s+/).length;
-const readingTime = Math.ceil(words / 200);
 
 // Article structured data
 const articleSchema = {
@@ -33,7 +28,7 @@ const articleSchema = {
     "url": "https://dylanisa.ac/"
   },
   "keywords": tags?.join(', '),
-  "wordCount": words,
+  "wordCount": readingTime * 200, // Approximate word count based on reading time
   "timeRequired": `PT${readingTime}M`
 };
 ---

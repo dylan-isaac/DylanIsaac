@@ -16,8 +16,13 @@ const { post } = Astro.props;
 
 // Render the post content to HTML
 const { Content } = await post.render();
+
+// Get the raw content for word count
+const rawContent = post.body;
+const words = rawContent.trim().split(/\s+/).length;
+const readingTime = Math.ceil(words / 200);
 ---
 
-<WritingLayout frontmatter={post.data}>
+<WritingLayout frontmatter={post.data} readingTime={readingTime}>
   <Content />
 </WritingLayout> 

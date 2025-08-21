@@ -3,6 +3,7 @@ import Layout from '../../layouts/Layout.astro';
 import Header from '../../components/Header.astro';
 import Tag from '../../components/Tag.astro';
 import Heading from '../../components/Heading.astro';
+import ArrowLink from '../../components/ArrowLink.astro';
 import { getCollection } from 'astro:content';
 import { format } from 'date-fns';
 
@@ -19,7 +20,12 @@ const sortedPosts = filteredPosts.sort((a, b) => b.data.publishDate.getTime() - 
   <Header />
   <main id="main" class="max-w-content-wide mx-auto px-6 md:px-8 py-16">
     <div class="max-w-content">
-      <Heading level={1} class="text-h1 font-bold mb-16">Writing</Heading>
+      <div class="flex items-center justify-between mb-16">
+        <Heading level={1} class="text-h1 font-bold">Writing</Heading>
+        <ArrowLink href="/rss.xml" external class="text-base">
+          RSS Feed
+        </ArrowLink>
+      </div>
       
       <section id="recent-posts">
         <Heading level={2} class="sr-only">Recent Posts</Heading>
