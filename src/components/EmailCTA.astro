@@ -9,21 +9,25 @@ const {
   class: className 
 } = Astro.props;
 
-// Create mailto link
-const mailtoLink = `mailto:${email}`;
+// Obfuscate email for bot protection
+const [localPart, domain] = email.split('@');
+const obfuscatedEmail = `${localPart}[at]${domain.replace('.', '[dot]')}`;
 ---
 
-<a 
-  href={mailtoLink}
+<button
+  type="button"
   class:list={[
     "group inline-flex items-center gap-3 p-4",
     "bg-surface-secondary dark:bg-dark-surface-secondary",
     "rounded-lg border-2 border-content/10 dark:border-dark-content/10",
     "hover:border-primary dark:hover:border-primary-light",
     "transition-all duration-300",
-    "no-underline-link",
+    "no-underline-link cursor-pointer",
+    "text-left w-full sm:w-auto",
     className
   ]}
+  data-email-local={localPart}
+  data-email-domain={domain}
   aria-label={`Send email to ${email}`}
 >
   <span class="inline-flex items-center gap-2">
@@ -42,8 +46,8 @@ const mailtoLink = `mailto:${email}`;
         d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
       />
     </svg>
-    <span class="text-lg font-medium text-content dark:text-dark-content">
-      {email}
+    <span class="text-lg font-medium text-content dark:text-dark-content email-display">
+      {obfuscatedEmail}
     </span>
   </span>
   <span 
@@ -52,4 +56,47 @@ const mailtoLink = `mailto:${email}`;
   >
     →
   </span>
-</a> 
+</button>
+
+<script>
+  // Handle email clicks with JavaScript to prevent bot scraping
+  document.addEventListener('DOMContentLoaded', () => {
+    const emailButtons = document.querySelectorAll('[data-email-local]');
+    
+    emailButtons.forEach(button => {
+      const localPart = button.getAttribute('data-email-local');
+      const domain = button.getAttribute('data-email-domain');
+      const email = `${localPart}@${domain}`;
+      
+      // Function to show real email
+      const showRealEmail = () => {
+        const display = button.querySelector('.email-display');
+        if (display) {
+          display.textContent = email;
+        }
+      };
+      
+      // Function to show obfuscated email
+      const showObfuscatedEmail = () => {
+        const display = button.querySelector('.email-display');
+        if (display && domain) {
+          const obfuscated = `${localPart}[at]${domain.replace('.', '[dot]')}`;
+          display.textContent = obfuscated;
+        }
+      };
+      
+      // Show real email on hover and focus
+      button.addEventListener('mouseenter', showRealEmail);
+      button.addEventListener('focus', showRealEmail);
+      
+      // Restore obfuscated text when not hovering or focused
+      button.addEventListener('mouseleave', showObfuscatedEmail);
+      button.addEventListener('blur', showObfuscatedEmail);
+      
+      // Handle click to open email client
+      button.addEventListener('click', () => {
+        window.location.href = `mailto:${email}`;
+      });
+    });
+  });
+</script> 
