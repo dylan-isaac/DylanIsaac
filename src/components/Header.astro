@@ -6,7 +6,7 @@ const navItems = [
   { href: "/about", label: "About", dotColor: "bg-primary" },
   { href: "/writing", label: "Writing", dotColor: "bg-accent" },
   { href: "/projects", label: "Projects", dotColor: "bg-secondary" },
-  // { href: "/artifacts", label: "Artifacts", dotColor: "bg-accent" },
+  { href: "/resources", label: "Resources", dotColor: "bg-primary" },
 ];
 ---
 
@@ -180,8 +180,8 @@ const navItems = [
     if (saved !== null) {
       return saved === 'true';
     }
-    // Default to expanded if there's enough room
-    return hasEnoughRoom();
+    // Default to collapsed on desktop
+    return false;
   };
   
   // Save state to localStorage (only on desktop)

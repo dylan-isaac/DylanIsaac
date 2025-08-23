@@ -35,4 +35,23 @@ export const collections = {
       content: z.string(),
     }),
   }),
+  resources: defineCollection({
+    schema: z.object({
+      title: z.string(),
+      description: z.string(),
+      type: z.enum(['ladder', 'prompt', 'script', 'pattern', 'tool', 'guide']),
+      capabilities: z.array(z.string()).optional(),
+      usage: z.string().optional(),
+      tags: z.array(z.string()).default([]),
+      featured: z.boolean().default(false),
+    }),
+  }),
+  definitions: defineCollection({
+    schema: z.object({
+      term: z.string(),
+      definition: z.string(),
+      relatedTerms: z.array(z.string()).default([]),
+      tags: z.array(z.string()).default([]),
+    }),
+  }),
 }; 

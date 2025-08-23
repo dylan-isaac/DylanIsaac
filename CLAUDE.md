@@ -82,6 +82,15 @@ This is an Astro-based personal portfolio website featuring:
 4. **llms.txt**: Edit `/public/llms.txt` to update AI context
 5. **Site URL**: Update `site` in `astro.config.mjs` if domain changes
 
+## Content Conventions
+
+### Definition Linking
+When writing articles, link to definitions on the first instance of any term that has a definition page:
+- Use the format: `[term name](/definitions/term-slug)`
+- Only link the first occurrence in each article
+- Example: `[building ladders](/definitions/building-ladders)`
+- This helps readers understand specialized terminology without interrupting flow
+
 ## Adding Content
 
 ### Writing (Blog Posts)

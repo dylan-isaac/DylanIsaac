@@ -21,7 +21,7 @@ Then it hit me: What else has access to knowledge across disciplines? What else 
 
 **Large Language Models.**
 
-If accessibility coaching is [translating between epistemologies](/writing/reframing-accessibility-ai-as-an-epistemological-translator) to help teams build inclusive experiences, then AI engineering is building the translators themselves—giving everyone the ability to approach domains that were previously opaque to them.
+If accessibility coaching is translating between epistemologies (see my article on [epistemological translation as a concept](/writing/reframing-accessibility-ai-as-an-epistemological-translator)) to help teams build inclusive experiences, then AI engineering is building the translators themselves—giving everyone the ability to approach domains that were previously opaque to them.
 
 ## The Vision That Drives Everything
 
@@ -51,13 +51,13 @@ Math Notes says: "Keep writing how you've always written. We'll adapt to you" an
 
 Apple isn't using LLMs in Math Notes, but it is a form of AI. There is also no reason it can't be applied to LLMs ability to structure unstructured language information into something a computer system understands and can augment. 
 
-This is the bridge AI can be. Not forcing us to abandon human conventions refined over millennia, but building ladders between our intuitive understanding and computational power. I call these types of adaptation systems "Building ladders". It's building ladders between one way of looking at the world and adapt it to another. To make a discipline that one thought they could never engage with and relate it to them on terms they can finally understand.
+This is the bridge AI can be. Not forcing us to abandon human conventions refined over millennia, but [building ladders](/definitions/building-ladders) between our intuitive understanding and computational power. I call these types of adaptation systems "Building ladders". It's building [ladders](/definitions/ladders) between one way of looking at the world and adapt it to another. To make a discipline that one thought they could never engage with and relate it to them on terms they can finally understand.
 
 ## Building a Real Ladder: Alt Text as Translation
 
-Let me show you what building ladders looks like through something I've been developing. Not just any alt text generator—but one that aims to create an equivalent experience by translating between visual and non-visual understanding by utilizing the line of questioning an accessibility professional uses when writing an alt text.
+Let me show you what [building ladders](/definitions/building-ladders) looks like through something I've been developing. Not just any alt text generator—but one that aims to create an equivalent experience by translating between visual and non-visual understanding by utilizing the line of questioning an accessibility professional uses when writing an alt text.
 
-### The Creator's Epistemology Is Already There
+### The Creator's [Epistemology](/definitions/epistemological-translation) Is Already There
 
 Here's the key insight: The creator's epistemology—their way of understanding and organizing information—is embedded throughout the page's markup. It's in the heading hierarchy, the proximity of elements, the metadata, the structural choices. 
 
@@ -65,7 +65,7 @@ The creator's intention exists in one representation (visual design, HTML struct
 
 I can write these observation instructions and recipes in reusable prompts. Then that makes my accessibility expertise a reusable pattern that can snap a creator's intention to the nearest mapping to the accessibility APIs that others depend on. I imagine it working somewhat like a [drum machine's beat quantizing functionality](https://nickcesarz.com/the-case-for-quantizing-drums/) that can snap an imperfectly timed beat to the nearest correctly timed beat.
 
-For alt text, I can use the following information that can be programmatically extracted from any page and transform it into a contextual alternative for that photo that fits within the needed ~120 character mark for an ideal alt text size for screen reader UX. 
+For alt text, I can use the following information that can be programmatically extracted from any page and transform it into a contextual alternative for that photo that fits within the needed ~120 character mark for an ideal alt text size for screen reader UX. This is [modality translation](/definitions/modality-translation) in action—converting visual information to text. 
 
 - **Page structure** reveals information hierarchy through DOM headings, page title and the website itself indicates author intention (sales, news, social media, etc).
 - **Proximity and size** indicates relationships through surrounding text blocks

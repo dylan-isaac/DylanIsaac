@@ -1,0 +1,118 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Heading from '../../components/Heading.astro';
+import Tag from '../../components/Tag.astro';
+import { getCollection } from 'astro:content';
+
+const definitions = await getCollection('definitions');
+const sortedDefinitions = definitions.sort((a, b) => 
+  a.data.term.localeCompare(b.data.term)
+);
+
+// Group by first letter
+const groupedDefinitions = sortedDefinitions.reduce((acc, def) => {
+  const firstLetter = def.data.term[0].toUpperCase();
+  if (!acc[firstLetter]) acc[firstLetter] = [];
+  acc[firstLetter].push(def);
+  return acc;
+}, {} as Record<string, typeof definitions>);
+---
+
+<Layout title="Definitions | Dylan Isaac">
+  <Header />
+  <main id="main" class="max-w-content-wide mx-auto px-6 md:px-8 py-16">
+    <div class="max-w-content">
+      <Heading level={1} class="text-h1 font-bold mb-4">Definitions</Heading>
+      
+      <div class="prose prose-lg max-w-none mb-12">
+        <p class="text-xl text-content-muted">
+          A glossary of terms I use frequently in my writing. These definitions 
+          help establish a shared vocabulary for discussing complex concepts around 
+          accessibility, AI, and human-centered technology.
+        </p>
+      </div>
+
+      {/* Quick navigation */}
+      <nav class="mb-12 pb-6 border-b border-surface-muted dark:border-dark-surface-muted">
+        <h2 class="text-small font-bold text-content-subtle uppercase tracking-wider mb-4">
+          Jump to Letter
+        </h2>
+        <div class="flex flex-wrap gap-2">
+          {Object.keys(groupedDefinitions).map(letter => (
+            <a 
+              href={`#letter-${letter}`}
+              class="px-3 py-1 bg-surface-secondary dark:bg-dark-surface-secondary rounded hover:bg-primary hover:text-surface dark:hover:text-dark-surface transition-colors"
+            >
+              {letter}
+            </a>
+          ))}
+        </div>
+      </nav>
+
+      <div class="space-y-12">
+        {Object.entries(groupedDefinitions).map(([letter, defs]) => (
+          <section id={`letter-${letter}`}>
+            <Heading level={2} class="text-h2 font-bold mb-6 text-primary">
+              {letter}
+            </Heading>
+            
+            <div class="space-y-8">
+              {defs.map(def => (
+                <article class="group">
+                  <a 
+                    href={`/definitions/${def.slug}`}
+                    class="block space-y-3 no-underline-link"
+                  >
+                    <Heading level={3} class="text-h3 font-bold group-hover:text-primary transition-colors">
+                      {def.data.term}
+                    </Heading>
+                    
+                    <p class="text-content-muted">
+                      {def.data.definition}
+                    </p>
+                    
+                    {def.data.relatedTerms.length > 0 && (
+                      <div class="flex items-center gap-2 text-small">
+                        <span class="text-content-subtle">Related:</span>
+                        <div class="flex flex-wrap gap-2">
+                          {def.data.relatedTerms.map(term => (
+                            <span class="text-primary">{term}</span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                    
+                    {def.data.tags.length > 0 && (
+                      <div class="flex flex-wrap gap-2">
+                        {def.data.tags.map((tag, index) => (
+                          <Tag name={tag} colorIndex={index} />
+                        ))}
+                      </div>
+                    )}
+                  </a>
+                </article>
+              ))}
+            </div>
+          </section>
+        ))}
+      </div>
+    </div>
+  </main>
+</Layout>
+
+<style>
+  .no-underline-link {
+    text-decoration: none !important;
+  }
+  
+  /* Smooth scroll for anchor links */
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  /* Add some scroll padding for fixed header */
+  :target {
+    scroll-margin-top: 100px;
+  }
+</style>
