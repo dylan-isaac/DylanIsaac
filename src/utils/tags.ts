@@ -62,6 +62,18 @@ export function getTagColor(index: number): string {
   return colors[index % colors.length];
 }
 
+export function getTagColorIndex(tagName: string): number {
+  // Generate a deterministic index based on the tag name
+  // This ensures the same tag always gets the same color/shape across the site
+  let hash = 0;
+  for (let i = 0; i < tagName.length; i++) {
+    const char = tagName.charCodeAt(i);
+    hash = ((hash << 5) - hash) + char;
+    hash = hash & hash; // Convert to 32-bit integer
+  }
+  return Math.abs(hash);
+}
+
 export async function getDefinitionsByTag(tag: string): Promise<CollectionEntry<'definitions'>[]> {
   const definitions = await getCollection('definitions');
   

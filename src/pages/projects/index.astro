@@ -16,7 +16,7 @@ const sortedProjects = projects.sort((a, b) => Number(b.data.featured) - Number(
   description="Portfolio of accessibility tools, AI applications, and systems design projects. Building technology that adapts to human needs."
 >
   <Header />
-  <main id="main" class="max-w-content-wide mx-auto px-6 md:px-8 py-16">
+  <main id="main" class="max-w-content-wide mx-auto px-6 md:px-8 py-16" tabindex="-1">
     <div>
       <div class="mb-16">
         <Heading level={1} class="text-h1 font-bold mb-3">Projects</Heading>
@@ -27,10 +27,10 @@ const sortedProjects = projects.sort((a, b) => Number(b.data.featured) - Number(
       
       <!-- Featured Project Showcase -->
       {sortedProjects.filter(p => p.data.featured).map((project, index) => (
-        <section class="mb-20">
+        <section class="mb-20" aria-labelledby={`featured-project-${index}`}>
           <div class="mb-8">
-            <span class="text-small px-3 py-1 bg-accent-yellow text-content rounded-full font-medium">
-              Featured Project
+            <span class="text-small px-3 py-1 bg-accent-yellow text-content rounded-full font-medium" role="img" aria-label="Featured project">
+              ⭐ Featured Project
             </span>
           </div>
           
@@ -41,12 +41,14 @@ const sortedProjects = projects.sort((a, b) => Number(b.data.featured) - Number(
                 {project.data.image ? (
                   <img 
                     src={project.data.image.src} 
-                    alt={project.data.image.alt}
+                    alt={project.data.image.alt || `Screenshot of ${project.data.title} project`}
                     class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    loading="lazy"
+                    decoding="async"
                   />
                 ) : (
-                  <div class="aspect-video flex items-center justify-center">
-                    <span class="text-8xl opacity-50">🚀</span>
+                  <div class="aspect-video flex items-center justify-center" role="img" aria-label={`Placeholder image for ${project.data.title} project`}>
+                    <span class="text-8xl opacity-50" aria-hidden="true">🚀</span>
                   </div>
                 )}
                 
@@ -57,7 +59,7 @@ const sortedProjects = projects.sort((a, b) => Number(b.data.featured) - Number(
               <!-- Project Details -->
               <div class="flex flex-col space-y-6">
                 <div>
-                  <Heading level={2} class="text-h1 font-bold mb-4 group-hover:text-primary dark:group-hover:text-primary-light transition-colors">
+                  <Heading level={2} class="text-h1 font-bold mb-4 group-hover:text-primary dark:group-hover:text-primary-light transition-colors" id={`featured-project-${index}`}>
                     {project.data.title}
                   </Heading>
                   {project.data.description && (
@@ -70,7 +72,7 @@ const sortedProjects = projects.sort((a, b) => Number(b.data.featured) - Number(
                 <!-- Tags and Action button -->
                 <div class="flex items-center justify-between gap-4 flex-wrap">
                   {project.data.tags && project.data.tags.length > 0 && (
-                    <div class="flex flex-wrap gap-2">
+                    <div class="flex flex-wrap gap-2" aria-label="Project technologies">
                       {project.data.tags.map((tag, tagIndex) => (
                         <span class="text-small px-4 py-2 bg-surface dark:bg-dark-surface rounded-full border border-surface-muted dark:border-dark-surface-muted group-hover:border-primary transition-colors">
                           {tag}
@@ -82,12 +84,13 @@ const sortedProjects = projects.sort((a, b) => Number(b.data.featured) - Number(
                   {project.data.url && (
                     <a 
                       href={project.data.url} 
-                      class="inline-flex items-center gap-2 px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors font-medium"
+                      class="inline-flex items-center gap-2 px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary-dark focus:bg-primary-dark transition-colors font-medium focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
                       target="_blank"
                       rel="noopener noreferrer"
+                      aria-label={`View ${project.data.title} project (opens in new tab)`}
                     >
                       View Project
-                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
                       </svg>
                     </a>
@@ -101,25 +104,29 @@ const sortedProjects = projects.sort((a, b) => Number(b.data.featured) - Number(
       
       <!-- Regular Projects Grid -->
       {sortedProjects.filter(p => !p.data.featured).length > 0 && (
-        <section class="mb-20">
-          <Heading level={2} class="text-h2 font-bold mb-8">Other Projects</Heading>
+        <section class="mb-20" aria-labelledby="other-projects-heading">
+          <Heading level={2} class="text-h2 font-bold mb-8" id="other-projects-heading">Other Projects</Heading>
           <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {sortedProjects.filter(p => !p.data.featured).map((project) => (
               <article 
-                class="project-card group relative bg-surface dark:bg-dark-surface rounded-xl p-6 border border-surface-muted dark:border-dark-surface-muted hover:border-primary transition-[background-color,border-color,box-shadow,transform] duration-200 hover:shadow-xl hover:-translate-y-1"
+                class="project-card group relative bg-surface dark:bg-dark-surface rounded-xl p-6 border border-surface-muted dark:border-dark-surface-muted hover:border-primary focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/20 transition-[background-color,border-color,box-shadow,transform] duration-200 hover:shadow-xl hover:-translate-y-1"
               >
-                <a href={project.data.url} class="block space-y-4">
+                <div class="space-y-4">
                   {project.data.image && (
-                    <img 
-                      src={project.data.image.src} 
-                      alt={project.data.image.alt}
-                      class="w-full h-32 object-cover rounded-lg"
-                    />
+                    <a href={project.data.url} class="block focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-surface dark:focus:ring-offset-dark-surface rounded-lg" aria-label={`View ${project.data.title} project`}>
+                      <img 
+                        src={project.data.image.src} 
+                        alt={project.data.image.alt}
+                        class="w-full h-32 object-cover rounded-lg"
+                      />
+                    </a>
                   )}
                   
                   <div>
                     <Heading level={3} class="text-xl font-bold mb-2 group-hover:text-primary dark:group-hover:text-primary-light transition-colors">
-                      {project.data.title}
+                      <a href={project.data.url} class="focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-surface dark:focus:ring-offset-dark-surface rounded-md" aria-label={`View ${project.data.title} project`}>
+                        {project.data.title}
+                      </a>
                     </Heading>
                     {project.data.description && (
                       <p class="text-small text-content-muted dark:text-dark-content-muted line-clamp-2">
@@ -129,7 +136,7 @@ const sortedProjects = projects.sort((a, b) => Number(b.data.featured) - Number(
                   </div>
 
                   {project.data.tags && project.data.tags.length > 0 && (
-                    <div class="flex flex-wrap gap-1">
+                    <div class="flex flex-wrap gap-1" aria-label="Project technologies">
                       {project.data.tags.slice(0, 3).map((tag) => (
                         <span class="text-xs px-2 py-1 bg-primary/10 text-primary dark:text-primary-light rounded">
                           {tag}
@@ -137,7 +144,7 @@ const sortedProjects = projects.sort((a, b) => Number(b.data.featured) - Number(
                       ))}
                     </div>
                   )}
-                </a>
+                </div>
               </article>
             ))}
           </div>
@@ -145,41 +152,41 @@ const sortedProjects = projects.sort((a, b) => Number(b.data.featured) - Number(
       )}
       
       <!-- Empty State -->
-      <section class="text-center py-20">
+      <section class="text-center py-20" aria-labelledby="coming-soon-heading">
         <div class="max-w-3xl mx-auto">
           <div class="mb-8">
-            <span class="text-8xl opacity-10">🚀</span>
+            <span class="text-8xl opacity-10" role="img" aria-label="Rocket ship">🚀</span>
           </div>
-          <Heading level={2} class="text-h3 font-bold mb-4 text-content dark:text-dark-content">
+          <Heading level={2} class="text-h3 font-bold mb-4 text-content dark:text-dark-content" id="coming-soon-heading">
             More Projects Coming Soon
           </Heading>
           <p class="text-lg text-content-muted dark:text-dark-content-muted mb-10 max-w-2xl mx-auto">
             I'm currently working on several exciting projects exploring the intersection of accessibility, AI, and human agency. 
             In the meantime, check out my writing and resources.
           </p>
-          <div class="flex flex-wrap justify-center gap-4">
+          <nav class="flex flex-wrap justify-center gap-4" aria-label="Explore other sections">
             <a 
               href="/writing" 
-              class="group inline-flex items-center gap-2 px-6 py-3 bg-surface dark:bg-dark-surface rounded-lg border-2 border-transparent hover:border-accent-yellow focus:border-accent-yellow transition-[background-color,border-color,transform] duration-200 font-medium hover:scale-105 focus:scale-105 transform-gpu"
+              class="group inline-flex items-center gap-2 px-6 py-3 bg-surface dark:bg-dark-surface rounded-lg border-2 border-transparent hover:border-accent-yellow focus:border-accent-yellow transition-[background-color,border-color,transform] duration-200 font-medium hover:scale-105 focus:scale-105 transform-gpu focus:outline-none focus:ring-2 focus:ring-accent-yellow focus:ring-offset-2"
             >
-              <span class="text-2xl group-hover:animate-bounce" role="img" aria-hidden="true">📝</span>
+              <span class="text-2xl group-hover:animate-bounce" role="img" aria-label="Writing">📝</span>
               Read My Writing
             </a>
             <a 
               href="/resources" 
-              class="group inline-flex items-center gap-2 px-6 py-3 bg-surface dark:bg-dark-surface rounded-lg border-2 border-transparent hover:border-accent-yellow focus:border-accent-yellow transition-[background-color,border-color,transform] duration-200 font-medium hover:scale-105 focus:scale-105 transform-gpu"
+              class="group inline-flex items-center gap-2 px-6 py-3 bg-surface dark:bg-dark-surface rounded-lg border-2 border-transparent hover:border-accent-yellow focus:border-accent-yellow transition-[background-color,border-color,transform] duration-200 font-medium hover:scale-105 focus:scale-105 transform-gpu focus:outline-none focus:ring-2 focus:ring-accent-yellow focus:ring-offset-2"
             >
-              <span class="text-2xl group-hover:animate-bounce" role="img" aria-hidden="true">🔧</span>
+              <span class="text-2xl group-hover:animate-bounce" role="img" aria-label="Tools and resources">🔧</span>
               Explore Resources
             </a>
             <a 
               href="/about" 
-              class="group inline-flex items-center gap-2 px-6 py-3 bg-surface dark:bg-dark-surface rounded-lg border-2 border-transparent hover:border-accent-yellow focus:border-accent-yellow transition-[background-color,border-color,transform] duration-200 font-medium hover:scale-105 focus:scale-105 transform-gpu"
+              class="group inline-flex items-center gap-2 px-6 py-3 bg-surface dark:bg-dark-surface rounded-lg border-2 border-transparent hover:border-accent-yellow focus:border-accent-yellow transition-[background-color,border-color,transform] duration-200 font-medium hover:scale-105 focus:scale-105 transform-gpu focus:outline-none focus:ring-2 focus:ring-accent-yellow focus:ring-offset-2"
             >
-              <span class="text-2xl group-hover:animate-bounce" role="img" aria-hidden="true">👋</span>
+              <span class="text-2xl group-hover:animate-bounce" role="img" aria-label="About page">👋</span>
               Learn About Me
             </a>
-          </div>
+          </nav>
         </div>
       </section>
     </div>

@@ -6,6 +6,7 @@ import Heading from '../../components/Heading.astro';
 import ArrowLink from '../../components/ArrowLink.astro';
 import { getCollection } from 'astro:content';
 import { format } from 'date-fns';
+import { getTagColorIndex } from '../../utils/tags';
 
 const posts = await getCollection('writing');
 const isDevelopment = import.meta.env.DEV;
@@ -37,7 +38,7 @@ function getTypeIcon(type: string) {
   description="Thoughts on accessibility, AI, systems thinking, and building technology that empowers people. Articles and notes by Dylan Isaac."
 >
   <Header />
-  <main id="main" class="max-w-content-wide mx-auto px-6 md:px-8 py-16">
+  <main id="main" class="max-w-content-wide mx-auto px-6 md:px-8 py-16" tabindex="-1">
     <div class="max-w-content">
       <div class="mb-16">
         <div class="flex items-start justify-between mb-4">
@@ -66,9 +67,9 @@ function getTypeIcon(type: string) {
         </div>
       </div>
       
-      <section id="recent-posts">
-        <Heading level={2} class="sr-only">Recent Posts</Heading>
-        <div class="space-y-8">
+      <section id="recent-posts" aria-labelledby="recent-posts-heading">
+        <Heading level={2} class="sr-only" id="recent-posts-heading">Recent Posts</Heading>
+        <div class="space-y-8" role="feed" aria-label="Recent blog posts">
           {sortedPosts.map(async (post, index) => {
             const { Content } = await post.render();
             const readingTime = getReadingTime(post.body || '');
@@ -76,25 +77,27 @@ function getTypeIcon(type: string) {
             
             return (
               <article 
-                class="article-card group relative bg-surface dark:bg-dark-surface rounded-xl border-2 border-transparent hover:border-accent-yellow focus-within:border-accent-yellow transition-[background-color,border-color] duration-200"
+                class="article-card group relative bg-surface dark:bg-dark-surface rounded-xl border border-content-subtle/30 dark:border-dark-content-subtle/30 hover:border-accent-yellow hover:shadow-lg dark:hover:shadow-2xl focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/20 focus-within:shadow-lg transition-[background-color,border-color,box-shadow] duration-200"
+                aria-labelledby={`post-title-${index}`}
+                aria-describedby={`post-meta-${index} ${post.data.description ? `post-desc-${index}` : ''}`}
               >
-                <a href={`/writing/${post.slug}`} class="block p-4 sm:p-6 md:p-8">
+                <div class="p-4 sm:p-6 md:p-8">
                   <!-- Article Header -->
                   <div class="flex items-start justify-between mb-4">
                     <div class="flex items-center gap-3">
-                      <span class="text-2xl" role="img" aria-hidden="true">
+                      <span class="text-2xl" role="img" aria-label={`${post.data.type || 'article'} type`}>
                         {typeIcon}
                       </span>
-                      <div class="flex items-center gap-3 text-small text-content-muted dark:text-dark-content-muted">
-                        <time datetime={post.data.publishDate.toISOString()}>
+                      <div id={`post-meta-${index}`} class="flex items-center gap-3 text-small text-content-muted dark:text-dark-content-muted">
+                        <time datetime={post.data.publishDate.toISOString()} aria-label={`Published ${format(post.data.publishDate, 'MMMM d, yyyy')}`}>
                           {format(post.data.publishDate, 'MMMM d, yyyy')}
                         </time>
-                        <span>•</span>
-                        <span>{readingTime}</span>
+                        <span aria-hidden="true">•</span>
+                        <span aria-label={`Estimated reading time: ${readingTime}`}>{readingTime}</span>
                       </div>
                     </div>
                     {post.data.draft && (
-                      <span class="px-2 py-1 text-xs bg-accent-yellow text-content rounded">
+                      <span class="px-2 py-1 text-xs bg-accent-yellow text-content rounded" aria-label="Draft post">
                         Draft
                       </span>
                     )}
@@ -102,11 +105,17 @@ function getTypeIcon(type: string) {
                   
                   <!-- Article Content -->
                   <div class="space-y-4">
-                    <Heading level={3} class="text-h2 font-bold group-hover:text-primary dark:group-hover:text-primary-light transition-colors">
-                      {post.data.title}
+                    <Heading level={3} class="text-h2 font-bold group-hover:text-primary dark:group-hover:text-primary-light transition-colors" id={`post-title-${index}`}>
+                      <a 
+                        href={`/writing/${post.slug}`} 
+                        class="focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-surface dark:focus:ring-offset-dark-surface rounded-md"
+                        aria-describedby={`post-meta-${index} ${post.data.description ? `post-desc-${index}` : ''}`}
+                      >
+                        {post.data.title}
+                      </a>
                     </Heading>
                     {post.data.description && (
-                      <p class="text-content-muted dark:text-dark-content-muted leading-relaxed">
+                      <p id={`post-desc-${index}`} class="text-content-muted dark:text-dark-content-muted leading-relaxed">
                         {post.data.description}
                       </p>
                     )}
@@ -114,13 +123,13 @@ function getTypeIcon(type: string) {
 
                   
                   <!-- Hover Indicator -->
-                  <div class="absolute bottom-0 left-0 right-0 h-1 bg-accent-yellow transform scale-x-0 group-hover:scale-x-100 group-focus-within:scale-x-100 transition-transform duration-200"></div>
-                </a>
+                  <div class="absolute bottom-0 left-0 right-0 h-1 bg-accent-yellow transform scale-x-0 group-hover:scale-x-100 group-focus-within:scale-x-100 transition-transform duration-200" aria-hidden="true"></div>
+                </div>
                 <!-- Tags outside of link -->
                 {post.data.tags && post.data.tags.length > 0 && (
-                  <div class="flex flex-wrap gap-2 px-8 pb-8 -mt-2">
-                    {post.data.tags.map((tag, tagIndex) => (
-                      <Tag name={tag} colorIndex={tagIndex} />
+                  <div class="flex flex-wrap gap-2 px-8 pb-8 -mt-2" aria-label="Article tags">
+                    {post.data.tags.map((tag) => (
+                      <Tag name={tag} colorIndex={getTagColorIndex(tag)} />
                     ))}
                   </div>
                 )}

@@ -8,6 +8,22 @@
     scroll-padding-top: 110px; /* Account for sticky header with extra buffer */
     scroll-behavior: smooth;
   }
+  
+  /* Respect users' motion preferences */
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
 
   body {
     @apply text-content dark:text-dark-content bg-surface dark:bg-dark-surface;
@@ -114,7 +130,52 @@
 
   .focus-ring {
     @apply focus:outline-none focus:ring-2 focus:ring-primary 
-           focus:ring-offset-2 dark:focus:ring-offset-dark-surface;
+           focus:ring-offset-2 dark:focus:ring-offset-dark-surface
+           focus-visible:ring-2 focus-visible:ring-primary
+           focus-visible:ring-offset-2 dark:focus-visible:ring-offset-dark-surface;
+  }
+  
+  /* Enhanced focus styles for navigation elements */
+  nav a:focus-visible,
+  button:focus-visible {
+    @apply outline-none ring-2 ring-primary ring-offset-2 
+           dark:ring-offset-dark-surface;
+  }
+  
+  /* Screen reader only utility */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+  
+  .sr-only:focus,
+  .focus\:not-sr-only:focus {
+    position: static;
+    width: auto;
+    height: auto;
+    padding: inherit;
+    margin: 0;
+    overflow: visible;
+    clip: auto;
+    white-space: normal;
+  }
+  
+  /* High contrast borders for better definition */
+  @media (prefers-contrast: high) {
+    .tag {
+      border-width: 2px;
+    }
+    
+    .focus-ring {
+      @apply focus:ring-4 focus:ring-offset-4;
+    }
   }
 
   /* Link utilities */

@@ -3,19 +3,57 @@ interface Props {
 	title: string;
 	body: string;
 	href: string;
+	as?: 'li' | 'div';
+	headingLevel?: 2 | 3 | 4;
 }
 
-const { href, title, body } = Astro.props;
+const { 
+	href, 
+	title, 
+	body, 
+	as = 'div',
+	headingLevel = 3 
+} = Astro.props;
+
+const HeadingTag = `h${headingLevel}` as const;
 ---
 
-<li class="bg-surface-secondary dark:bg-dark-surface-secondary rounded-lg shadow-sm hover:shadow-md transition-shadow">
-	<a href={href} class="block p-lg hover:text-primary transition-colors">
-		<h2 class="text-h3 font-medium mb-sm">
-			{title}
-			<span class="ml-2">→</span>
-		</h2>
-		<p class="text-content-muted dark:text-dark-content-muted">
-			{body}
-		</p>
-	</a>
-</li>
+{as === 'li' ? (
+	<li class="bg-surface-secondary dark:bg-dark-surface-secondary rounded-lg shadow-sm hover:shadow-md transition-shadow">
+		<a 
+			href={href} 
+			class="block p-lg hover:text-primary transition-colors focus-ring rounded-lg"
+			aria-describedby={`card-desc-${title.replace(/\s+/g, '-').toLowerCase()}`}
+		>
+			<HeadingTag class="text-h3 font-medium mb-sm">
+				{title}
+				<span class="ml-2" aria-hidden="true">→</span>
+			</HeadingTag>
+			<p 
+				class="text-content-muted dark:text-dark-content-muted"
+				id={`card-desc-${title.replace(/\s+/g, '-').toLowerCase()}`}
+			>
+				{body}
+			</p>
+		</a>
+	</li>
+) : (
+	<article class="bg-surface-secondary dark:bg-dark-surface-secondary rounded-lg shadow-sm hover:shadow-md transition-shadow">
+		<a 
+			href={href} 
+			class="block p-lg hover:text-primary transition-colors focus-ring rounded-lg"
+			aria-describedby={`card-desc-${title.replace(/\s+/g, '-').toLowerCase()}`}
+		>
+			<HeadingTag class="text-h3 font-medium mb-sm">
+				{title}
+				<span class="ml-2" aria-hidden="true">→</span>
+			</HeadingTag>
+			<p 
+				class="text-content-muted dark:text-dark-content-muted"
+				id={`card-desc-${title.replace(/\s+/g, '-').toLowerCase()}`}
+			>
+				{body}
+			</p>
+		</a>
+	</article>
+)}

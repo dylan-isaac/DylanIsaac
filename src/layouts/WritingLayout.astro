@@ -3,6 +3,7 @@ import Layout from './Layout.astro';
 import Header from '../components/Header.astro';
 import Tag from '../components/Tag.astro';
 import { format } from 'date-fns';
+import { getTagColorIndex } from '../utils/tags';
 
 const { frontmatter, readingTime = 1 } = Astro.props;
 const { title, publishDate, description, tags, draft, image } = frontmatter;
@@ -41,8 +42,8 @@ const articleSchema = {
 >
   <script type="application/ld+json" is:inline set:html={JSON.stringify(articleSchema)} />
   <Header />
-  <main id="main" class="max-w-4xl mx-auto px-6 md:px-8 py-2xl">
-    <article class="max-w-content mx-auto">
+  <main id="main" class="max-w-4xl mx-auto px-6 md:px-8 py-2xl" tabindex="-1">
+    <article class="max-w-content mx-auto" aria-labelledby="article-title">
       {draft && (
         <div class="mb-2xl p-md bg-accent/10 border-l-4 border-accent rounded" role="alert">
           <p class="text-lg font-medium">📝 Work in Progress</p>
@@ -52,31 +53,33 @@ const articleSchema = {
       <header class="mb-2xl space-y-lg">
         <div class="space-y-sm">
           <div class="flex items-center gap-3 text-small text-content-muted dark:text-dark-content-muted">
-            <time datetime={publishDate.toISOString()}>
+            <time datetime={publishDate.toISOString()} aria-label={`Published on ${formattedDate}`}>
               {formattedDate}
             </time>
             <span aria-hidden="true">·</span>
-            <span>{readingTime} min read</span>
+            <span aria-label={`Estimated reading time: ${readingTime} minutes`}>
+              {readingTime} min read
+            </span>
           </div>
-          <h1 class="text-h1 font-bold">{title}</h1>
+          <h1 id="article-title" class="text-h1 font-bold">{title}</h1>
         </div>
         
         {description && (
-          <p class="text-h3 text-content-muted dark:text-dark-content-muted font-light">
+          <p class="text-h3 text-content-muted dark:text-dark-content-muted font-light" role="doc-subtitle">
             {description}
           </p>
         )}
         
         {tags && tags.length > 0 && (
-          <div class="flex flex-wrap gap-3">
-            {tags.map((tag, index) => (
-              <Tag name={tag} colorIndex={index} />
+          <div class="flex flex-wrap gap-3" aria-label="Article tags">
+            {tags.map((tag) => (
+              <Tag name={tag} colorIndex={getTagColorIndex(tag)} />
             ))}
           </div>
         )}
       </header>
 
-      <div class="prose prose-lg dark:prose-invert max-w-none">
+      <div class="prose prose-lg dark:prose-invert max-w-none" aria-label="Article content">
         <slot />
       </div>
     </article>

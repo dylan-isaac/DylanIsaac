@@ -128,6 +128,7 @@ export default {
     },
     fontFamily: {
       sans: ['Glacial Indifference', ...defaultTheme.fontFamily.sans],
+      serif: ['Georgia', 'Times New Roman', ...defaultTheme.fontFamily.serif],
       mono: defaultTheme.fontFamily.mono,
     },
   },

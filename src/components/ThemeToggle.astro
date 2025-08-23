@@ -20,6 +20,16 @@
     if (themeToggle) {
       themeToggle.setAttribute('aria-label', `Switch to ${theme === 'dark' ? 'light' : 'dark'} theme`);
       themeToggle.setAttribute('aria-pressed', theme === 'dark' ? 'true' : 'false');
+      
+      // Announce theme change to screen readers
+      const announcement = document.getElementById('theme-announcement');
+      if (announcement) {
+        announcement.textContent = `Theme changed to ${theme} mode`;
+        // Clear announcement after a delay
+        setTimeout(() => {
+          announcement.textContent = '';
+        }, 1000);
+      }
     }
   };
 
@@ -30,6 +40,22 @@
   themeToggle?.addEventListener('click', () => {
     const isDark = document.documentElement.classList.contains('dark');
     setTheme(isDark ? 'light' : 'dark');
+  });
+  
+  // Handle keyboard shortcuts (T key for theme toggle)
+  document.addEventListener('keydown', (e) => {
+    // Only handle shortcuts when not typing in input fields
+    if (e.target?.tagName === 'INPUT' || e.target?.tagName === 'TEXTAREA') {
+      return;
+    }
+    
+    // Shift + T to toggle theme (avoid conflict with regular typing)
+    if (e.shiftKey && e.key.toLowerCase() === 't') {
+      e.preventDefault();
+      const isDark = document.documentElement.classList.contains('dark');
+      setTheme(isDark ? 'light' : 'dark');
+      themeToggle?.focus(); // Focus the button so user knows what happened
+    }
   });
 
   // Listen for system theme changes
@@ -42,10 +68,16 @@
 
 <button 
   id="theme-toggle"
+  type="button"
   aria-label="Switch to dark theme"
   aria-pressed="false"
-  class="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-colors"
+  title="Toggle between light and dark theme (Shift+T)"
+  class="p-2 hover:bg-surface-secondary dark:hover:bg-dark-surface-secondary rounded-full transition-colors focus-ring"
 >
-  <span class="dark:hidden">🌙</span>
-  <span class="hidden dark:inline">☀️</span>
-</button> 
+  <span class="dark:hidden" aria-hidden="true">🌙</span>
+  <span class="hidden dark:inline" aria-hidden="true">☀️</span>
+  <span class="sr-only">Toggle theme</span>
+</button>
+
+<!-- Screen reader announcements -->
+<div aria-live="polite" aria-atomic="true" class="sr-only" id="theme-announcement"></div> 

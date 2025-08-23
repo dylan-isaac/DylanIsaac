@@ -26,9 +26,9 @@ const highlights = [
   description="Lead AI Engineer at Deque Systems, dedicated to democratizing technology and empowering people through accessible AI solutions that adapt to human needs."
 >
   <Header />
-  <main id="main" class="max-w-2xl mx-auto px-6 md:px-8 py-16 space-y-16">
+  <main id="main" class="max-w-2xl mx-auto px-6 md:px-8 py-16 space-y-16" tabindex="-1">
     <!-- Hero Section -->
-    <section class="space-y-6 max-w-2xl">
+    <section class="space-y-6 max-w-2xl" aria-labelledby="hero-heading">
       <Heading 
         level={1}
         class="sr-only"
@@ -36,20 +36,20 @@ const highlights = [
         Dylan Isaac
       </Heading>
 
-      <div class="w-56 h-56 mx-auto mb-8">
+      <figure class="w-56 h-56 mx-auto mb-8">
         <img
           src="/me-square.jpg"
-          alt="Dylan Isaac smiling in front of a frozen lake and mountains in Colorado."
+          alt="Portrait of Dylan Isaac smiling in front of a frozen lake and mountains in Colorado"
           width="224"
           height="224"
           loading="eager"
           decoding="async"
           class="w-full h-full object-cover rounded-full"
         />
-      </div>
+      </figure>
 
-      <div class="flex justify-center">
-        <div class="flex items-center gap-3">
+      <div class="flex justify-center" role="presentation">
+        <div class="flex items-center gap-3" aria-label="Professional roles">
           {roles.map((role, index) => (
             <>
               <span class="text-lg text-content-muted dark:text-dark-content-muted">
@@ -58,6 +58,7 @@ const highlights = [
               {index < roles.length - 1 && (
                 <span 
                   class={`w-2 h-2 rounded-full ${role.color} animate-pulse`}
+                  role="separator"
                   aria-hidden="true"
                 ></span>
               )}
@@ -66,50 +67,56 @@ const highlights = [
         </div>
       </div>
       
-      <p class="text-lg leading-relaxed">
-        I am an engineer, designer, and systems thinker dedicated to <strong>democratizing technology</strong> and 
-        <strong>empowering people</strong>. 
-      </p>
-        
-      <p class="text-lg leading-relaxed">
-        My current focus is on leveraging generative AI to create more 
-        intuitive and accessible computing experiences - 
-        <em>
-          having computers adapt to people's needs 
-          rather than forcing people to adapt to computers.
-        </em>
-      </p>
+      <div class="space-y-4">
+        <p class="text-lg leading-relaxed">
+          I am an engineer, designer, and systems thinker dedicated to <strong>democratizing technology</strong> and 
+          <strong>empowering people</strong>. 
+        </p>
+          
+        <p class="text-lg leading-relaxed">
+          My current focus is on leveraging generative AI to create more 
+          intuitive and accessible computing experiences&mdash;
+          <em>
+            having computers adapt to people's needs 
+            rather than forcing people to adapt to computers.
+          </em>
+        </p>
+      </div>
     </section>
 
     <!-- Professional Highlights -->
     <Section title="Current Work" backgroundColor="primary">
       <div class="space-y-lg max-w-2xl">
         {highlights.map(({ title, org, orgUrl, description }) => (
-          <div class="space-y-sm group">
-            <div class="flex items-baseline gap-2">
+          <article class="space-y-sm group">
+            <header class="flex items-baseline gap-2">
               <Heading level={3} class="text-h4 font-medium">{title}</Heading>
               <a 
                 href={orgUrl}
                 class="text-h4 text-content-muted dark:text-dark-content-muted underline decoration-1 underline-offset-4 hover:decoration-2 focus:decoration-2 hover:text-accent focus:text-accent transition-all"
                 target="_blank"
                 rel="noopener noreferrer"
+                aria-label={`Visit ${org} website (opens in new tab)`}
               >
                 {org}
               </a>
+            </header>
+            <div 
+              class="text-body text-content-muted dark:text-dark-content-muted leading-relaxed [&_a]:text-content-muted [&_a]:dark:text-dark-content-muted [&_a]:underline [&_a]:decoration-1 [&_a]:underline-offset-4 [&_a]:hover:decoration-2 [&_a]:focus:decoration-2 [&_a]:hover:text-accent [&_a]:focus:text-accent [&_a]:transition-all"
+            >
+              <p>
+                Leading the development of AI-driven tools like <a href="https://dequeuniversity.com/introducing-axe-assistant" target="_blank" rel="noopener noreferrer" aria-label="Learn about axe Assistant (opens in new tab)">axe Assistant</a>, I focus on creating accessibility solutions that integrate seamlessly across all stages of the Software Development Lifecycle. My mission is to ensure our <strong>digital world</strong> reflects and serves the diverse lived experiences of <strong>all people</strong>.
+              </p>
             </div>
-            <p 
-              class="text-body text-content-muted dark:text-dark-content-muted leading-relaxed [&_a]:text-content-muted [&_a]:dark:text-dark-content-muted [&_a]:underline [&_a]:decoration-1 [&_a]:underline-offset-4 [&_a]:hover:decoration-2 [&_a]:focus:decoration-2 [&_a]:hover:text-accent [&_a]:focus:text-accent [&_a]:transition-all" 
-              set:html={description} 
-            />
-          </div>
+          </article>
         ))}
       </div>
     </Section>
 
-    <!-- Quick Links -->
-    <section id="lets-work-together">
-      <h2 class="sr-only">Let's Work Together</h2>
-      <nav class="flex flex-wrap gap-6" aria-label="Quick links">
+    <!-- Call to Action -->
+    <section id="lets-work-together" aria-labelledby="cta-heading">
+      <Heading level={2} class="sr-only">Let's Work Together</Heading>
+      <nav class="flex flex-wrap gap-6" aria-label="Quick navigation links">
         <ArrowLink href="/writing">
           Read my writing
         </ArrowLink>
@@ -117,7 +124,7 @@ const highlights = [
           View my projects
         </ArrowLink>
         <ArrowLink href="/rss.xml" external>
-          Subscribe via RSS
+          Subscribe to RSS feed
         </ArrowLink>
       </nav>
     </section>

@@ -4,6 +4,7 @@ import Header from '../../components/Header.astro';
 import Heading from '../../components/Heading.astro';
 import Tag from '../../components/Tag.astro';
 import { getCollection } from 'astro:content';
+import { getTagColorIndex } from '../../utils/tags';
 
 const artifacts = await getCollection('artifacts');
 
@@ -18,50 +19,69 @@ const groupedArtifacts = artifacts.reduce((acc, artifact) => {
 
 <Layout title="Artifacts | Dylan Isaac">
   <Header />
-  <main id="main" class="max-w-content-wide mx-auto px-6 md:px-8 py-16">
+  <main id="main" class="max-w-content-wide mx-auto px-6 md:px-8 py-16" tabindex="-1">
     <div class="max-w-content">
       <Heading level={1} class="text-h1 font-bold mb-16">Artifacts</Heading>
       
       <div class="space-y-16">
         {Object.entries(groupedArtifacts).map(([type, items]) => (
-          <section>
-            <Heading level={2} class="sr-only capitalize">{type}s</Heading>
+          <section aria-labelledby={`${type}-section-heading`}>
+            <Heading level={2} class="text-h2 font-bold mb-8 capitalize" id={`${type}-section-heading`}>{type}s</Heading>
             <div class="space-y-16">
-              {items.map(artifact => (
+              {items.map((artifact, index) => (
                 <article class="group">
                   <div class="block space-y-4">
                     {artifact.data.type === 'image' && (
-                      <img 
-                        src={artifact.data.content} 
-                        alt={artifact.data.title}
-                        class="w-full h-48 object-cover rounded-lg"
-                      />
+                      <figure>
+                        <img 
+                          src={artifact.data.content} 
+                          alt={artifact.data.title}
+                          class="w-full h-48 object-cover rounded-lg"
+                          loading="lazy"
+                        />
+                      </figure>
                     )}
                     {artifact.data.type === 'video' && (
-                      <video 
-                        src={artifact.data.content}
-                        controls
-                        class="w-full rounded-lg"
-                        aria-label={artifact.data.title}
-                      />
+                      <figure>
+                        <video 
+                          src={artifact.data.content}
+                          controls
+                          class="w-full rounded-lg"
+                          aria-label={artifact.data.title}
+                          preload="metadata"
+                        >
+                          <p>Your browser doesn't support HTML5 video. <a href={artifact.data.content}>Download the video</a> instead.</p>
+                        </video>
+                      </figure>
                     )}
                     {artifact.data.type === 'audio' && (
-                      <audio 
-                        src={artifact.data.content}
-                        controls
-                        class="w-full"
-                        aria-label={artifact.data.title}
-                      />
+                      <figure>
+                        <audio 
+                          src={artifact.data.content}
+                          controls
+                          class="w-full"
+                          aria-label={artifact.data.title}
+                          preload="metadata"
+                        >
+                          <p>Your browser doesn't support HTML5 audio. <a href={artifact.data.content}>Download the audio file</a> instead.</p>
+                        </audio>
+                      </figure>
                     )}
                     
-                    <div class="space-y-2">
-                      <Heading level={3} class="text-h2 font-bold">
+                    <div class="space-y-4">
+                      <Heading level={3} class="text-h2 font-bold" id={`artifact-${type}-${index}`}>
                         {artifact.data.title}
                       </Heading>
-                    </div>
-
-                    <div class="flex flex-wrap gap-3">
-                      <Tag name={artifact.data.type} colorIndex={0} />
+                      
+                      {artifact.data.description && (
+                        <p class="text-content-muted dark:text-dark-content-muted">
+                          {artifact.data.description}
+                        </p>
+                      )}
+                      
+                      <div class="flex flex-wrap gap-3" aria-label="Artifact type">
+                        <Tag name={artifact.data.type} colorIndex={getTagColorIndex(artifact.data.type)} />
+                      </div>
                     </div>
                   </div>
                 </article>

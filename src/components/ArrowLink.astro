@@ -22,12 +22,13 @@ const externalProps = external ? {
   class:list={[
     "group inline-flex items-center gap-1",
     "text-content-muted hover:text-primary dark:text-gray-400 dark:hover:text-primary transition-colors text-lg",
-    "no-underline-link",
+    "no-underline-link focus-ring",
     className
   ]}
   {...externalProps}
 >
   <slot />
+  {external && <span class="sr-only"> (opens in new tab)</span>}
   <span 
     class="group-hover:translate-x-1 transition-transform"
     aria-hidden="true"

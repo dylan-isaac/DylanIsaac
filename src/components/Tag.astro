@@ -14,18 +14,27 @@ const tagClass = colorIndex % 3 === 0 ? 'bg-transparent text-primary-dark border
                  'bg-transparent text-accent-dark border-4 border-accent hover:bg-accent/10 dark:text-accent-light dark:border-accent-light dark:hover:bg-accent/20';
 
 const tagSlug = slugifyTag(name);
+
+// Add visual indicator for color themes to support users who can't distinguish colors
+const colorTheme = colorIndex % 3 === 0 ? 'primary' : colorIndex % 3 === 1 ? 'secondary' : 'accent';
+const themeIndicator = colorIndex % 3 === 0 ? '●' : colorIndex % 3 === 1 ? '■' : '▲';
 ---
 
 {clickable ? (
   <a 
     href={`/tags/${tagSlug}`}
-    class={`inline-flex items-center px-4 py-1.5 rounded-full font-medium text-small transition-all no-underline hover:scale-105 focus-ring ${tagClass}`}
-    aria-label={`View all posts tagged with ${name}`}
+    class={`inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full font-medium text-small transition-all no-underline hover:scale-105 focus-ring ${tagClass}`}
+    aria-label={`View all posts tagged with ${name} (${colorTheme} theme)`}
   >
-    {name}
+    <span aria-hidden="true" class="text-xs">{themeIndicator}</span>
+    <span>{name}</span>
   </a>
 ) : (
-  <span class={`inline-flex items-center px-4 py-1.5 rounded-full font-medium text-small transition-all ${tagClass}`}>
-    {name}
+  <span 
+    class={`inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full font-medium text-small transition-all ${tagClass}`}
+    aria-label={`Tag: ${name} (${colorTheme} theme)`}
+  >
+    <span aria-hidden="true" class="text-xs">{themeIndicator}</span>
+    <span>{name}</span>
   </span>
 )} 

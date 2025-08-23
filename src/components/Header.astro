@@ -12,9 +12,10 @@ const navItems = [
 
 <a 
   href="#main" 
-  class="sr-only focus:not-sr-only fixed top-4 left-4 bg-accent px-4 py-2 rounded-md z-50 focus-ring no-underline-link"
+  id="skip-link"
+  class="sr-only focus:not-sr-only fixed top-4 left-4 bg-accent px-4 py-2 rounded-md z-50 focus-ring-strong no-underline-link text-content font-medium"
 >
-  Skip to content
+  Skip to main content
 </a>
 
 <div id="header-wrapper" class="sticky top-0 z-40 bg-surface dark:bg-dark-surface transition-colors duration-200">
@@ -36,6 +37,7 @@ const navItems = [
               <a 
                 href={item.href} 
                 class="hover:text-primary dark:hover:text-primary-light transition-colors no-underline-link"
+                aria-current={Astro.url.pathname === item.href ? 'page' : undefined}
               >
                 {item.label}
               </a>
@@ -53,14 +55,16 @@ const navItems = [
           <ThemeToggle />
           <button 
             id="menu-toggle"
-            aria-label="Toggle table of contents"
+            type="button"
+            aria-label="Open navigation menu and table of contents"
             aria-expanded="false"
             aria-controls="toc-sidebar"
-            class="flex flex-col gap-1.5 p-2 hover:bg-surface-secondary dark:hover:bg-dark-surface-secondary rounded-lg transition-colors"
+            class="flex flex-col gap-1.5 p-2 hover:bg-surface-secondary dark:hover:bg-dark-surface-secondary rounded-lg transition-colors focus-ring"
           >
-            <span class="w-5 h-0.5 bg-primary"></span>
-            <span class="w-5 h-0.5 bg-secondary"></span>
-            <span class="w-5 h-0.5 bg-accent"></span>
+            <span class="w-5 h-0.5 bg-primary transition-transform duration-200" aria-hidden="true"></span>
+            <span class="w-5 h-0.5 bg-secondary transition-opacity duration-200" aria-hidden="true"></span>
+            <span class="w-5 h-0.5 bg-accent transition-transform duration-200" aria-hidden="true"></span>
+            <span class="sr-only" id="menu-status">Menu is closed</span>
           </button>
         </div>
       </div>
@@ -70,19 +74,37 @@ const navItems = [
   <!-- Table of Contents Sidebar -->
   <div 
     id="toc-sidebar"
-    role="complementary"
+    role="dialog"
+    aria-modal="false"
     aria-labelledby="toc-heading"
-    class="fixed right-0 top-[81px] bottom-0 w-64 bg-surface dark:bg-dark-surface transform translate-x-full overflow-y-auto transition-[transform,background-color] duration-200"
+    aria-describedby="toc-description"
+    class="fixed right-0 top-[81px] bottom-0 w-64 bg-surface dark:bg-dark-surface transform translate-x-full overflow-y-auto transition-[transform,background-color] duration-200 border-l border-accent-yellow dark:border-accent-yellow shadow-2xl"
+    tabindex="-1"
   >
+    <div class="sr-only" id="toc-description">Navigation menu and table of contents. Press Escape to close.</div>
     <div class="p-6">
+      <!-- Close button for keyboard users -->
+      <button 
+        id="sidebar-close"
+        type="button"
+        aria-label="Close navigation menu"
+        class="md:hidden mb-4 p-2 -ml-2 hover:bg-surface-secondary dark:hover:bg-dark-surface-secondary rounded-lg transition-colors focus-ring"
+      >
+        <span class="sr-only">Close menu</span>
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+      
       <!-- Mobile-only Navigation -->
-      <nav class="md:hidden space-y-8 mb-8" aria-label="Main">
+      <nav class="md:hidden space-y-8 mb-8" aria-label="Main navigation">
         <ul class="space-y-4">
           {navItems.map((item) => (
             <li>
               <a 
                 href={item.href} 
-                class="block hover:text-accent transition-colors no-underline-link"
+                class="block hover:text-accent transition-colors no-underline-link focus-ring rounded px-2 py-1 -mx-2"
+                aria-current={Astro.url.pathname === item.href ? 'page' : undefined}
               >
                 {item.label}
               </a>
@@ -97,6 +119,9 @@ const navItems = [
       </nav>
     </div>
   </div>
+  
+  <!-- Screen reader announcements -->
+  <div aria-live="polite" aria-atomic="true" class="sr-only" id="sidebar-announcements"></div>
 </div>
 
 <script>
@@ -104,9 +129,111 @@ const navItems = [
   const tocSidebar = document.getElementById('toc-sidebar');
   const headerContent = document.getElementById('header-content');
   const logoText = document.getElementById('logo-text');
+  const sidebarClose = document.getElementById('sidebar-close');
+  const menuStatus = document.getElementById('menu-status');
+  const announcements = document.getElementById('sidebar-announcements');
+  
+  // Focus management variables
+  let lastFocusedElement = null;
+  let focusableElements = [];
   
   // Function to check if there's enough room for the menu AND content
   const hasEnoughRoom = () => window.innerWidth >= 1216;
+  
+  // Screen reader announcement helper
+  const announceToScreenReader = (message) => {
+    if (announcements) {
+      announcements.textContent = message;
+      // Clear after announcement to avoid repetition
+      setTimeout(() => {
+        announcements.textContent = '';
+      }, 1000);
+    }
+  };
+  
+  // Get all focusable elements in sidebar
+  const getFocusableElements = () => {
+    if (!tocSidebar) return [];
+    const selectors = 'a, button, [tabindex]:not([tabindex="-1"])';
+    return Array.from(tocSidebar.querySelectorAll(selectors)).filter(
+      el => !el.hasAttribute('disabled') && !el.getAttribute('aria-hidden')
+    );
+  };
+  
+  // Focus trap for sidebar
+  const trapFocus = (e) => {
+    if (e.key !== 'Tab') return;
+    
+    const focusable = getFocusableElements();
+    const firstFocusable = focusable[0];
+    const lastFocusable = focusable[focusable.length - 1];
+    
+    if (e.shiftKey) {
+      // Shift + Tab
+      if (document.activeElement === firstFocusable) {
+        e.preventDefault();
+        lastFocusable?.focus();
+      }
+    } else {
+      // Tab
+      if (document.activeElement === lastFocusable) {
+        e.preventDefault();
+        firstFocusable?.focus();
+      }
+    }
+  };
+  
+  // Handle escape key
+  const handleEscape = (e) => {
+    if (e.key === 'Escape') {
+      const isExpanded = menuToggle?.getAttribute('aria-expanded') === 'true';
+      if (isExpanded) {
+        closeSidebar();
+      }
+    }
+  };
+  
+  // Close sidebar function
+  const closeSidebar = () => {
+    applyState(false);
+    saveState(false);
+    announceToScreenReader('Navigation menu closed');
+    
+    // Return focus to menu toggle
+    if (lastFocusedElement && lastFocusedElement.focus) {
+      lastFocusedElement.focus();
+    } else {
+      menuToggle?.focus();
+    }
+    
+    // Remove event listeners
+    document.removeEventListener('keydown', trapFocus);
+    document.removeEventListener('keydown', handleEscape);
+  };
+  
+  // Open sidebar function  
+  const openSidebar = () => {
+    // Store the currently focused element
+    lastFocusedElement = document.activeElement;
+    
+    applyState(true);
+    saveState(true);
+    announceToScreenReader('Navigation menu opened');
+    
+    // Focus the first focusable element in sidebar after transition
+    setTimeout(() => {
+      const focusable = getFocusableElements();
+      if (focusable.length > 0) {
+        focusable[0].focus();
+      } else {
+        tocSidebar?.focus();
+      }
+    }, 250);
+    
+    // Add event listeners for focus trap and escape
+    document.addEventListener('keydown', trapFocus);
+    document.addEventListener('keydown', handleEscape);
+  };
   
   // Handle header shrinking on scroll
   const handleScroll = () => {
@@ -195,6 +322,28 @@ const navItems = [
   // Apply state to UI
   const applyState = (isExpanded: boolean, skipAnimation = false) => {
     menuToggle?.setAttribute('aria-expanded', isExpanded.toString());
+    menuToggle?.setAttribute('aria-label', isExpanded ? 'Close navigation menu' : 'Open navigation menu and table of contents');
+    
+    // Update menu status for screen readers
+    if (menuStatus) {
+      menuStatus.textContent = isExpanded ? 'Menu is open' : 'Menu is closed';
+    }
+    
+    // Update hamburger menu visual state
+    const spans = menuToggle?.querySelectorAll('span[aria-hidden]');
+    if (spans && spans.length >= 3) {
+      if (isExpanded) {
+        // Transform to X
+        spans[0].style.transform = 'rotate(45deg) translate(3px, 3px)';
+        spans[1].style.opacity = '0';
+        spans[2].style.transform = 'rotate(-45deg) translate(3px, -3px)';
+      } else {
+        // Reset to hamburger
+        spans[0].style.transform = '';
+        spans[1].style.opacity = '';
+        spans[2].style.transform = '';
+      }
+    }
     
     if (skipAnimation) {
       tocSidebar?.classList.toggle('translate-x-full', !isExpanded);
@@ -218,9 +367,33 @@ const navItems = [
   // Toggle menu on button click
   menuToggle?.addEventListener('click', () => {
     const isExpanded = menuToggle.getAttribute('aria-expanded') === 'true';
-    const newState = !isExpanded;
-    applyState(newState);
-    saveState(newState);
+    if (isExpanded) {
+      closeSidebar();
+    } else {
+      openSidebar();
+    }
+  });
+  
+  // Close button event listener
+  sidebarClose?.addEventListener('click', closeSidebar);
+  
+  // Keyboard shortcuts
+  document.addEventListener('keydown', (e) => {
+    // Only handle shortcuts when not typing in input fields
+    if (e.target?.tagName === 'INPUT' || e.target?.tagName === 'TEXTAREA') {
+      return;
+    }
+    
+    // Alt/Option + M to toggle menu (common pattern)
+    if (e.altKey && e.key.toLowerCase() === 'm') {
+      e.preventDefault();
+      const isExpanded = menuToggle?.getAttribute('aria-expanded') === 'true';
+      if (isExpanded) {
+        closeSidebar();
+      } else {
+        openSidebar();
+      }
+    }
   });
 
   // Handle resize events
@@ -233,7 +406,7 @@ const navItems = [
     // If we've moved from desktop to mobile/tablet
     if (wasDesktop && !nowDesktop) {
       // Always collapse on mobile/tablet
-      applyState(false);
+      closeSidebar();
       // Clear saved state when going to mobile
       localStorage.removeItem(SIDEBAR_STATE_KEY);
     } 
@@ -241,9 +414,23 @@ const navItems = [
     else if (!wasDesktop && nowDesktop) {
       // Restore saved state or use default
       const savedState = getSavedState();
-      applyState(savedState);
+      applyState(savedState, true);
     }
     
     previousWidth = currentWidth;
+  });
+
+  // Enhanced skip link functionality
+  const skipLink = document.getElementById('skip-link');
+  skipLink?.addEventListener('click', (e) => {
+    e.preventDefault();
+    const mainContent = document.getElementById('main');
+    if (mainContent) {
+      // Ensure main content is focusable and focus it
+      mainContent.setAttribute('tabindex', '-1');
+      mainContent.focus();
+      // Smooth scroll to main content
+      mainContent.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
   });
 </script>

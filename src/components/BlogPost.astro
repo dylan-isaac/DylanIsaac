@@ -3,19 +3,51 @@ interface Props {
   title: string;
   subtitle: string;
   isExpanded?: boolean;
+  headingLevel?: 2 | 3 | 4;
 }
 
-const { title, subtitle, isExpanded = false } = Astro.props;
+const { 
+  title, 
+  subtitle, 
+  isExpanded = false,
+  headingLevel = 3
+} = Astro.props;
+
+const HeadingTag = `h${headingLevel}` as const;
+const contentId = `blog-post-${title.replace(/\s+/g, '-').toLowerCase()}`;
+const buttonId = `button-${title.replace(/\s+/g, '-').toLowerCase()}`;
 ---
 <article class="border-b border-surface-secondary dark:border-dark-surface-secondary py-4">
-  <button class="w-full text-left group focus-ring rounded-md" aria-expanded={isExpanded}>
+  <button 
+    class="w-full text-left group focus-ring rounded-md" 
+    aria-expanded={isExpanded}
+    aria-controls={contentId}
+    id={buttonId}
+    aria-describedby={`${buttonId}-subtitle`}
+  >
     <div class="flex items-center">
-      <span class="transform group-aria-expanded:rotate-180 transition-transform text-content-muted">
+      <span 
+        class="transform group-aria-expanded:rotate-180 transition-transform text-content-muted"
+        aria-label={isExpanded ? 'Collapse' : 'Expand'}
+        role="img"
+      >
         {isExpanded ? '▼' : '▶'}
       </span>
-      <h3 class="text-h3 font-medium ml-2">{title}</h3>
+      <HeadingTag class="text-h3 font-medium ml-2">{title}</HeadingTag>
     </div>
-    <p class="text-content-muted ml-6">{subtitle}</p>
+    <p 
+      class="text-content-muted ml-6"
+      id={`${buttonId}-subtitle`}
+    >
+      {subtitle}
+    </p>
   </button>
-  {isExpanded && <slot />}
+  {isExpanded && (
+    <div 
+      id={contentId}
+      aria-labelledby={buttonId}
+    >
+      <slot />
+    </div>
+  )}
 </article>

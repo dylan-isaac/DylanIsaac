@@ -4,6 +4,7 @@ import Header from '../../components/Header.astro';
 import Heading from '../../components/Heading.astro';
 import Tag from '../../components/Tag.astro';
 import { getCollection } from 'astro:content';
+import { getTagColorIndex } from '../../utils/tags';
 
 const definitions = await getCollection('definitions');
 const sortedDefinitions = definitions.sort((a, b) => 
@@ -21,7 +22,7 @@ const groupedDefinitions = sortedDefinitions.reduce((acc, def) => {
 
 <Layout title="Definitions | Dylan Isaac">
   <Header />
-  <main id="main" class="max-w-content-wide mx-auto px-6 md:px-8 py-16">
+  <main id="main" class="max-w-content-wide mx-auto px-6 md:px-8 py-16" tabindex="-1">
     <div class="max-w-content">
       <Heading level={1} class="text-h1 font-bold mb-4">Definitions</Heading>
       
@@ -34,15 +35,16 @@ const groupedDefinitions = sortedDefinitions.reduce((acc, def) => {
       </div>
 
       {/* Quick navigation */}
-      <nav class="mb-12 pb-6 border-b border-surface-muted dark:border-dark-surface-muted">
-        <h2 class="text-small font-bold text-content-subtle uppercase tracking-wider mb-4">
+      <nav class="mb-12 pb-6 border-b border-surface-muted dark:border-dark-surface-muted" aria-label="Jump to alphabetical section">
+        <Heading level={2} class="text-small font-bold text-content-subtle uppercase tracking-wider mb-4">
           Jump to Letter
-        </h2>
+        </Heading>
         <div class="flex flex-wrap gap-2">
           {Object.keys(groupedDefinitions).map(letter => (
             <a 
               href={`#letter-${letter}`}
-              class="px-3 py-1 bg-surface-secondary dark:bg-dark-surface-secondary rounded hover:bg-primary hover:text-surface dark:hover:text-dark-surface transition-colors"
+              class="px-3 py-1 bg-surface-secondary dark:bg-dark-surface-secondary rounded hover:bg-primary hover:text-surface dark:hover:text-dark-surface transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+              aria-label={`Jump to definitions starting with ${letter}`}
             >
               {letter}
             </a>
@@ -52,8 +54,8 @@ const groupedDefinitions = sortedDefinitions.reduce((acc, def) => {
 
       <div class="space-y-12">
         {Object.entries(groupedDefinitions).map(([letter, defs]) => (
-          <section id={`letter-${letter}`}>
-            <Heading level={2} class="text-h2 font-bold mb-6 text-primary dark:text-primary-light">
+          <section id={`letter-${letter}`} aria-labelledby={`letter-${letter}-heading`}>
+            <Heading level={2} class="text-h2 font-bold mb-6 text-primary dark:text-primary-light" id={`letter-${letter}-heading`}>
               {letter}
             </Heading>
             
@@ -62,9 +64,10 @@ const groupedDefinitions = sortedDefinitions.reduce((acc, def) => {
                 <article class="group">
                   <a 
                     href={`/definitions/${def.slug}`}
-                    class="block space-y-3 no-underline-link"
+                    class="block space-y-3 no-underline-link focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded-lg p-2 -m-2"
+                    aria-labelledby={`definition-${def.slug}-title`}
                   >
-                    <Heading level={3} class="text-h3 font-bold group-hover:text-primary dark:group-hover:text-primary-light transition-colors">
+                    <Heading level={3} class="text-h3 font-bold group-hover:text-primary dark:group-hover:text-primary-light transition-colors" id={`definition-${def.slug}-title`}>
                       {def.data.term}
                     </Heading>
                     
@@ -75,7 +78,7 @@ const groupedDefinitions = sortedDefinitions.reduce((acc, def) => {
                     {def.data.relatedTerms.length > 0 && (
                       <div class="flex items-center gap-2 text-small mb-4">
                         <span class="text-content-subtle">Related:</span>
-                        <div class="flex flex-wrap gap-2">
+                        <div class="flex flex-wrap gap-2" aria-label="Related terms">
                           {def.data.relatedTerms.map(term => (
                             <span class="text-primary dark:text-primary-light">{term}</span>
                           ))}
@@ -84,9 +87,9 @@ const groupedDefinitions = sortedDefinitions.reduce((acc, def) => {
                     )}
                     
                     {def.data.tags.length > 0 && (
-                      <div class="flex flex-wrap gap-2 mt-4">
-                        {def.data.tags.map((tag, index) => (
-                          <Tag name={tag} colorIndex={index} />
+                      <div class="flex flex-wrap gap-2 mt-4" aria-label="Definition tags">
+                        {def.data.tags.map((tag) => (
+                          <Tag name={tag} colorIndex={getTagColorIndex(tag)} />
                         ))}
                       </div>
                     )}

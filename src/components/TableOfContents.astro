@@ -31,7 +31,8 @@
       const a = document.createElement('a');
       a.href = `#${id}`;
       a.textContent = heading.textContent || '';
-      a.className = 'text-content-muted dark:text-dark-content-muted hover:text-primary dark:hover:text-primary-light no-underline-link hover:underline transition-colors';
+      a.className = 'text-content-muted dark:text-dark-content-muted hover:text-primary dark:hover:text-primary-light no-underline-link hover:underline transition-colors focus-ring rounded px-1 py-1 -mx-1 block';
+      a.setAttribute('aria-describedby', 'toc-instructions');
       
       // Add smooth scrolling behavior
       a.addEventListener('click', (e) => {
@@ -43,6 +44,15 @@
           targetHeading.setAttribute('tabindex', '-1');
           targetHeading.focus({ preventScroll: true });
           history.pushState(null, '', `#${id}`);
+          
+          // Announce to screen readers
+          const announcement = document.getElementById('nav-announcement');
+          if (announcement) {
+            announcement.textContent = `Navigated to section: ${heading.textContent}`;
+            setTimeout(() => {
+              announcement.textContent = '';
+            }, 1000);
+          }
         }
       });
 
@@ -59,6 +69,9 @@
   // Initialize when the DOM is ready
   initTableOfContents();
 </script>
+
+<!-- Screen reader announcements -->
+<div aria-live="polite" aria-atomic="true" class="sr-only" id="nav-announcement"></div>
 
 <style>
   .toc {
