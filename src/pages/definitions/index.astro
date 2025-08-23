@@ -43,7 +43,7 @@ const groupedDefinitions = sortedDefinitions.reduce((acc, def) => {
           {Object.keys(groupedDefinitions).map(letter => (
             <a 
               href={`#letter-${letter}`}
-              class="px-3 py-1 bg-surface-secondary dark:bg-dark-surface-secondary rounded hover:bg-primary hover:text-surface dark:hover:text-dark-surface transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+              class="px-3 py-1 bg-surface-secondary dark:bg-dark-surface-secondary rounded hover:bg-primary hover:text-surface dark:hover:text-dark-surface transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
               aria-label={`Jump to definitions starting with ${letter}`}
             >
               {letter}

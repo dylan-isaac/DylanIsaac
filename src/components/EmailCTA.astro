@@ -21,7 +21,7 @@ const obfuscatedEmail = `${localPart}[at]${domain.replace('.', '[dot]')}`;
     "bg-surface-secondary dark:bg-dark-surface-secondary",
     "rounded-lg border-2 border-content/10 dark:border-dark-content/10",
     "hover:border-primary dark:hover:border-primary-light",
-    "transition-all duration-300",
+    "transition-colors duration-200",
     "no-underline-link cursor-pointer",
     "text-left w-full sm:w-auto",
     className
@@ -33,7 +33,7 @@ const obfuscatedEmail = `${localPart}[at]${domain.replace('.', '[dot]')}`;
   <span class="inline-flex items-center gap-2">
     <svg 
       xmlns="http://www.w3.org/2000/svg" 
-      class="w-6 h-6 text-primary dark:text-primary-light group-hover:scale-110 transition-transform" 
+      class="w-6 h-6 text-primary dark:text-primary-light group-hover:scale-110 transition-transform duration-200" 
       fill="none" 
       viewBox="0 0 24 24" 
       stroke="currentColor"
@@ -51,7 +51,7 @@ const obfuscatedEmail = `${localPart}[at]${domain.replace('.', '[dot]')}`;
     </span>
   </span>
   <span 
-    class="text-primary dark:text-primary-light group-hover:translate-x-1 transition-transform"
+    class="text-primary dark:text-primary-light group-hover:translate-x-1 transition-transform duration-200"
     aria-hidden="true"
   >
     →

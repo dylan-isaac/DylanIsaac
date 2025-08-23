@@ -1,145 +1,120 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
-import Section from '../components/Section.astro';
+import Card from '../components/Card.astro';
 import Heading from '../components/Heading.astro';
-import ArrowLink from '../components/ArrowLink.astro';
 
-const roles = [
-  { text: "Enablement Engineer", color: "bg-accent" },
-  { text: "Systems Thinker", color: "bg-accent" }
+const contentAreas = [
+  {
+    title: "Writing",
+    body: "Thoughts on AI, accessibility, and human-centered technology",
+    href: "/writing"
+  },
+  {
+    title: "Projects", 
+    body: "Tools and systems built to empower people and teams",
+    href: "/projects"
+  },
+  {
+    title: "Resources",
+    body: "Curated collection of useful tools, articles, and references",
+    href: "/resources"
+  },
+  {
+    title: "About",
+    body: "More details about my background, experience, and approach",
+    href: "/about"
+  }
 ];
-
-const highlights = [
-{
-  "title": "Lead AI Engineer",
-  "org": "Deque Systems",
-  "orgUrl": "https://deque.com",
-  "description": "Leading the development of AI-driven tools like <a href=\"https://dequeuniversity.com/introducing-axe-assistant\">axe Assistant</a>, I focus on creating accessibility solutions that integrate seamlessly across all stages of the Software Development Lifecycle. My mission is to ensure our <strong>digital world</strong> reflects and serves the diverse lived experiences of <strong>all people</strong>."
-}
-];
-
 ---
 
 <Layout 
   title="Dylan Isaac - Enablement Engineer & Systems Thinker"
-  description="Lead AI Engineer at Deque Systems, dedicated to democratizing technology and empowering people through accessible AI solutions that adapt to human needs."
+  description="AI engineer focused on building accessible technology that adapts to human needs. Explore my writing, projects, and resources on human-centered tech."
 >
   <Header />
-  <main id="main" class="max-w-2xl mx-auto px-6 md:px-8 py-16 space-y-16" tabindex="-1">
+  <main id="main" class="max-w-4xl mx-auto px-6 md:px-8 py-16 space-y-16" tabindex="-1">
     <!-- Hero Section -->
-    <section class="space-y-6 max-w-2xl" aria-labelledby="hero-heading">
-      <Heading 
-        level={1}
-        class="sr-only"
-      >
-        Dylan Isaac
-      </Heading>
-
-      <figure class="w-56 h-56 mx-auto mb-8">
-        <img
-          src="/me-square.jpg"
-          alt="Portrait of Dylan Isaac smiling in front of a frozen lake and mountains in Colorado"
-          width="224"
-          height="224"
-          loading="eager"
-          decoding="async"
-          class="w-full h-full object-cover rounded-full"
-        />
-      </figure>
-
-      <div class="flex justify-center" role="presentation">
-        <div class="flex items-center gap-3" aria-label="Professional roles">
-          {roles.map((role, index) => (
-            <>
-              <span class="text-lg text-content-muted dark:text-dark-content-muted">
-                {role.text}
-              </span>
-              {index < roles.length - 1 && (
-                <span 
-                  class={`w-2 h-2 rounded-full ${role.color} animate-pulse`}
-                  role="separator"
-                  aria-hidden="true"
-                ></span>
-              )}
-            </>
-          ))}
-        </div>
-      </div>
-      
+    <section class="text-center space-y-8" aria-labelledby="hero-heading">
       <div class="space-y-4">
-        <p class="text-lg leading-relaxed">
-          I am an engineer, designer, and systems thinker dedicated to <strong>democratizing technology</strong> and 
-          <strong>empowering people</strong>. 
+        <figure class="mb-6">
+          <picture>
+            <source srcset="/me-square.jpg" type="image/jpeg" />
+            <img
+              src="/me-square.jpg"
+              alt="Dylan Isaac"
+              class="w-32 h-32 md:w-40 md:h-40 rounded-full mx-auto object-cover border-4 border-accent-yellow dark:border-accent-yellow"
+              width="160"
+              height="160"
+              loading="eager"
+              decoding="async"
+              fetchpriority="high"
+              sizes="(min-width: 768px) 10rem, 8rem"
+            />
+          </picture>
+        </figure>
+        
+        <Heading level={1} class="text-h1 font-bold">
+          Dylan Isaac
+        </Heading>
+        
+        <p class="text-h3 text-content-muted dark:text-dark-content-muted font-medium">
+          Enablement Engineer & Systems Thinker
         </p>
-          
-        <p class="text-lg leading-relaxed">
-          My current focus is on leveraging generative AI to create more 
-          intuitive and accessible computing experiences&mdash;
-          <em>
-            having computers adapt to people's needs 
-            rather than forcing people to adapt to computers.
-          </em>
+        
+        <p class="text-lg leading-relaxed max-w-2xl mx-auto">
+          I build accessible AI solutions that adapt to human needs, working to 
+          <strong>democratize technology</strong> and <strong>empower people</strong> 
+          through thoughtful design and engineering.
         </p>
       </div>
     </section>
 
-    <!-- Professional Highlights -->
-    <Section title="Current Work" backgroundColor="primary">
-      <div class="space-y-lg max-w-2xl">
-        {highlights.map(({ title, org, orgUrl, description }) => (
-          <article class="space-y-sm group">
-            <header class="flex items-baseline gap-2">
-              <Heading level={3} class="text-h4 font-medium">{title}</Heading>
-              <a 
-                href={orgUrl}
-                class="text-h4 text-content-muted dark:text-dark-content-muted underline decoration-1 underline-offset-4 hover:decoration-2 focus:decoration-2 hover:text-accent focus:text-accent transition-all"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={`Visit ${org} website (opens in new tab)`}
-              >
-                {org}
-              </a>
-            </header>
-            <div 
-              class="text-body text-content-muted dark:text-dark-content-muted leading-relaxed [&_a]:text-content-muted [&_a]:dark:text-dark-content-muted [&_a]:underline [&_a]:decoration-1 [&_a]:underline-offset-4 [&_a]:hover:decoration-2 [&_a]:focus:decoration-2 [&_a]:hover:text-accent [&_a]:focus:text-accent [&_a]:transition-all"
-            >
-              <p>
-                Leading the development of AI-driven tools like <a href="https://dequeuniversity.com/introducing-axe-assistant" target="_blank" rel="noopener noreferrer" aria-label="Learn about axe Assistant (opens in new tab)">axe Assistant</a>, I focus on creating accessibility solutions that integrate seamlessly across all stages of the Software Development Lifecycle. My mission is to ensure our <strong>digital world</strong> reflects and serves the diverse lived experiences of <strong>all people</strong>.
-              </p>
-            </div>
-          </article>
+    <!-- Content Navigation -->
+    <section aria-labelledby="explore-heading">
+      <Heading level={2} class="text-h2 font-bold mb-lg text-center">
+        Explore
+      </Heading>
+      
+      <div class="grid md:grid-cols-2 gap-6 max-w-4xl">
+        {contentAreas.map((area) => (
+          <Card
+            title={area.title}
+            body={area.body}
+            href={area.href}
+            headingLevel={3}
+          />
         ))}
       </div>
-    </Section>
+    </section>
 
-    <!-- Call to Action -->
-    <section id="lets-work-together" aria-labelledby="cta-heading">
-      <Heading level={2} class="sr-only">Let's Work Together</Heading>
-      <nav class="flex flex-wrap gap-6" aria-label="Quick navigation links">
-        <ArrowLink href="/writing">
-          Read my writing
-        </ArrowLink>
-        <ArrowLink href="/projects">
-          View my projects
-        </ArrowLink>
-        <ArrowLink href="/rss.xml" external>
-          Subscribe to RSS feed
-        </ArrowLink>
-      </nav>
+    <!-- Quick Connect -->
+    <section class="text-center space-y-6" aria-labelledby="connect-heading">
+      <Heading level={2} class="text-h2 font-bold">
+        Stay Connected
+      </Heading>
+      
+      <div class="flex flex-wrap justify-center gap-6">
+        <a 
+          href="/rss.xml" 
+          class="inline-flex items-center gap-2 px-4 py-2 bg-accent/10 dark:bg-accent/20 hover:bg-accent/20 dark:hover:bg-accent/30 rounded-lg transition-colors duration-200 focus-ring"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <span>RSS Feed</span>
+          <span aria-hidden="true">↗</span>
+        </a>
+        
+        <a 
+          href="https://www.linkedin.com/in/dylan--isaac/" 
+          class="inline-flex items-center gap-2 px-4 py-2 bg-secondary/10 dark:bg-secondary/20 hover:bg-secondary/20 dark:hover:bg-secondary/30 rounded-lg transition-colors duration-200 focus-ring"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <span>LinkedIn</span>
+          <span aria-hidden="true">↗</span>
+        </a>
+      </div>
     </section>
   </main>
 </Layout>
-
-<style>
-  /* Add subtle animation to role dots on hover */
-  .roles:hover .dot {
-    animation: pulse 2s infinite;
-  }
-  
-  @keyframes pulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.2); }
-    100% { transform: scale(1); }
-  }
-</style>

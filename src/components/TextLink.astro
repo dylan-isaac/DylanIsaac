@@ -1,0 +1,30 @@
+---
+interface Props {
+  href: string;
+  external?: boolean;
+  class?: string;
+}
+
+const { href, external = false, class: className } = Astro.props;
+
+const externalProps = external ? {
+  target: "_blank",
+  rel: "noopener noreferrer"
+} : {};
+---
+
+<a 
+  href={href}
+  class:list={[
+    "text-primary-dark dark:text-primary-light",
+    "hover:text-primary dark:hover:text-primary-light",
+    "underline decoration-1 underline-offset-4",
+    "hover:decoration-2 focus:decoration-2",
+    "transition-colors duration-200 focus-ring rounded",
+    className
+  ]}
+  {...externalProps}
+>
+  <slot />
+  {external && <span class="sr-only"> (opens in new tab)</span>}
+</a>

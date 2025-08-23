@@ -2,8 +2,6 @@
 import Layout from '../../layouts/Layout.astro';
 import Header from '../../components/Header.astro';
 import Heading from '../../components/Heading.astro';
-import ArrowLink from '../../components/ArrowLink.astro';
-import Tag from '../../components/Tag.astro';
 import { getCollection } from 'astro:content';
 
 const projects = await getCollection('projects');
@@ -42,7 +40,7 @@ const sortedProjects = projects.sort((a, b) => Number(b.data.featured) - Number(
                   <img 
                     src={project.data.image.src} 
                     alt={project.data.image.alt || `Screenshot of ${project.data.title} project`}
-                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200"
                     loading="lazy"
                     decoding="async"
                   />
@@ -53,7 +51,7 @@ const sortedProjects = projects.sort((a, b) => Number(b.data.featured) - Number(
                 )}
                 
                 <!-- Gradient overlay -->
-                <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
               </div>
               
               <!-- Project Details -->
@@ -73,7 +71,7 @@ const sortedProjects = projects.sort((a, b) => Number(b.data.featured) - Number(
                 <div class="flex items-center justify-between gap-4 flex-wrap">
                   {project.data.tags && project.data.tags.length > 0 && (
                     <div class="flex flex-wrap gap-2" aria-label="Project technologies">
-                      {project.data.tags.map((tag, tagIndex) => (
+                      {project.data.tags.map((tag) => (
                         <span class="text-small px-4 py-2 bg-surface dark:bg-dark-surface rounded-full border border-surface-muted dark:border-dark-surface-muted group-hover:border-primary transition-colors">
                           {tag}
                         </span>
@@ -84,7 +82,7 @@ const sortedProjects = projects.sort((a, b) => Number(b.data.featured) - Number(
                   {project.data.url && (
                     <a 
                       href={project.data.url} 
-                      class="inline-flex items-center gap-2 px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary-dark focus:bg-primary-dark transition-colors font-medium focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+                      class="inline-flex items-center gap-2 px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary-dark focus:bg-primary-dark transition-colors duration-200 font-medium focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
                       target="_blank"
                       rel="noopener noreferrer"
                       aria-label={`View ${project.data.title} project (opens in new tab)`}

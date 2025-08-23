@@ -1,0 +1,25 @@
+---
+interface Props {
+  term: string;
+  slug?: string;
+  class?: string;
+}
+
+const { term, slug, class: className } = Astro.props;
+const href = slug ? `/definitions/${slug}` : `/definitions/${term.toLowerCase().replace(/\s+/g, '-')}`;
+---
+
+<a 
+  href={href}
+  class:list={[
+    "font-medium",
+    "text-primary-dark dark:text-primary-light",
+    "hover:text-primary dark:hover:text-primary-light",
+    "underline decoration-1 underline-offset-4",
+    "hover:decoration-2 focus:decoration-2",
+    "transition-colors duration-200 focus-ring rounded",
+    className
+  ]}
+>
+  {term}
+</a>

@@ -80,7 +80,7 @@ const relatedDefinitions = definition.data.relatedTerms.length > 0
             {relatedDefinitions.map(related => (
               <a 
                 href={`/definitions/${related.slug}`}
-                class="block p-4 bg-surface-secondary dark:bg-dark-surface-secondary rounded-lg hover:bg-surface-muted dark:hover:bg-dark-surface-muted transition-colors no-underline-link"
+                class="block p-4 bg-surface-secondary dark:bg-dark-surface-secondary rounded-lg hover:bg-surface-muted dark:hover:bg-dark-surface-muted transition-colors duration-200 no-underline-link"
               >
                 <h3 class="text-h4 font-bold mb-2 text-primary dark:text-primary-light">
                   {related.data.term}

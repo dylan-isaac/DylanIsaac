@@ -23,7 +23,7 @@ const themeIndicator = colorIndex % 3 === 0 ? '‚óè' : colorIndex % 3 === 1 ? '‚ñ
 {clickable ? (
   <a 
     href={`/tags/${tagSlug}`}
-    class={`inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full font-medium text-small transition-all no-underline hover:scale-105 focus-ring ${tagClass}`}
+    class={`inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full font-medium text-small transition-colors duration-200 no-underline hover:scale-105 focus-ring ${tagClass}`}
     aria-label={`View all posts tagged with ${name} (${colorTheme} theme)`}
   >
     <span aria-hidden="true" class="text-xs">{themeIndicator}</span>
@@ -31,7 +31,7 @@ const themeIndicator = colorIndex % 3 === 0 ? '‚óè' : colorIndex % 3 === 1 ? '‚ñ
   </a>
 ) : (
   <span 
-    class={`inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full font-medium text-small transition-all ${tagClass}`}
+    class={`inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full font-medium text-small transition-colors duration-200 ${tagClass}`}
     aria-label={`Tag: ${name} (${colorTheme} theme)`}
   >
     <span aria-hidden="true" class="text-xs">{themeIndicator}</span>

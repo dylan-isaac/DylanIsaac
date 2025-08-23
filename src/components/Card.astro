@@ -22,7 +22,7 @@ const HeadingTag = `h${headingLevel}` as const;
 	<li class="bg-surface-secondary dark:bg-dark-surface-secondary rounded-lg shadow-sm hover:shadow-md transition-shadow">
 		<a 
 			href={href} 
-			class="block p-lg hover:text-primary transition-colors focus-ring rounded-lg"
+			class="block p-lg hover:text-primary transition-colors duration-200 focus-ring rounded-lg"
 			aria-describedby={`card-desc-${title.replace(/\s+/g, '-').toLowerCase()}`}
 		>
 			<HeadingTag class="text-h3 font-medium mb-sm">
@@ -41,7 +41,7 @@ const HeadingTag = `h${headingLevel}` as const;
 	<article class="bg-surface-secondary dark:bg-dark-surface-secondary rounded-lg shadow-sm hover:shadow-md transition-shadow">
 		<a 
 			href={href} 
-			class="block p-lg hover:text-primary transition-colors focus-ring rounded-lg"
+			class="block p-lg hover:text-primary transition-colors duration-200 focus-ring rounded-lg"
 			aria-describedby={`card-desc-${title.replace(/\s+/g, '-').toLowerCase()}`}
 		>
 			<HeadingTag class="text-h3 font-medium mb-sm">

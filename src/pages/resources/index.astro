@@ -2,30 +2,54 @@
 import Layout from '../../layouts/Layout.astro';
 import Header from '../../components/Header.astro';
 import Heading from '../../components/Heading.astro';
-import Tag from '../../components/Tag.astro';
 import { getCollection } from 'astro:content';
-import { getTagColorIndex } from '../../utils/tags';
 
 const resources = await getCollection('resources');
 const definitions = await getCollection('definitions');
-const sortedResources = resources.sort((a, b) => {
-  // Featured items first
+
+// Combine resources and definitions into a unified array with consistent structure
+const allItems = [
+  ...resources.map(item => ({
+    ...item,
+    itemType: 'resource',
+    data: {
+      ...item.data,
+      term: item.data.title, // Map title to term for consistency
+    }
+  })),
+  ...definitions.map(item => ({
+    ...item,
+    itemType: 'definition',
+    data: {
+      ...item.data,
+      type: 'definition',
+      title: item.data.term,
+      description: item.data.definition,
+    }
+  }))
+];
+
+// Sort all items: featured first, then alphabetical
+const sortedItems = allItems.sort((a, b) => {
+  // Featured items first (only resources have this property)
   if (a.data.featured !== b.data.featured) {
     return b.data.featured ? 1 : -1;
   }
-  // Then alphabetical
-  return a.data.title.localeCompare(b.data.title);
+  // Then alphabetical by title/term
+  const aTitle = a.data.title || a.data.term;
+  const bTitle = b.data.title || b.data.term;
+  return aTitle.localeCompare(bTitle);
 });
 
-// Group by type
-const groupedResources = sortedResources.reduce((acc, resource) => {
-  const { type } = resource.data;
-  if (!acc[type]) acc[type] = [];
-  acc[type].push(resource);
+// Get available types and their counts
+const typeCounts = sortedItems.reduce((acc, item) => {
+  const type = item.data.type;
+  acc[type] = (acc[type] || 0) + 1;
   return acc;
-}, {} as Record<string, typeof resources>);
+}, {} as Record<string, number>);
 
 const typeLabels = {
+  'definition': 'Definitions',
   'ladder': 'Ladders',
   'prompt': 'Prompts',
   'script': 'Scripts',
@@ -35,12 +59,27 @@ const typeLabels = {
 };
 
 const typeDescriptions = {
+  'definition': 'Terms that establish a shared vocabulary',
   'ladder': 'Bridges between human intention and computational power',
   'prompt': 'AI prompts that encode expert knowledge for specific tasks',
   'script': 'Code that extends capabilities and automates complex processes',
   'pattern': 'Reusable approaches that bridge different ways of understanding',
   'tool': 'Utilities and applications that enhance productivity',
   'guide': 'Step-by-step instructions and educational content'
+};
+
+// Get only types that actually exist
+const availableTypes = Object.keys(typeCounts).sort();
+
+// Type indicators with icons
+const typeIndicators = {
+  'definition': '📖 Definition',
+  'ladder': '🪜 Ladder',
+  'prompt': '🎯 Prompt',
+  'script': '📝 Script',
+  'pattern': '🎨 Pattern',
+  'tool': '🔧 Tool',
+  'guide': '📚 Guide'
 };
 ---
 
@@ -50,136 +89,389 @@ const typeDescriptions = {
     <div class="max-w-content">
       <Heading level={1} class="text-h1 font-bold mb-4">Resources</Heading>
       
-      <div class="prose prose-lg max-w-none mb-16">
+      <div class="prose prose-lg max-w-none mb-12">
         <p class="text-xl text-content-muted dark:text-dark-content-muted">
-          Prompts, scripts, and patterns that give people new capabilities. 
+          Definitions, prompts, scripts, and patterns that give people new capabilities. 
           These are bridges between human intention and computational power—tools 
           that adapt to how you think rather than forcing you to adapt to them.
         </p>
         <p class="text-content-muted dark:text-dark-content-muted">
           Learn more about the philosophy behind ladders in 
-          <a href="/writing/building-ladders-extending-human-agency-with-ai" class="text-primary-dark dark:text-primary-light hover:text-primary">
+          <a href="/writing/building-ladders-extending-human-agency-with-ai" class="text-primary-dark dark:text-primary-light hover:text-primary transition-colors duration-200">
             "Building Ladders: Extending Human Agency with AI"
           </a>.
         </p>
       </div>
 
-      {/* Definitions Section */}
-      <section class="mb-16 p-8 bg-surface dark:bg-dark-surface rounded-xl border border-content-subtle/30 dark:border-dark-content-subtle/30 hover:border-accent-yellow hover:shadow-lg dark:hover:shadow-2xl focus-within:border-accent-yellow transition-[background-color,border-color,box-shadow] duration-200" aria-labelledby="definitions-section-heading">
-        <div>
-          <div class="mb-6">
-            <Heading level={2} class="text-h2 font-serif font-bold mb-2 text-primary-dark dark:text-primary-light" id="definitions-section-heading">
-              Definitions
-            </Heading>
-            <p class="text-content-muted dark:text-dark-content-muted font-serif italic">
-              {definitions.length} terms that establish a shared vocabulary
-            </p>
-          </div>
-          
-          <div class="flex flex-wrap gap-3 mb-6" aria-label="Available definitions">
-            {definitions.map(def => (
-              <a 
-                href={`/definitions/${def.slug}`}
-                class="font-serif text-content-muted dark:text-dark-content-muted hover:text-primary-dark dark:hover:text-primary-light transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded px-2 py-1 hover:bg-surface-secondary dark:hover:bg-dark-surface-secondary"
-              >
-                {def.data.term}
-              </a>
-            )).reduce((prev, curr, index) => {
-              const result = [...prev];
-              if (index > 0) {
-                result.push(<span class="text-content-subtle font-sans" aria-hidden="true">•</span>);
-              }
-              result.push(curr);
-              return result;
-            }, [])}
-          </div>
-          
-          <a 
-            href="/definitions" 
-            class="inline-flex items-center gap-2 text-primary-dark dark:text-primary-light hover:text-primary font-medium focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded"
+      {/* Type Filter Controls */}
+      <section class="mb-8" aria-labelledby="filter-controls">
+        <div class="mb-6">
+          <Heading level={2} class="text-h2 font-bold mb-2">Browse by Type</Heading>
+          <p class="text-content-muted dark:text-dark-content-muted">
+            Filter resources by category to find exactly what you need
+          </p>
+        </div>
+        
+        <div class="flex flex-wrap gap-2 sm:gap-3 mb-8" role="group" aria-label="Resource type filters">
+          <button 
+            id="filter-all" 
+            class="filter-button active px-3 sm:px-4 py-2 text-sm sm:text-base rounded-lg border border-primary/30 bg-primary/10 dark:bg-primary/20 text-primary-dark dark:text-primary-light font-medium transition-colors duration-200 hover:bg-primary/20 dark:hover:bg-primary/30 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+            data-type="all"
           >
-            Browse Full Glossary
-            <span aria-hidden="true">→</span>
-          </a>
+            All Types ({sortedItems.length})
+          </button>
+          {availableTypes.map((type) => (
+            <button 
+              id={`filter-${type}`}
+              class="filter-button px-3 sm:px-4 py-2 text-sm sm:text-base rounded-lg border border-content-subtle/30 dark:border-dark-content-subtle/30 bg-surface dark:bg-dark-surface text-content dark:text-dark-content font-medium transition-colors duration-200 hover:border-accent-yellow hover:bg-accent-yellow/10 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+              data-type={type}
+            >
+              {typeLabels[type as keyof typeof typeLabels]} ({typeCounts[type]})
+            </button>
+          ))}
         </div>
       </section>
 
-      <div class="space-y-16">
-        {Object.entries(groupedResources).map(([type, items]) => (
-          <section aria-labelledby={`${type}-section-heading`}>
-            <div class="mb-8">
-              <Heading level={2} class="text-h2 font-bold mb-2" id={`${type}-section-heading`}>
-                {type === 'ladder' ? (
-                  <a href="/definitions/ladders" class="hover:text-primary dark:hover:text-primary-light transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded">
-                    {typeLabels[type as keyof typeof typeLabels]}
-                  </a>
-                ) : (
-                  typeLabels[type as keyof typeof typeLabels]
-                )}
-              </Heading>
-              <p class="text-content-muted dark:text-dark-content-muted">
-                {typeDescriptions[type as keyof typeof typeDescriptions]}
-              </p>
-            </div>
-            
-            <div class={`grid gap-8 ${items.length > 1 ? 'md:grid-cols-2' : ''}`}>
-              {items.map(resource => (
-                <article class="group bg-surface dark:bg-dark-surface rounded-xl p-4 sm:p-6 border border-content-subtle/30 dark:border-dark-content-subtle/30 hover:border-accent-yellow hover:shadow-lg dark:hover:shadow-2xl focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/20 transition-[background-color,border-color,box-shadow] duration-200">
-                  <a 
-                    href={`/resources/${resource.slug}`}
-                    class="block space-y-4 no-underline-link focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded-xl"
-                    aria-labelledby={`resource-${resource.slug}-title`}
-                  >
-                    {resource.data.featured && (
+      {/* Masonry Grid */}
+      <div class="masonry-container" id="resources-container">
+        {sortedItems.map(item => (
+          <article class={`masonry-card ${item.data.type === 'definition' ? 'definition-card' : 'resource-card'} ${item.data.type === 'ladder' ? 'ladder-card' : ''}`} data-type={item.data.type}>
+            {item.itemType === 'definition' ? (
+              <a 
+                href={`/definitions/${item.slug}`}
+                class="card-link group"
+              >
+                <div class="space-y-2">
+                  <div class="flex items-center gap-2 mb-2">
+                    <span class="text-xs text-content-subtle dark:text-dark-content-subtle font-medium">
+                      {typeIndicators[item.data.type]}
+                    </span>
+                  </div>
+                  <Heading level={3} class="text-h5 font-serif font-bold group-hover:text-primary-dark dark:group-hover:text-primary-light transition-colors duration-200">
+                    {item.data.term}
+                  </Heading>
+                  
+                  <p class="text-small text-content-muted dark:text-dark-content-muted font-serif leading-relaxed line-clamp-2">
+                    {item.data.definition}
+                  </p>
+                </div>
+              </a>
+            ) : (
+              <a 
+                href={`/resources/${item.slug}`}
+                class="card-link group"
+              >
+                <div class="space-y-4">
+                  <div class="flex items-center justify-between">
+                    <span class="text-xs text-content-subtle dark:text-dark-content-subtle font-medium">
+                      {typeIndicators[item.data.type]}
+                    </span>
+                    {item.data.featured && (
                       <span class="inline-block px-2 py-1 text-small bg-accent-yellow text-content rounded">
                         Featured
                       </span>
                     )}
-                    
-                    <Heading level={3} class="text-h3 font-bold group-hover:text-primary dark:group-hover:text-primary-light transition-colors" id={`resource-${resource.slug}-title`}>
-                      {resource.data.title}
-                    </Heading>
-                    
-                    <p class="text-content-muted dark:text-dark-content-muted">
-                      {resource.data.description}
-                    </p>
-                    
-                    <div class="space-y-4">
-                      <div>
-                        <Heading level={4} class="text-small font-bold text-content-subtle dark:text-dark-content-subtle uppercase tracking-wider mb-2" id={`capabilities-${resource.slug}`}>
-                          Capabilities
-                        </Heading>
-                        <ul class="list-disc list-inside text-small text-content-muted dark:text-dark-content-muted space-y-1" aria-labelledby={`capabilities-${resource.slug}`}>
-                          {resource.data.capabilities?.slice(0, 3).map(capability => (
-                            <li>{capability}</li>
-                          ))}
-                          {resource.data.capabilities && resource.data.capabilities.length > 3 && (
-                            <li class="text-content-subtle dark:text-dark-content-subtle">
-                              +{resource.data.capabilities.length - 3} more...
-                            </li>
-                          )}
-                        </ul>
-                      </div>
-                      
-                      <div class="flex flex-wrap gap-2" aria-label="Resource tags">
-                        {resource.data.tags.slice(0, 4).map((tag) => (
-                          <Tag name={tag} colorIndex={getTagColorIndex(tag)} />
+                  </div>
+                  
+                  <Heading level={3} class="text-h3 font-bold group-hover:text-primary-dark dark:group-hover:text-primary-light transition-colors duration-200">
+                    {item.data.title}
+                  </Heading>
+                  
+                  <p class="text-content-muted dark:text-dark-content-muted">
+                    {item.data.description}
+                  </p>
+                  
+                  {item.data.capabilities && (
+                    <div>
+                      <Heading level={4} class="text-small font-bold text-content-subtle dark:text-dark-content-subtle uppercase tracking-wider mb-2">
+                        Capabilities
+                      </Heading>
+                      <ul class="list-disc list-inside text-small text-content-muted dark:text-dark-content-muted space-y-1">
+                        {item.data.capabilities.slice(0, 3).map(capability => (
+                          <li>{capability}</li>
                         ))}
-                      </div>
+                        {item.data.capabilities.length > 3 && (
+                          <li class="text-content-subtle dark:text-dark-content-subtle">
+                            +{item.data.capabilities.length - 3} more...
+                          </li>
+                        )}
+                      </ul>
                     </div>
-                  </a>
-                </article>
-              ))}
-            </div>
-          </section>
+                  )}
+                  
+                </div>
+              </a>
+            )}
+          </article>
         ))}
       </div>
     </div>
   </main>
 </Layout>
 
+<script>
+  // Type filtering functionality with masonry grid support
+  document.addEventListener('DOMContentLoaded', function() {
+    const filterButtons = document.querySelectorAll('.filter-button');
+    const resourceCards = document.querySelectorAll('.masonry-card');
+    
+    function updateActiveFilter(activeButton) {
+      // Remove active class from all buttons with consistent 200ms transitions
+      filterButtons.forEach(btn => {
+        btn.classList.remove('active');
+        btn.classList.remove('border-primary/30', 'bg-primary/10', 'dark:bg-primary/20', 'text-primary-dark', 'dark:text-primary-light');
+        btn.classList.add('border-content-subtle/30', 'dark:border-dark-content-subtle/30', 'bg-surface', 'dark:bg-dark-surface', 'text-content', 'dark:text-dark-content');
+      });
+      
+      // Add active class to clicked button
+      activeButton.classList.add('active');
+      activeButton.classList.add('border-primary/30', 'bg-primary/10', 'dark:bg-primary/20', 'text-primary-dark', 'dark:text-primary-light');
+      activeButton.classList.remove('border-content-subtle/30', 'dark:border-dark-content-subtle/30', 'bg-surface', 'dark:bg-dark-surface', 'text-content', 'dark:text-dark-content');
+    }
+    
+    function filterResources(selectedType) {
+      resourceCards.forEach(card => {
+        const cardType = card.dataset.type;
+        const shouldShow = selectedType === 'all' || cardType === selectedType;
+        
+        if (shouldShow) {
+          // Show card with fade-in animation
+          card.style.display = 'block';
+          card.style.opacity = '0';
+          card.style.transform = 'translateY(20px)';
+          
+          // Use requestAnimationFrame for smooth animation
+          requestAnimationFrame(() => {
+            card.style.transition = 'opacity 200ms ease, transform 200ms ease';
+            card.style.opacity = '1';
+            card.style.transform = 'translateY(0)';
+          });
+        } else {
+          // Hide card with fade-out animation
+          card.style.transition = 'opacity 200ms ease, transform 200ms ease';
+          card.style.opacity = '0';
+          card.style.transform = 'translateY(-20px)';
+          
+          setTimeout(() => {
+            card.style.display = 'none';
+          }, 200);
+        }
+      });
+    }
+    
+    // Add click listeners to filter buttons
+    filterButtons.forEach(button => {
+      button.addEventListener('click', function() {
+        const selectedType = this.dataset.type;
+        updateActiveFilter(this);
+        filterResources(selectedType);
+      });
+    });
+    
+    // Initialize with "all" filter active
+    filterResources('all');
+  });
+</script>
+
 <style>
-  .no-underline-link {
+  /* CSS Grid Layout */
+  .masonry-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-auto-rows: max-content;
+    gap: 1.5rem;
+    align-items: start;
+  }
+
+  /* Ladder cards span full width */
+  .ladder-card {
+    grid-column: 1 / -1;
+  }
+
+  /* Card Styles */
+  .masonry-card {
+    break-inside: avoid;
+    transition: opacity 200ms ease, transform 200ms ease;
+  }
+
+  .card-link {
+    display: block;
+    background: rgb(var(--color-surface));
+    border: 1px solid rgb(var(--color-content-subtle) / 0.3);
+    border-radius: 0.75rem;
+    padding: 1.5rem;
     text-decoration: none !important;
+    transition: all 200ms ease;
+  }
+
+  /* Dark mode card styling */
+  :is(.dark .card-link) {
+    background: rgb(var(--color-dark-surface));
+    border-color: rgb(var(--color-dark-content-subtle) / 0.3);
+  }
+
+  /* Card hover effects */
+  .card-link:hover {
+    border-color: rgb(var(--color-accent-yellow));
+    box-shadow: 0 10px 25px -5px rgb(0 0 0 / 0.1), 0 4px 6px -2px rgb(0 0 0 / 0.05);
+    transform: translateY(-2px);
+  }
+
+  :is(.dark .card-link:hover) {
+    box-shadow: 0 20px 40px -12px rgb(0 0 0 / 0.8);
+  }
+
+  /* Focus styles with consistent 200ms transitions */
+  .card-link:focus {
+    outline: none;
+    border-color: rgb(var(--color-primary));
+    box-shadow: 0 0 0 2px rgb(var(--color-primary) / 0.2);
+  }
+
+  /* Definition cards - smaller and more compact, 1x1 units */
+  .definition-card {
+    min-height: 140px;
+    max-height: 200px;
+  }
+
+  .definition-card .card-link {
+    padding: 1rem;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .definition-card h3 {
+    font-size: 1rem;
+    line-height: 1.4;
+    margin-bottom: 0.5rem;
+  }
+
+  .definition-card p {
+    font-size: 0.875rem;
+    line-height: 1.5;
+    margin: 0;
+    flex: 1;
+  }
+
+  /* Text truncation with line-clamp */
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* Resource cards - larger with more content */
+  .resource-card .card-link {
+    padding: 1.5rem;
+  }
+
+  /* Filter button improvements with 200ms transitions */
+  .filter-button {
+    transition: all 200ms ease;
+  }
+
+  .filter-button:hover {
+    transform: translateY(-1px);
+  }
+
+  .filter-button.active {
+    box-shadow: 0 2px 8px rgb(136 14 79 / 0.15);
+  }
+
+  .filter-button:focus {
+    box-shadow: 0 0 0 2px rgb(136 14 79 / 0.5);
+  }
+
+  /* Responsive Design */
+  @media (max-width: 1024px) {
+    .masonry-container {
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1rem;
+    }
+    
+    /* Ladder cards still span full width */
+    .ladder-card {
+      grid-column: 1 / -1;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .masonry-container {
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 1rem;
+    }
+
+    /* Ladder cards still span full width on mobile */
+    .ladder-card {
+      grid-column: 1 / -1;
+    }
+
+    .card-link {
+      padding: 1rem;
+    }
+
+    .resource-card .card-link {
+      padding: 1rem;
+    }
+
+    .definition-card .card-link {
+      padding: 0.875rem;
+    }
+    
+    .definition-card {
+      min-height: 120px;
+      max-height: 180px;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .masonry-container {
+      grid-template-columns: 1fr;
+      gap: 0.75rem;
+    }
+    
+    /* On very small screens, everything is single column anyway */
+    .ladder-card {
+      grid-column: 1;
+    }
+  }
+
+  /* Ensure smooth transitions across all interactive elements */
+  .card-link *,
+  .filter-button *,
+  .group * {
+    transition: colors 200ms ease;
+  }
+
+  /* Prevent layout shift during filtering */
+  .masonry-card[style*="display: none"] {
+    margin: 0 !important;
+    padding: 0 !important;
+    height: 0 !important;
+    overflow: hidden !important;
+  }
+
+  /* Enhanced definition card styling for compactness */
+  .definition-card {
+    grid-row: span 1;
+  }
+
+  .definition-card .space-y-2 > * + * {
+    margin-top: 0.5rem;
+  }
+
+  /* Ensure resource cards can span multiple rows if needed */
+  .resource-card {
+    grid-row: span 1;
+  }
+
+  /* Improve grid packing for better masonry effect */
+  @supports (grid-template-rows: masonry) {
+    .masonry-container {
+      grid-template-rows: masonry;
+    }
   }
 </style>
