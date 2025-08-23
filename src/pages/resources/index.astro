@@ -123,7 +123,7 @@ const typeDescriptions = {
             
             <div class={`grid gap-8 ${items.length > 1 ? 'md:grid-cols-2' : ''}`}>
               {items.map(resource => (
-                <article class="group bg-surface dark:bg-dark-surface rounded-xl p-6 border-b-4 border-transparent hover:border-accent-yellow focus-within:border-accent-yellow transition-[background-color,border-color,box-shadow] duration-200 hover:shadow-lg dark:hover:shadow-xl">
+                <article class="group bg-surface dark:bg-dark-surface rounded-xl p-4 sm:p-6 border-b-4 border-transparent hover:border-accent-yellow focus-within:border-accent-yellow transition-[background-color,border-color,box-shadow] duration-200 hover:shadow-lg dark:hover:shadow-xl">
                   <a 
                     href={`/resources/${resource.slug}`}
                     class="block space-y-4 no-underline-link"

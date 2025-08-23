@@ -57,16 +57,16 @@ const typeLabel = {
           {resource.data.title}
         </Heading>
         
-        <p class="text-xl text-content-muted mb-6">
+        <p class="text-xl text-content-muted dark:text-dark-content-muted mb-6">
           {resource.data.description}
         </p>
         
         {resource.data.usage && (
           <div class="p-4 bg-surface-secondary dark:bg-dark-surface-secondary rounded-lg mb-6">
-            <h2 class="text-small font-bold text-content-subtle uppercase tracking-wider mb-2">
+            <h2 class="text-small font-bold text-content-subtle dark:text-dark-content-subtle uppercase tracking-wider mb-2">
               Usage
             </h2>
-            <p class="text-content">
+            <p class="text-content dark:text-dark-content">
               {resource.data.usage}
             </p>
           </div>
@@ -74,14 +74,14 @@ const typeLabel = {
         
         {resource.data.capabilities && resource.data.capabilities.length > 0 && (
           <div class="mb-6">
-            <h2 class="text-small font-bold text-content-subtle uppercase tracking-wider mb-3">
+            <h2 class="text-small font-bold text-content-subtle dark:text-dark-content-subtle uppercase tracking-wider mb-3">
               Capabilities
             </h2>
             <ul class="space-y-2">
               {resource.data.capabilities.map(capability => (
                 <li class="flex items-start">
-                  <span class="text-content-muted mr-2 mt-1">•</span>
-                  <span class="text-content">{capability}</span>
+                  <span class="text-content-muted dark:text-dark-content-muted mr-2 mt-1">•</span>
+                  <span class="text-content dark:text-dark-content">{capability}</span>
                 </li>
               ))}
             </ul>
