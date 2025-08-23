@@ -11,6 +11,25 @@ const posts = await getCollection('writing');
 const isDevelopment = import.meta.env.DEV;
 const filteredPosts = posts.filter(post => isDevelopment || !post.data.draft);
 const sortedPosts = filteredPosts.sort((a, b) => b.data.publishDate.getTime() - a.data.publishDate.getTime());
+
+// Function to estimate reading time
+function getReadingTime(content: string) {
+  const wordsPerMinute = 200;
+  const words = content.split(/\s+/).length;
+  const minutes = Math.ceil(words / wordsPerMinute);
+  return `${minutes} min read`;
+}
+
+
+// Get type icon
+function getTypeIcon(type: string) {
+  const icons = {
+    'article': '📝',
+    'note': '📌',
+    'tutorial': '🎓'
+  };
+  return icons[type as keyof typeof icons] || '📄';
+}
 ---
 
 <Layout 
@@ -20,55 +39,100 @@ const sortedPosts = filteredPosts.sort((a, b) => b.data.publishDate.getTime() - 
   <Header />
   <main id="main" class="max-w-content-wide mx-auto px-6 md:px-8 py-16">
     <div class="max-w-content">
-      <div class="flex items-center justify-between mb-16">
-        <Heading level={1} class="text-h1 font-bold">Writing</Heading>
-        <ArrowLink href="/rss.xml" external class="text-base">
-          RSS Feed
-        </ArrowLink>
+      <div class="mb-16">
+        <div class="flex items-start justify-between mb-4">
+          <div>
+            <Heading level={1} class="text-h1 font-bold mb-3">Writing</Heading>
+            <p class="text-xl text-content-muted dark:text-dark-content-muted">
+              Thoughts on accessibility, AI, and building technology that empowers people
+            </p>
+          </div>
+          <a href="/rss.xml" class="inline-flex items-center gap-2 px-3 py-1 text-small bg-surface dark:bg-dark-surface rounded-full hover:bg-accent-yellow/10 transition-colors" aria-label="RSS Feed">
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="6" cy="18" r="2.5"/>
+              <path d="M4 4.44v2.83c7.03 0 12.73 5.7 12.73 12.73h2.83c0-8.59-6.97-15.56-15.56-15.56zm0 5.66v2.83c3.9 0 7.07 3.17 7.07 7.07h2.83c0-5.47-4.43-9.9-9.9-9.9z"/>
+            </svg>
+            RSS
+          </a>
+        </div>
+        
+        <!-- Stats Bar -->
+        <div class="flex gap-6 text-small text-content-subtle dark:text-dark-content-subtle mt-8">
+          <span>{sortedPosts.length} articles</span>
+          <span>•</span>
+          <span>{new Set(sortedPosts.flatMap(p => p.data.tags || [])).size} topics</span>
+          <span>•</span>
+          <span>Since {format(sortedPosts[sortedPosts.length - 1]?.data.publishDate || new Date(), 'yyyy')}</span>
+        </div>
       </div>
       
       <section id="recent-posts">
         <Heading level={2} class="sr-only">Recent Posts</Heading>
-        <div class="space-y-16">
-          {sortedPosts.map(post => (
-            <article class="group">
-              <a href={`/writing/${post.slug}`} class="block space-y-4">
-                {post.data.image && (
-                  <img 
-                    src={post.data.image.src} 
-                    alt={post.data.image.alt}
-                    class="w-full h-48 object-cover rounded-lg"
-                  />
-                )}
-                
-                <time datetime={post.data.publishDate.toISOString()} 
-                      class="text-small text-content-muted dark:text-dark-content-muted">
-                  {format(post.data.publishDate, 'MMMM d, yyyy')}
-                </time>
-                
-                <div class="space-y-3">
-                  <Heading level={3} class="text-h2 font-bold group-hover:text-primary transition-colors">
-                    {post.data.title}
-                  </Heading>
-                  {post.data.description && (
-                    <p class="body-text mb-6">
-                      {post.data.description}
-                    </p>
-                  )}
-                </div>
+        <div class="space-y-8">
+          {sortedPosts.map(async (post, index) => {
+            const { Content } = await post.render();
+            const readingTime = getReadingTime(post.body || '');
+            const typeIcon = getTypeIcon(post.data.type || 'article');
+            
+            return (
+              <article 
+                class="article-card group relative bg-surface dark:bg-dark-surface rounded-xl border-2 border-transparent hover:border-accent-yellow focus-within:border-accent-yellow transition-[background-color,border-color] duration-200"
+              >
+                <a href={`/writing/${post.slug}`} class="block p-8">
+                  <!-- Article Header -->
+                  <div class="flex items-start justify-between mb-4">
+                    <div class="flex items-center gap-3">
+                      <span class="text-2xl" role="img" aria-hidden="true">
+                        {typeIcon}
+                      </span>
+                      <div class="flex items-center gap-3 text-small text-content-muted dark:text-dark-content-muted">
+                        <time datetime={post.data.publishDate.toISOString()}>
+                          {format(post.data.publishDate, 'MMMM d, yyyy')}
+                        </time>
+                        <span>•</span>
+                        <span>{readingTime}</span>
+                      </div>
+                    </div>
+                    {post.data.draft && (
+                      <span class="px-2 py-1 text-xs bg-accent-yellow text-content rounded">
+                        Draft
+                      </span>
+                    )}
+                  </div>
+                  
+                  <!-- Article Content -->
+                  <div class="space-y-4">
+                    <Heading level={3} class="text-h2 font-bold group-hover:text-primary dark:group-hover:text-primary-light transition-colors">
+                      {post.data.title}
+                    </Heading>
+                    {post.data.description && (
+                      <p class="text-content-muted dark:text-dark-content-muted leading-relaxed">
+                        {post.data.description}
+                      </p>
+                    )}
+                  </div>
 
+                  
+                  <!-- Hover Indicator -->
+                  <div class="absolute bottom-0 left-0 right-0 h-1 bg-accent-yellow transform scale-x-0 group-hover:scale-x-100 group-focus-within:scale-x-100 transition-transform duration-200"></div>
+                </a>
+                <!-- Tags outside of link -->
                 {post.data.tags && post.data.tags.length > 0 && (
-                  <div class="flex flex-wrap gap-3 mt-6">
-                    {post.data.tags.map((tag, index) => (
-                      <Tag name={tag} colorIndex={index} />
+                  <div class="flex flex-wrap gap-2 px-8 pb-8 -mt-2">
+                    {post.data.tags.map((tag, tagIndex) => (
+                      <Tag name={tag} colorIndex={tagIndex} />
                     ))}
                   </div>
                 )}
-              </a>
-            </article>
-          ))}
+              </article>
+            );
+          })}
         </div>
       </section>
     </div>
   </main>
-</Layout> 
+</Layout>
+
+<style>
+
+</style>

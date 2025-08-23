@@ -27,3 +27,6 @@ pnpm-debug.log*
 .claude/settings.local.json
 
 inbox/*
+
+# Playwright MCP screenshots
+.playwright-mcp/

@@ -117,6 +117,20 @@
            focus:ring-offset-2 dark:focus:ring-offset-dark-surface;
   }
 
+  /* Link utilities */
+  .link-primary {
+    @apply text-primary-dark dark:text-primary-light 
+           hover:text-primary dark:hover:text-primary 
+           transition-colors duration-200;
+  }
+
+  .link-inline {
+    @apply text-primary-dark dark:text-primary-light 
+           hover:text-primary dark:hover:text-primary 
+           underline underline-offset-2
+           transition-colors duration-200;
+  }
+
   .heading-1 {
     @apply text-h1 font-bold text-content dark:text-dark-content;
   }

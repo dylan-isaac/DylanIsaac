@@ -8,6 +8,7 @@ import { getCollection } from 'astro:content';
 
 const projects = await getCollection('projects');
 const sortedProjects = projects.sort((a, b) => Number(b.data.featured) - Number(a.data.featured));
+
 ---
 
 <Layout 
@@ -16,46 +17,201 @@ const sortedProjects = projects.sort((a, b) => Number(b.data.featured) - Number(
 >
   <Header />
   <main id="main" class="max-w-content-wide mx-auto px-6 md:px-8 py-16">
-    <div class="max-w-content">
-      <Heading level={1} class="text-h1 font-bold mb-16">Projects</Heading>
+    <div>
+      <div class="mb-16">
+        <Heading level={1} class="text-h1 font-bold mb-3">Projects</Heading>
+        <p class="text-xl text-content-muted dark:text-dark-content-muted">
+          Building technology that adapts to human needs, not the other way around
+        </p>
+      </div>
       
-      <section id="featured-projects">
-        <Heading level={2} class="sr-only">Featured Projects</Heading>
-        <div class="space-y-16">
-          {sortedProjects.map(project => (
-            <article class="group">
-              <a href={project.data.url} class="block space-y-4">
-                {project.data.image && (
+      <!-- Featured Project Showcase -->
+      {sortedProjects.filter(p => p.data.featured).map((project, index) => (
+        <section class="mb-20">
+          <div class="mb-8">
+            <span class="text-small px-3 py-1 bg-accent-yellow text-content rounded-full font-medium">
+              Featured Project
+            </span>
+          </div>
+          
+          <article class="featured-project group relative overflow-hidden">
+            <div class="flex flex-col gap-8">
+              <!-- Project Image/Visual -->
+              <div class="relative overflow-hidden rounded-2xl bg-gradient-to-br from-primary/10 to-secondary/10 dark:from-primary/20 dark:to-secondary/20 max-w-2xl mx-auto w-full">
+                {project.data.image ? (
                   <img 
                     src={project.data.image.src} 
                     alt={project.data.image.alt}
-                    class="w-full h-48 object-cover rounded-lg"
+                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   />
+                ) : (
+                  <div class="aspect-video flex items-center justify-center">
+                    <span class="text-8xl opacity-50">🚀</span>
+                  </div>
                 )}
                 
-                <div class="space-y-2">
-                  <Heading level={3} class="text-h2 font-bold group-hover:text-primary transition-colors">
+                <!-- Gradient overlay -->
+                <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              </div>
+              
+              <!-- Project Details -->
+              <div class="flex flex-col space-y-6">
+                <div>
+                  <Heading level={2} class="text-h1 font-bold mb-4 group-hover:text-primary dark:group-hover:text-primary-light transition-colors">
                     {project.data.title}
                   </Heading>
                   {project.data.description && (
-                    <p class="body-text">
+                    <p class="text-lg text-content-muted dark:text-dark-content-muted leading-relaxed">
                       {project.data.description}
                     </p>
                   )}
                 </div>
-
-                {project.data.tags && project.data.tags.length > 0 && (
-                  <div class="flex flex-wrap gap-3">
-                    {project.data.tags.map((tag, index) => (
-                      <Tag name={tag} colorIndex={index} />
-                    ))}
+                
+                <!-- Tags and Action button -->
+                <div class="flex items-center justify-between gap-4 flex-wrap">
+                  {project.data.tags && project.data.tags.length > 0 && (
+                    <div class="flex flex-wrap gap-2">
+                      {project.data.tags.map((tag, tagIndex) => (
+                        <span class="text-small px-4 py-2 bg-surface dark:bg-dark-surface rounded-full border border-surface-muted dark:border-dark-surface-muted group-hover:border-primary transition-colors">
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+                  
+                  {project.data.url && (
+                    <a 
+                      href={project.data.url} 
+                      class="inline-flex items-center gap-2 px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary-dark transition-colors font-medium"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      View Project
+                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                      </svg>
+                    </a>
+                  )}
+                </div>
+              </div>
+            </div>
+          </article>
+        </section>
+      ))}
+      
+      <!-- Regular Projects Grid -->
+      {sortedProjects.filter(p => !p.data.featured).length > 0 && (
+        <section class="mb-20">
+          <Heading level={2} class="text-h2 font-bold mb-8">Other Projects</Heading>
+          <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {sortedProjects.filter(p => !p.data.featured).map((project) => (
+              <article 
+                class="project-card group relative bg-surface dark:bg-dark-surface rounded-xl p-6 border border-surface-muted dark:border-dark-surface-muted hover:border-primary transition-[background-color,border-color,box-shadow,transform] duration-200 hover:shadow-xl hover:-translate-y-1"
+              >
+                <a href={project.data.url} class="block space-y-4">
+                  {project.data.image && (
+                    <img 
+                      src={project.data.image.src} 
+                      alt={project.data.image.alt}
+                      class="w-full h-32 object-cover rounded-lg"
+                    />
+                  )}
+                  
+                  <div>
+                    <Heading level={3} class="text-xl font-bold mb-2 group-hover:text-primary dark:group-hover:text-primary-light transition-colors">
+                      {project.data.title}
+                    </Heading>
+                    {project.data.description && (
+                      <p class="text-small text-content-muted dark:text-dark-content-muted line-clamp-2">
+                        {project.data.description}
+                      </p>
+                    )}
                   </div>
-                )}
-              </a>
-            </article>
-          ))}
+
+                  {project.data.tags && project.data.tags.length > 0 && (
+                    <div class="flex flex-wrap gap-1">
+                      {project.data.tags.slice(0, 3).map((tag) => (
+                        <span class="text-xs px-2 py-1 bg-primary/10 text-primary dark:text-primary-light rounded">
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+                </a>
+              </article>
+            ))}
+          </div>
+        </section>
+      )}
+      
+      <!-- Empty State -->
+      <section class="text-center py-20">
+        <div class="max-w-3xl mx-auto">
+          <div class="mb-8">
+            <span class="text-8xl opacity-10">🚀</span>
+          </div>
+          <Heading level={2} class="text-h3 font-bold mb-4 text-content dark:text-dark-content">
+            More Projects Coming Soon
+          </Heading>
+          <p class="text-lg text-content-muted dark:text-dark-content-muted mb-10 max-w-2xl mx-auto">
+            I'm currently working on several exciting projects exploring the intersection of accessibility, AI, and human agency. 
+            In the meantime, check out my writing and resources.
+          </p>
+          <div class="flex flex-wrap justify-center gap-4">
+            <a 
+              href="/writing" 
+              class="group inline-flex items-center gap-2 px-6 py-3 bg-surface dark:bg-dark-surface rounded-lg border-2 border-transparent hover:border-accent-yellow focus:border-accent-yellow transition-[background-color,border-color,transform] duration-200 font-medium hover:scale-105 focus:scale-105 transform-gpu"
+            >
+              <span class="text-2xl group-hover:animate-bounce" role="img" aria-hidden="true">📝</span>
+              Read My Writing
+            </a>
+            <a 
+              href="/resources" 
+              class="group inline-flex items-center gap-2 px-6 py-3 bg-surface dark:bg-dark-surface rounded-lg border-2 border-transparent hover:border-accent-yellow focus:border-accent-yellow transition-[background-color,border-color,transform] duration-200 font-medium hover:scale-105 focus:scale-105 transform-gpu"
+            >
+              <span class="text-2xl group-hover:animate-bounce" role="img" aria-hidden="true">🔧</span>
+              Explore Resources
+            </a>
+            <a 
+              href="/about" 
+              class="group inline-flex items-center gap-2 px-6 py-3 bg-surface dark:bg-dark-surface rounded-lg border-2 border-transparent hover:border-accent-yellow focus:border-accent-yellow transition-[background-color,border-color,transform] duration-200 font-medium hover:scale-105 focus:scale-105 transform-gpu"
+            >
+              <span class="text-2xl group-hover:animate-bounce" role="img" aria-hidden="true">👋</span>
+              Learn About Me
+            </a>
+          </div>
         </div>
       </section>
     </div>
   </main>
-</Layout> 
+</Layout>
+
+<style>
+
+  /* Line clamp utility */
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* Featured project hover effect */
+  .featured-project::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-secondary) 100%);
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  .featured-project:hover::before {
+    opacity: 0.05;
+  }
+</style>

@@ -50,27 +50,27 @@ const typeDescriptions = {
       <Heading level={1} class="text-h1 font-bold mb-4">Resources</Heading>
       
       <div class="prose prose-lg max-w-none mb-16">
-        <p class="text-xl text-content-muted">
+        <p class="text-xl text-content-muted dark:text-dark-content-muted">
           Prompts, scripts, and patterns that give people new capabilities. 
           These are bridges between human intention and computational power—tools 
           that adapt to how you think rather than forcing you to adapt to them.
         </p>
-        <p>
+        <p class="text-content-muted dark:text-dark-content-muted">
           Learn more about the philosophy behind ladders in 
-          <a href="/writing/building-ladders-extending-human-agency-with-ai" class="text-primary-dark hover:text-primary">
+          <a href="/writing/building-ladders-extending-human-agency-with-ai" class="text-primary-dark dark:text-primary-light hover:text-primary">
             "Building Ladders: Extending Human Agency with AI"
           </a>.
         </p>
       </div>
 
       {/* Definitions Section */}
-      <section class="mb-16 p-6 border border-surface-muted dark:border-dark-surface-muted rounded-lg">
+      <section class="mb-16 p-6 bg-surface dark:bg-dark-surface rounded-xl border-b-4 border-transparent hover:border-accent-yellow focus-within:border-accent-yellow transition-[background-color,border-color] duration-200">
         <div>
           <div class="mb-6">
             <Heading level={2} class="text-h2 font-bold mb-2">
               Definitions
             </Heading>
-            <p class="text-content-muted">
+            <p class="text-content-muted dark:text-dark-content-muted">
               {definitions.length} terms that establish a shared vocabulary
             </p>
           </div>
@@ -79,7 +79,7 @@ const typeDescriptions = {
             {definitions.map(def => (
               <a 
                 href={`/definitions/${def.slug}`}
-                class="text-content-muted hover:text-primary transition-colors"
+                class="text-content-muted dark:text-dark-content-muted hover:text-primary dark:hover:text-primary-light transition-colors"
               >
                 {def.data.term}
               </a>
@@ -109,21 +109,21 @@ const typeDescriptions = {
             <div class="mb-8">
               <Heading level={2} class="text-h2 font-bold mb-2">
                 {type === 'ladder' ? (
-                  <a href="/definitions/ladders" class="hover:text-primary transition-colors">
+                  <a href="/definitions/ladders" class="hover:text-primary dark:hover:text-primary-light transition-colors">
                     {typeLabels[type as keyof typeof typeLabels]}
                   </a>
                 ) : (
                   typeLabels[type as keyof typeof typeLabels]
                 )}
               </Heading>
-              <p class="text-content-muted">
+              <p class="text-content-muted dark:text-dark-content-muted">
                 {typeDescriptions[type as keyof typeof typeDescriptions]}
               </p>
             </div>
             
             <div class={`grid gap-8 ${items.length > 1 ? 'md:grid-cols-2' : ''}`}>
               {items.map(resource => (
-                <article class="group border border-surface-muted dark:border-dark-surface-muted rounded-lg p-6 hover:border-primary dark:hover:border-primary transition-colors">
+                <article class="group bg-surface dark:bg-dark-surface rounded-xl p-6 border-b-4 border-transparent hover:border-accent-yellow focus-within:border-accent-yellow transition-[background-color,border-color,box-shadow] duration-200 hover:shadow-lg dark:hover:shadow-xl">
                   <a 
                     href={`/resources/${resource.slug}`}
                     class="block space-y-4 no-underline-link"
@@ -134,25 +134,25 @@ const typeDescriptions = {
                       </span>
                     )}
                     
-                    <Heading level={3} class="text-h3 font-bold group-hover:text-primary transition-colors">
+                    <Heading level={3} class="text-h3 font-bold group-hover:text-primary dark:group-hover:text-primary-light transition-colors">
                       {resource.data.title}
                     </Heading>
                     
-                    <p class="text-content-muted">
+                    <p class="text-content-muted dark:text-dark-content-muted">
                       {resource.data.description}
                     </p>
                     
                     <div class="space-y-4">
                       <div>
-                        <h4 class="text-small font-bold text-content-subtle uppercase tracking-wider mb-2">
+                        <h4 class="text-small font-bold text-content-subtle dark:text-dark-content-subtle uppercase tracking-wider mb-2">
                           Capabilities
                         </h4>
-                        <ul class="list-disc list-inside text-small text-content-muted space-y-1">
+                        <ul class="list-disc list-inside text-small text-content-muted dark:text-dark-content-muted space-y-1">
                           {resource.data.capabilities?.slice(0, 3).map(capability => (
                             <li>{capability}</li>
                           ))}
                           {resource.data.capabilities && resource.data.capabilities.length > 3 && (
-                            <li class="text-content-subtle">
+                            <li class="text-content-subtle dark:text-dark-content-subtle">
                               +{resource.data.capabilities.length - 3} more...
                             </li>
                           )}

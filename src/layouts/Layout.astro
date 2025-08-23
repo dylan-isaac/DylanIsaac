@@ -37,7 +37,7 @@ const jsonLD = {
 ---
 
 <!doctype html>
-<html lang="en" class="scroll-smooth">
+<html lang="en" class="scroll-smooth" data-theme>
   <head>
     <meta charset="UTF-8" />
     <meta name="description" content={description} />
@@ -93,25 +93,19 @@ const jsonLD = {
     <script type="application/ld+json" is:inline set:html={JSON.stringify(jsonLD)} />
     
     <script is:inline>
-      // Initialize theme
-      const theme = (() => {
-        if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
-          return localStorage.getItem('theme');
+      // Initialize theme immediately to prevent flash
+      (function() {
+        const theme = localStorage.getItem('theme') || 
+          (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        
+        if (theme === 'dark') {
+          document.documentElement.classList.add('dark');
         }
-        if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-          return 'dark';
-        }
-        return 'light';
+        document.documentElement.setAttribute('data-theme', theme);
       })();
-    
-      if (theme === 'light') {
-        document.documentElement.classList.remove('dark');
-      } else {
-        document.documentElement.classList.add('dark');
-      }
     </script>
   </head>
-  <body class="min-h-screen bg-surface dark:bg-dark-surface text-content dark:text-dark-content">
+  <body class="min-h-screen bg-surface dark:bg-dark-surface text-content dark:text-dark-content transition-[background-color,color] duration-200">
     <slot />
   </body>
 </html>

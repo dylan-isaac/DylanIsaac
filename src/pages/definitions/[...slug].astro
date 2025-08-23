@@ -34,7 +34,7 @@ const relatedDefinitions = definition.data.relatedTerms.length > 0
         <div class="flex items-center gap-3 mb-6">
           <a 
             href="/definitions" 
-            class="text-content-muted hover:text-primary transition-colors"
+            class="text-content-muted hover:text-primary dark:hover:text-primary-light transition-colors"
           >
             ← Back to Definitions
           </a>
@@ -49,7 +49,7 @@ const relatedDefinitions = definition.data.relatedTerms.length > 0
         </div>
         
         {definition.data.tags.length > 0 && (
-          <div class="flex flex-wrap gap-2 mb-8">
+          <div class="flex flex-wrap gap-2 mt-8">
             {definition.data.tags.map((tag, index) => (
               <Tag name={tag} colorIndex={index} />
             ))}
@@ -70,7 +70,7 @@ const relatedDefinitions = definition.data.relatedTerms.length > 0
       </div>
       
       {relatedDefinitions.length > 0 && (
-        <section class="pt-8 border-t border-surface-muted dark:border-dark-surface-muted">
+        <section class="mt-20 pt-12 border-t border-surface-muted dark:border-dark-surface-muted">
           <Heading level={2} class="text-h2 font-bold mb-6">
             Related Terms
           </Heading>
@@ -81,7 +81,7 @@ const relatedDefinitions = definition.data.relatedTerms.length > 0
                 href={`/definitions/${related.slug}`}
                 class="block p-4 bg-surface-secondary dark:bg-dark-surface-secondary rounded-lg hover:bg-surface-muted dark:hover:bg-dark-surface-muted transition-colors no-underline-link"
               >
-                <h3 class="text-h4 font-bold mb-2 text-primary">
+                <h3 class="text-h4 font-bold mb-2 text-primary dark:text-primary-light">
                   {related.data.term}
                 </h3>
                 <p class="text-content-muted">

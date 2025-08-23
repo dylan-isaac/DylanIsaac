@@ -53,7 +53,7 @@ const groupedDefinitions = sortedDefinitions.reduce((acc, def) => {
       <div class="space-y-12">
         {Object.entries(groupedDefinitions).map(([letter, defs]) => (
           <section id={`letter-${letter}`}>
-            <Heading level={2} class="text-h2 font-bold mb-6 text-primary">
+            <Heading level={2} class="text-h2 font-bold mb-6 text-primary dark:text-primary-light">
               {letter}
             </Heading>
             
@@ -64,7 +64,7 @@ const groupedDefinitions = sortedDefinitions.reduce((acc, def) => {
                     href={`/definitions/${def.slug}`}
                     class="block space-y-3 no-underline-link"
                   >
-                    <Heading level={3} class="text-h3 font-bold group-hover:text-primary transition-colors">
+                    <Heading level={3} class="text-h3 font-bold group-hover:text-primary dark:group-hover:text-primary-light transition-colors">
                       {def.data.term}
                     </Heading>
                     
@@ -73,18 +73,18 @@ const groupedDefinitions = sortedDefinitions.reduce((acc, def) => {
                     </p>
                     
                     {def.data.relatedTerms.length > 0 && (
-                      <div class="flex items-center gap-2 text-small">
+                      <div class="flex items-center gap-2 text-small mb-4">
                         <span class="text-content-subtle">Related:</span>
                         <div class="flex flex-wrap gap-2">
                           {def.data.relatedTerms.map(term => (
-                            <span class="text-primary">{term}</span>
+                            <span class="text-primary dark:text-primary-light">{term}</span>
                           ))}
                         </div>
                       </div>
                     )}
                     
                     {def.data.tags.length > 0 && (
-                      <div class="flex flex-wrap gap-2">
+                      <div class="flex flex-wrap gap-2 mt-4">
                         {def.data.tags.map((tag, index) => (
                           <Tag name={tag} colorIndex={index} />
                         ))}

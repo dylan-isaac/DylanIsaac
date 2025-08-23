@@ -61,3 +61,42 @@ export function getTagColor(index: number): string {
   const colors = ['primary', 'secondary', 'accent'];
   return colors[index % colors.length];
 }
+
+export async function getDefinitionsByTag(tag: string): Promise<CollectionEntry<'definitions'>[]> {
+  const definitions = await getCollection('definitions');
+  
+  return definitions
+    .filter(def => def.data.tags?.includes(tag))
+    .sort((a, b) => a.data.term.localeCompare(b.data.term));
+}
+
+export async function getAllTagsWithContent(): Promise<Map<string, { posts: CollectionEntry<'writing'>[], definitions: CollectionEntry<'definitions'>[] }>> {
+  const posts = await getCollection('writing');
+  const definitions = await getCollection('definitions');
+  const isDevelopment = import.meta.env.DEV;
+  const filteredPosts = posts.filter(post => isDevelopment || !post.data.draft);
+  
+  const tagContent = new Map<string, { posts: CollectionEntry<'writing'>[], definitions: CollectionEntry<'definitions'>[] }>();
+  
+  // Add posts to tags
+  filteredPosts.forEach(post => {
+    post.data.tags?.forEach(tag => {
+      if (!tagContent.has(tag)) {
+        tagContent.set(tag, { posts: [], definitions: [] });
+      }
+      tagContent.get(tag)!.posts.push(post);
+    });
+  });
+  
+  // Add definitions to tags
+  definitions.forEach(def => {
+    def.data.tags?.forEach(tag => {
+      if (!tagContent.has(tag)) {
+        tagContent.set(tag, { posts: [], definitions: [] });
+      }
+      tagContent.get(tag)!.definitions.push(def);
+    });
+  });
+  
+  return tagContent;
+}
