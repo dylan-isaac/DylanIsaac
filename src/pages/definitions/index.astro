@@ -27,6 +27,14 @@ const groupedDefinitions = sortedDefinitions.reduce((acc, def) => {
   <Header />
   <main id="main" class="max-w-content-wide mx-auto px-6 md:px-8 py-16" tabindex="-1">
     <div class="max-w-content">
+      <div class="flex items-center gap-3 mb-6">
+        <a 
+          href="/resources" 
+          class="text-content-muted dark:text-dark-content-muted hover:text-primary dark:hover:text-primary-light transition-colors"
+        >
+          ← Back to Resources
+        </a>
+      </div>
       <Heading level={1} class="text-h1 font-bold mb-4">Definitions</Heading>
       
       <div class="prose prose-lg max-w-none mb-12">
