@@ -8,25 +8,28 @@ const focusAreas = [
   {
     title: "AI + Accessibility",
     icon: "🤖",
-    description: "I bridge the gap between human needs and digital experiences, creating AI systems that adapt to people rather than forcing people to adapt to them. My work focuses on making technology truly accessible—not just compliant—by understanding different ways of knowing and translating between them.",
-    projects: ["axe Assistant (RAG-based accessibility expert)", "Accessibility remediation tools", "Adaptive interfaces"]
+    description: "Both AI and accessibility work in the same fundamental domain: translating meaning across different representations. Whether it's making visual information legible to screen readers or helping AI understand human intent, I specialize in preserving meaning as it moves between modalities. This isn't about compliance—it's about ensuring ideas remain intact regardless of how they're perceived.",
+    projects: ["axe Assistant", "Epistemological translation systems", "Adaptive interfaces"]
   },
   {
     title: "Systems & Automation",
     icon: "⚡",
-    description: "Every problem exists within interconnected systems. I design frameworks that automate repetitive tasks while preserving human agency, freeing up time and attention for what matters most. My approach balances modularity with adaptability to create sustainable solutions.",
-    projects: ["Workflow automation", "Knowledge management systems", "Process optimization"]
+    description: "Automation should be like a dishwasher for information work—handling the soulless drudgery so you can focus on what matters. I design transparent, human-in-the-loop systems that automate the mechanical connections between your ideas, not the ideas themselves. Think of it as having a calculator for prose or a Roomba for repetitive workflows: the tool handles the tedious parts while you retain control over everything meaningful.",
+    projects: ["Glass-box workflows", "Human-in-the-loop systems", "Context automation"]
   },
   {
     title: "Semantic Understanding",
     icon: "🧠",
-    description: "Language is more than words—it's how we encode meaning and perspective. I build systems that capture and convey complex ideas, making knowledge more accessible and actionable through semantic analysis, information architecture, and thoughtful prompt engineering.",
-    projects: ["LLM integration", "Information architecture", "Prompt design patterns"]
+    description: "My accessibility work showed me the importance of explicit, machine-readable semantics—but creators don't always internalize these requirements. They have a vision, but struggle to express it in the formal structures needed for inclusion. I see AI's opportunity as the translator between what creators envision and the necessary semantics that make their work accessible to all. It's about bridging the gap between human intent and machine understanding.",
+    projects: ["Intent-to-semantic translation", "Vision preservation systems", "Structured prompt patterns"]
   }
 ];
 ---
 
-<Layout title="About | Dylan Isaac">
+<Layout 
+  title="About | Dylan Isaac"
+  description="AI engineer and translator between worlds. I help organizations encode decades of siloed expertise into scalable patterns, transforming one expert's knowledge into ladders thousands can climb."
+>
   <Header />
   <main id="main" class="max-w-content-wide mx-auto px-6 md:px-8 py-16" tabindex="-1">
     <div class="max-w-content">
@@ -37,19 +40,15 @@ const focusAreas = [
         </Heading>
         <div class="prose prose-xl text-content-muted dark:text-dark-content-muted space-y-4">
           <p>
-            I spent years doing what seemed like completely different jobs—full-stack developer, accessibility coach, 
-            AI engineer—before I realized I'd been doing the same job all along: <strong class="text-content dark:text-dark-content">I've always been a translator between worlds</strong>.
+            <strong class="text-content dark:text-dark-content">I'm a translator between worlds</strong>. Whether as a full-stack developer, 
+            accessibility coach, or AI engineer, I help different ways of knowing speak to each other. For organizations, 
+            this means transforming decades of siloed expertise into scalable patterns—one expert's knowledge becomes a ladder thousands can climb.
           </p>
           <p>
-            As an accessibility coach, I embedded myself in product teams. Not to enforce rules, but to translate. 
-            I'd sit with designers who understood visual hierarchy perfectly but had never considered how that hierarchy 
-            translates to someone navigating by keyboard. I'd work with developers who could optimize React hooks but 
-            had never thought about how their loading states affect screen reader users.
-          </p>
-          <p>
-            My job wasn't just teaching accessibility—it was translating one world's logic into another's language. 
-            Now as an AI engineer, I build the translators themselves—giving everyone the ability to approach domains 
-            that were previously opaque to them. I call this <a href="/definitions/building-ladders" class="font-medium text-primary-dark dark:text-primary-light hover:text-primary">building ladders</a>.
+            I call this <a href="/definitions/building-ladders" class="font-medium text-primary-dark dark:text-primary-light hover:text-primary">building ladders</a>—creating 
+            ways for people to climb to expertise that was previously out of reach. Unlike bridges that assume you can already walk their path, 
+            ladders meet you at your current understanding and let you climb, rung by rung, to heights you couldn't access before. Now as an AI engineer, 
+            I build these ladders by encoding your organization's unique expertise into patterns that adapt to each person's way of knowing.
           </p>
         </div>
       </section>
@@ -85,21 +84,40 @@ const focusAreas = [
         </div>
       </section>
 
+      <!-- How I Work - COMMENTED OUT UNTIL READY -->
+      {/* <section class="mb-16" aria-labelledby="how-i-work-heading">
+        <Heading level={2} class="text-3xl font-bold mb-8 text-content dark:text-dark-content" id="how-i-work-heading">How I Work With Organizations</Heading>
+        <div class="prose prose-lg text-content-muted dark:text-dark-content-muted space-y-4">
+          <p>
+            I partner with organizations in whatever way serves your needs best. Whether you need strategic guidance, 
+            hands-on implementation, or team enablement, my focus remains the same: ensuring your AI systems amplify human 
+            expertise rather than replace it.
+          </p>
+          <p>
+            <strong class="text-content dark:text-dark-content">Ways we might work together:</strong>
+          </p>
+          <ul class="space-y-2">
+            <li><strong class="text-content dark:text-dark-content">Pattern Creation:</strong> I embed with your experts to capture their decision-making process and encode it into reusable AI patterns that scale across your organization.</li>
+            <li><strong class="text-content dark:text-dark-content">Workshops & Training:</strong> Teaching your teams to build human-centered AI systems, design effective LLM architectures, and create their own expertise patterns.</li>
+            <li><strong class="text-content dark:text-dark-content">Project Consulting:</strong> Hands-on help with specific AI initiatives, from accessibility automation to knowledge management systems.</li>
+            <li><strong class="text-content dark:text-dark-content">Prompt Engineering:</strong> Coaching your team to effectively translate their expertise into AI-ready patterns and prompts.</li>
+          </ul>
+          <p>
+            The constant thread: I help you build AI that adapts to your people's ways of knowing, not the other way around. 
+            Your unique expertise becomes a competitive advantage that scales indefinitely.
+          </p>
+        </div>
+      </section> */}
+
       <!-- Current Work -->
       <section class="mb-16 p-8 bg-gradient-to-r from-primary/5 to-secondary/5 dark:from-primary/10 dark:to-secondary/10 rounded-2xl" aria-labelledby="current-work-heading">
         <Heading level={2} class="text-3xl font-bold mb-6 text-content dark:text-dark-content" id="current-work-heading">What I'm Building</Heading>
         <div class="prose prose-lg text-content-muted dark:text-dark-content-muted">
           <p>
-            I recently created <a href="/projects#axe-assistant" class="font-medium text-primary-dark dark:text-primary-light hover:text-primary dark:hover:text-primary-light">axe Assistant</a>—a RAG-based AI 
-            that makes accessibility expertise available 24/7. While working with teams at Deque Systems, I saw how 
-            knowledge gets siloed. So I built a system that captures and translates decades of accessibility expertise 
-            into guidance anyone can understand and act on.
-          </p>
-          <p>
-            But axe Assistant is just one example of <a href="/definitions/building-ladders" class="font-medium text-primary-dark dark:text-primary-light hover:text-primary dark:hover:text-primary-light">building ladders</a>. 
-            I'm exploring how we can encode expert thinking into reusable patterns—whether that's accessibility knowledge, 
-            security analysis, or creative workflows. The goal isn't to replace experts, but to multiply their impact 
-            by creating bridges others can climb.
+            I'm the inventor of <a href="/projects#axe-assistant" class="font-medium text-primary-dark dark:text-primary-light hover:text-primary dark:hover:text-primary-light">axe Assistant</a>—a RAG-based AI 
+            that utilizes the unparalleled domain knowledge of Deque Systems to help enterprise product organizations get customized 
+            accessibility support on demand. <strong class="text-content dark:text-dark-content">It answers 500+ accessibility questions daily</strong>, 
+            adapting existing knowledge to the personal context of developers, designers, and product owners when they need it.
           </p>
         </div>
       </section>
@@ -108,9 +126,9 @@ const focusAreas = [
       <section class="bg-surface dark:bg-dark-surface rounded-2xl p-8 md:p-12" aria-labelledby="contact-heading">
         <Heading level={2} class="text-3xl font-bold mb-6 text-content dark:text-dark-content" id="contact-heading">Let's Connect</Heading>
         <p class="text-lg mb-8 text-content-muted dark:text-dark-content-muted">
-          I'm always interested in conversations about accessibility, AI, and building 
-          technology that amplifies human potential. Whether you're working on something 
-          similar or just want to chat about these ideas, I'd love to hear from you.
+          I love conversations about accessibility, AI, epistemology, and education as empowerment. 
+          Whether you're working on similar problems or just want to chat about making technology 
+          more human, I'd love to hear from you.
         </p>
         <EmailCTA email="hey@dylanisa.ac" />
       </section>
