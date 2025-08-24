@@ -31,6 +31,8 @@ But what if we could flip this entirely?
 
 **What if computers adapted to humans?**
 
+Here's what that looks like in practice—and why it matters for how we think about AI.
+
 ## The Moment It Clicked: Apple Math Notes
 
 I was in college when a math major friend complained about LaTeX. "I've been writing equations by hand for fifteen years," he said. "Now I have to learn a new language just to write what I already know how to write?"
@@ -41,13 +43,15 @@ Think about what this means. We developed mathematical notation over centuries�
 
 Math Notes says: "Keep writing how you've always written. We'll adapt to you" and that's how computers _should_ be. They're _our_ computers aren't they?
 
-Apple isn't using LLMs in Math Notes, but it is a form of AI. There is also no reason it can't be applied to LLMs ability to structure unstructured language information into something a computer system understands and can augment. 
+Apple isn't using LLMs in Math Notes, but it is a form of AI. And this same principle—adapting to human conventions rather than forcing humans to adapt—is exactly what LLMs can do with language. They can structure unstructured information into something computers understand while letting us communicate naturally.
 
 This is what AI can enable—not forcing us to abandon human conventions refined over millennia, but [building ladders](/definitions/building-ladders) that let us reach capabilities we couldn't access before. These aren't bridges connecting existing abilities—they're [ladders](/definitions/ladders) that help us climb, rung by rung, to entirely new forms of engagement with complex domains. They transform disciplines that seemed impossible into something we can finally grasp on our own terms.
 
-## Building a Real Ladder: Alt Text as Translation
+## My Contribution to the Movement: Alt Text as a Ladder
 
-Let me show you what building ladders looks like through something I've been developing. Not just any alt text generator—but one that aims to create an equivalent experience by translating between visual and non-visual understanding by utilizing the line of questioning an accessibility professional uses when writing an alt text.
+As an accessibility expert, I've spent years developing a methodology for creating meaningful alt text. The questions I ask, the patterns I look for, the way I decode author intention—this is expertise that took years to develop. But what if I could encode that expertise into a pattern that anyone could use?
+
+That's exactly what I did. I mapped my personal methodology—the exact line of questioning I use when writing alt text—into a programmatic pattern. Now anyone can access my expertise to create equivalent experiences for screen reader users.
 
 ### The Creator's [Epistemology](/definitions/epistemological-translation) Is Already There
 
@@ -64,90 +68,7 @@ For alt text, I can use the following information that can be programmatically e
 - **Visual design** encodes importance through the image itself (the 1000 words in an image)
 - **Structural patterns** show usage through element positioning
 
-I took my years of creating alt text, mapped it to a [structured prompt](/resources/alt-text-generation) with output instructions specific to screen reader UX, and created a reusable pattern others can apply. This pattern captures how an accessibility expert thinks about this translation problem. Now a creator can express their vision using their own words and have their intention snap to the correct symbolic representation for users who depend on accessibility metadata.
-
-<details>
-<summary><strong>View the Alt Text Prompt Template</strong></summary>
-
-```
-You are an expert accessibility professional performing modality translation. Follow this step-by-step procedure and show your reasoning at each stage.
-
-## **Input Parameters:**
-<page_context>
-{{PAGE_CONTEXT}}
-</page_context>
-
-<surrounding_content>
-{{SURROUNDING_CONTEXT}}
-</surrounding_content>
-
-<image>
-[The raw image file called image.* attached to the chat message]
-</image>
-
-<image-on-page>
-[The image file called image-on-page.* attached to the chat message, which shows the raw image in its specific context on the page]
-</image-on-page>
-
-### **Procedure - Follow Each Step:**
-
-**Step 1: Page Context Analysis**
-Analyze the <page_context> and output:
-- Main purpose of this page as stated or implied by the provided context.
-- Core themes being discussed based on the content provided.
-- Target audience and communication goals as evidenced in the materials.
-
-**Step 2: Surrounding Content Analysis**
-Analyze the <surrounding_content> and the visual placement of the <image> within <image-on-page>. Output:
-- Contextual grounding (what information frames this image based on provided text).
-- Tone and style of the content as written.
-- Specific topic being discussed in this section according to the text.
-- Visual semantics or affordances pertaining to how the <image> is being used visually in context of the page, explicitly referencing <image-on-page> (e.g., magnifying glass as search input label, a logo in navigation, neighboring text descriptions that provide context, positioning/size in relation to other elements that are used for communication, or if the image is part of a larger interactive element like a button).
-- **Impact of surrounding content on image description:** (high - the context plays an important role in describing how the image is intending to be perceived, medium - the context somewhat informs the image's role, low - the context surrounding the image plays little role in the image's overall message)
-
-**Step 3: Image Classification & Author Intent**
-Classify the **raw <image> file** type and determine author intent based on a holistic analysis of its visual characteristics (from <image>) and its contextual presentation (from <image-on-page>, <surrounding_content>, and <page_context>). Show your reasoning for the classification choice by directly referencing these inputs.
-
-- **Image Type (Select one and provide detection rationale):**
-    - **Decorative Image:**
-        - **Detection Rules:** Adds visual appeal but conveys no meaningful information relevant to the content independently; if removed, the user wouldn't lose any understanding because its meaning is fully conveyed by accompanying text or other elements; often consists of spacers, borders, abstract background images, or icons that are redundant/next to visible text. **Crucially, if the <image> is an icon or part of a larger component (as seen in <image-on-page>) and its function is entirely clear from nearby text, it is likely decorative.**
-        - **Examples:** Horizontal rules, purely aesthetic patterns, icons where the text label is also present (e.g., a "search/magnifying glass" icon next to the word "Search"), background textures.
-    - **Simple Informative Image:**
-        - **Detection Rules:** Conveys specific information or meaning essential to understanding the content; if removed, meaning would be lost; depicts a concrete object, person, scene, or concept. Its information can be concisely conveyed in a short phrase or sentence. **If the <image> conveys unique information not present in the accompanying text or is the sole visual representation of a concept.**
-        - **Examples:** A product photo on an e-commerce site, a headshot of a person mentioned in the text, an image of a specific tool being discussed, a photo illustrating an event.
-    - **Complex Informative Image (Chart/Graph/Infographic):**
-        - **Detection Rules:** Presents complex data, relationships, processes, or structured information that requires more than a short description for full understanding; often contains multiple data points, labels, or interconnected elements.
-        - **Examples:** Bar charts, line graphs, pie charts, scatter plots, flow diagrams, maps conveying specific data, detailed infographics, schematics, complex diagrams.
-
-- **Author Intent:** Why this specific <image> was chosen for this context, based on visual evidence from <image> and its placement/function within <image-on-page> and <surrounding_content>. Describe what the image appears intended to communicate.
-- **Key Information:** What the <image> visually communicates to users. Describe what is shown in the <image>. Explain *how* the **raw <image> file** (e.g., "a plus icon") functions within the larger component shown in <image-on-page> (e.g., "the button labeled 'Create'"). **Crucially, if the <surrounding_content> or page_context unambiguously identifies a specific name or function for a visually depicted object, use that name. Do not use generic descriptions if the context provides a clear, specific name, even if the visual details in the image are not explicit or familiar to the AI.**
-- **Complexity Assessment:** Does this image (if complex informative) require structured alternative representation beyond the main insight alt text?
-
-**Step 4: Alt Text Generation**
-Create appropriate alt text for the **raw <image> file** based on its classification in Step 3 and the comprehensive context from Steps 1 and 2.
-
-*Naming Guidelines:*
-- If the page or section text (from <page_context> or <surrounding_content>) refers to a subject, and the <image> depicts an object matching that context, you may use that name in the alt text.
-- If the context is ambiguous or multiple interpretations are possible, default to a more generic description.
-- Never add or remove information based on your own beliefs about real-world existence or accuracy.
-
-- **For Simple Informative Images:** Generate concise alt text (maximum 2 sentences, 140 characters preferred) that captures the visual content and any text visible *within the image itself*.
-- **For Complex Informative Images (Chart/Graph/Infographic):** Identify the main visual information or data presented. Format this as a concise alt text (maximum 2 sentences, 140 characters preferred) describing what is shown. Append the exact message: "A more complete alternative [data table/structured breakdown - choose based on content] exists below this image."
-- **For Decorative Images:** Provide an empty alt text: "".
-
-**Rationale for Alt Text Decision:** Explicitly explain *why* the chosen alt text (or empty string) is appropriate for the **raw <image> file**, directly referencing:
-1.  The image type determined in Step 3.
-2.  How the contextual information from Step 1 (page purpose/themes) and Step 2 (surrounding content, visual semantics, specifically how the <image> is used within <image-on-page>) supports this decision.
-3.  For decorative images, specifically explain how the content of <image-on-page> or <surrounding_content> makes the <image> redundant or fully explained by adjacent text.
-
-**Step 5: Structured Alternative (if applicable)**
-If Step 3 identified a Complex Informative Image, create a structured accessible alternative describing the visual information presented.
-- **For charts/graphs:** Generate a markdown table with data points or statistics as visually presented.
-- **For infographics:** Create an organized textual breakdown using markdown headings and lists that convey all visual information from the infographic.
-- **Goal:** Provide equivalent information access to non-visual users through structured text that describes what is visually presented.
-```
-
-</details>
+This is the power of encoding expertise as a ladder. I took my years of experience and mapped it to a [structured prompt](/resources/alt-text-generation) with output instructions specific to screen reader UX. Now it's a reusable pattern others can climb. A creator can express their vision using their own words, and my encoded expertise helps translate that intention into the correct symbolic representation for users who depend on accessibility metadata.
 
 ### How It Actually Works
 
@@ -172,11 +93,13 @@ Then it generates not just a description, but an equivalent experience:
 | boy | 1 (male) | 2 (child) | Male child characteristics |
 | girl | 9 (female) | 2 (child) | Female child characteristics |
 
-## Patterns as Infrastructure
+## The Movement Is Already Here
 
-This approach is already emerging at scale. [Fabric](https://github.com/danielmiessler/fabric), an open-source framework by Daniel Miessler, collects "patterns"—battle-tested prompts encoding expert thinking. Each pattern is a ladder, with rungs that guide users step by step through expert reasoning. What I've shown with accessibility, others are doing for security analysis, content creation, code review.
+This approach is already emerging at scale. [Fabric](https://github.com/danielmiessler/fabric), an open-source framework by Daniel Miessler, collects "patterns"—battle-tested prompts encoding expert thinking. Each pattern is a ladder, with rungs that guide users step by step through expert reasoning.
 
-The philosophy is profound: "AI isn't a thing; it's a magnifier of a thing. And that thing is human creativity." Experts aren't losing their value by sharing patterns—they're multiplying their impact. The infrastructure for sharing expertise is being built.
+Take the **Extract Wisdom** pattern, for example. It can take any content—a two-hour YouTube interview, a dense research paper, a rambling podcast—and extract the key insights, memorable quotes, and references. In minutes, you get the wisdom that would take hours to extract manually. It's not replacing deep engagement; it's helping you decide what deserves that deep engagement. As Miessler explains in [this breakdown of Fabric](https://www.youtube.com/watch?v=UbDyjIIGaxQ), it's about filtering signal from noise so you can focus your limited time on what matters most.
+
+The philosophy is profound: "AI isn't a thing; it's a magnifier of a thing. And that thing is human creativity." What I've shown with accessibility, others are doing for security analysis, content creation, code review. Experts aren't losing their value by sharing patterns—they're multiplying their impact. The infrastructure for sharing expertise is being built.
 
 ## The Choice: Walls or Ladders
 
