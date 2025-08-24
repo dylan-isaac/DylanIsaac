@@ -47,7 +47,7 @@ Apple isn't using LLMs in Math Notes, but it is a form of AI. And this same prin
 
 This is what AI can enable—not forcing us to abandon human conventions refined over millennia, but [building ladders](/definitions/building-ladders) that let us reach capabilities we couldn't access before. These aren't bridges connecting existing abilities—they're [ladders](/definitions/ladders) that help us climb, rung by rung, to entirely new forms of engagement with complex domains. They transform disciplines that seemed impossible into something we can finally grasp on our own terms.
 
-## My Contribution to the Movement: Alt Text as a Ladder
+## My Contribution to the Movement: [Alt Text Generation](/resources/alt-text-generation)
 
 As an accessibility expert, I've spent years developing a methodology for creating meaningful alt text. The questions I ask, the patterns I look for, the way I decode author intention—this is expertise that took years to develop. But what if I could encode that expertise into a pattern that anyone could use?
 
