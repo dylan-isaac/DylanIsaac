@@ -1,39 +1,31 @@
 ---
 title: "Building Ladders: Extending Human Agency with AI"
 publishDate: 2025-08-20T12:00:00.000Z
-description: "How AI can bridge the gap between human intent and digital experiences by adapting to people rather than forcing them to adapt"
+description: "How AI can build ladders between human intent and digital experiences by adapting to people rather than forcing them to adapt"
 tags: ["AI", "Accessibility", "Patterns", "Translation", "Agency", "Human-Centered-Tech", "Open-Source"]
 type: "article"
 draft: false
 ---
 
-## My Career's Shared Thread
+Large Language Models aren't just AI—they're translators between worlds.
 
-I spent years doing what seemed like completely different jobs—full-stack developer, accessibility coach, AI engineer—before I realized I'd been doing the same job all along.
+For the first time in history, we have technology that can take expertise locked in one person's head and make it accessible to someone who thinks completely differently. Not by dumbing it down. Not by forcing adaptation. But by translating between epistemologies—between fundamentally different ways of knowing. LLMs have absorbed countless perspectives across every domain imaginable, giving them the unique ability to reframe any concept through the lens you likely already understand.
 
-I've always been a translator between worlds.
+I discovered this through my own journey as a translator between worlds. As a developer, I translated between front-end and back-end. As an accessibility coach, between disabled and non-disabled experiences. Now as an AI engineer, between human intention and machine comprehension. But it wasn't until I embedded myself in [product teams—translating visual hierarchy for keyboard navigators](/writing/reframing-accessibility-ai-as-an-epistemological-translator), helping developers see how loading states affect screen readers—that I realized what I was actually doing: translating between different ways of knowing.
 
-As a developer, I translated between front-end and back-end. As an accessibility coach, between disabled and non-disabled experiences. Now as an AI engineer, between human intention and machine comprehension. But no role embodied this translation work more than coaching.
-
-As an accessibility coach, I embedded myself in product teams. Not to enforce rules, but to translate. I'd sit with a designer who understood visual hierarchy perfectly but had never considered how that hierarchy translates to someone navigating by keyboard. I'd work with developers who could optimize React hook but had never thought about how their loading states affect screen reader users. My job wasn't just teaching accessibility—it was translating one world's logic into another's language.
-
-Then it hit me: What else has access to knowledge across disciplines? What else can reframe complex information using the receiver's own mental models? What else acts as a translator between different ways of knowing?
-
-**Large Language Models.**
-
-If accessibility coaching is translating between epistemologies (see my article on [epistemological translation as a concept](/writing/reframing-accessibility-ai-as-an-epistemological-translator)) to help teams build inclusive experiences, then AI engineering is building the translators themselves—giving everyone the ability to approach domains that were previously opaque to them.
+Then it hit me: Large Language Models do exactly what I'd been doing manually. They have access to knowledge across disciplines. They can pull the important information relevant to a discipline from unstructured sources. They can reframe complex information using the receiver's own mental models. They act as translators between different epistemologies. If accessibility coaching is translating between ways of _knowing_ in order to help teams build inclusive experiences, then AI engineering is building the _translators themselves_—giving everyone the ability to approach domains that were previously opaque to them.
 
 ## The Vision That Drives Everything
 
-> **To make the digital world equitable by giving *everyone* the ability to engage with complex domains via trusted and tested shared procedures on trusted models.**
+> **To make the digital world equitable by enabling *everyone* to reach expertise and capabilities that were previously impossible for them to access—through patterns that encode human expertise and adapt to how each person thinks.**
 
-This isn't about making things easier. It's about recognizing that expertise shouldn't be gatekept by whether you think in the "right" way. That innovation shouldn't be limited to those who intuitively grasp our current interfaces. That human potential shouldn't be constrained by the historical accident of how we built our tools. Just because you're better at using technology doesn't make you smarter or your perspective more important.
+This isn't about making things easier. It's about recognizing that expertise shouldn't be gatekept by whether you think in the _"right"_ way. That innovation shouldn't be limited to those who intuitively grasp our _current_ interfaces. That human potential shouldn't be constrained by the historical accident of how we built our tools. Just because you're better at using technology doesn't make you smarter or your perspective more important.
 
 ## The Rule We Need to Break
 
 For decades, computing has followed one ironclad rule: **humans adapt to computers**. 
 
-We memorize keyboard shortcuts. We learn programming syntax. We internalize the logic of file systems and command lines. We learn to navigate the mazes of forms and cookie banners. This has left the benefits of computing to concentrate among those who think like computers—or can afford to pay someone who does.
+We memorize keyboard shortcuts. We learn programming syntax. We internalize the logic of file systems and command lines. We learn to navigate the mazes of forms and cookie banners. This has left the benefits of computing to concentrate among those who think like computers—_or can afford to pay someone who does._
 
 But what if we could flip this entirely?
 
@@ -41,21 +33,21 @@ But what if we could flip this entirely?
 
 ## The Moment It Clicked: Apple Math Notes
 
-I was in college when a math major friend complained about LaTeX. "I've been writing equations by hand for fifteen years," he said. "Now I have to learn a programming language just to write what I already know how to write?"
+I was in college when a math major friend complained about LaTeX. "I've been writing equations by hand for fifteen years," he said. "Now I have to learn a new language just to write what I already know how to write?"
 
-Fast forward to iOS 18's Math Notes. You write equations by hand. The system recognizes your notation and computes the results and even graphs it. No new syntax. No learning to navigate a TI-84's menus. No adaptation required. 
+Fast forward to iOS 18's Math Notes. You write equations by hand. The system recognizes your notation and computes the results and even graphs it. No new syntax. No learning to navigate a TI-84's menus (if you know, you know). No adaptation required. 
 
-Think about what this means. We developed mathematical notation over centuries—a visual language refined by countless mathematicians. Then computers arrived and said: "Forget all that. Learn our way." and just because of their power, we said "ok". What if computers don't have to be this way. What if it was obvious to all that because you don't know how to use an antiquated calculator's menus, it doesn't make incapable of advanced mathematics?
+Think about what this means. We developed mathematical notation over centuries—a visual language refined by countless mathematicians. Then computers arrived and said: "Forget all that. Learn our way." and just because of their power, we said "ok". What if computers don't have to be this way. What if everyone obviously understood that because you don't know how to use an antiquated calculator's menus, it doesn't make you incapable of advanced mathematics?
 
 Math Notes says: "Keep writing how you've always written. We'll adapt to you" and that's how computers _should_ be. They're _our_ computers aren't they?
 
 Apple isn't using LLMs in Math Notes, but it is a form of AI. There is also no reason it can't be applied to LLMs ability to structure unstructured language information into something a computer system understands and can augment. 
 
-This is the bridge AI can be. Not forcing us to abandon human conventions refined over millennia, but [building ladders](/definitions/building-ladders) between our intuitive understanding and computational power. I call these types of adaptation systems "Building ladders". It's building [ladders](/definitions/ladders) between one way of looking at the world and adapt it to another. To make a discipline that one thought they could never engage with and relate it to them on terms they can finally understand.
+This is what AI can enable—not forcing us to abandon human conventions refined over millennia, but [building ladders](/definitions/building-ladders) that let us reach capabilities we couldn't access before. These aren't bridges connecting existing abilities—they're [ladders](/definitions/ladders) that help us climb, rung by rung, to entirely new forms of engagement with complex domains. They transform disciplines that seemed impossible into something we can finally grasp on our own terms.
 
 ## Building a Real Ladder: Alt Text as Translation
 
-Let me show you what [building ladders](/definitions/building-ladders) looks like through something I've been developing. Not just any alt text generator—but one that aims to create an equivalent experience by translating between visual and non-visual understanding by utilizing the line of questioning an accessibility professional uses when writing an alt text.
+Let me show you what building ladders looks like through something I've been developing. Not just any alt text generator—but one that aims to create an equivalent experience by translating between visual and non-visual understanding by utilizing the line of questioning an accessibility professional uses when writing an alt text.
 
 ### The Creator's [Epistemology](/definitions/epistemological-translation) Is Already There
 
@@ -72,7 +64,7 @@ For alt text, I can use the following information that can be programmatically e
 - **Visual design** encodes importance through the image itself (the 1000 words in an image)
 - **Structural patterns** show usage through element positioning
 
-I took my years of creating alt text, mapped it to a [prompt](https://github.com/dylan-isaac/Building-Ladders--Extending-Human-Agency-with-AI--Talk-/blob/main/Demo/prompt.md) with output instructions specific to screen reader UX, and created a reusable pattern others can apply. This pattern captures how an accessibility expert thinks about this translation problem. Now a creator can express their vision using their own words and have their intention snap to the correct symbolic representation for users who depend on accessibility metadata.
+I took my years of creating alt text, mapped it to a [structured prompt](/resources/alt-text-generation) with output instructions specific to screen reader UX, and created a reusable pattern others can apply. This pattern captures how an accessibility expert thinks about this translation problem. Now a creator can express their vision using their own words and have their intention snap to the correct symbolic representation for users who depend on accessibility metadata.
 
 <details>
 <summary><strong>View the Alt Text Prompt Template</strong></summary>
@@ -182,7 +174,7 @@ Then it generates not just a description, but an equivalent experience:
 
 ## Patterns as Infrastructure
 
-This approach is already emerging at scale. [Fabric](https://github.com/danielmiessler/fabric), an open-source framework by Daniel Miessler, collects "patterns"—battle-tested prompts encoding expert thinking. Each pattern is a ladder. What I've shown with accessibility, others are doing for security analysis, content creation, code review.
+This approach is already emerging at scale. [Fabric](https://github.com/danielmiessler/fabric), an open-source framework by Daniel Miessler, collects "patterns"—battle-tested prompts encoding expert thinking. Each pattern is a ladder, with rungs that guide users step by step through expert reasoning. What I've shown with accessibility, others are doing for security analysis, content creation, code review.
 
 The philosophy is profound: "AI isn't a thing; it's a magnifier of a thing. And that thing is human creativity." Experts aren't losing their value by sharing patterns—they're multiplying their impact. The infrastructure for sharing expertise is being built.
 
@@ -192,7 +184,7 @@ Right now, as you read this, AI and technology at large, is being deployed in tw
 
 **Walls:** Dark patterns that manipulate. Systems that obscure their workings. Tools that create dependency. Corporate AI designed to extract—your attention, your data, your agency.
 
-**Ladders:** Tools that reveal their reasoning. Systems that teach while they assist. Bridges that connect different ways of understanding. AI that extends human agency rather than replacing it.
+**Ladders:** Tools that reveal their reasoning through [glass box](/definitions/glass-box) approaches. Systems that teach while they assist. Ladders with clear rungs connecting different ways of understanding. AI that extends human agency rather than replacing it.
 
 The choice seems obvious. But look around. How many AI tools actually empower versus extract?
 
@@ -234,9 +226,9 @@ Make your unique perspective multiplied. Allow others to benefit from your uniqu
 
 Take your expertise—whatever domain you know deeply—and encode it as patterns others can use. That accessibility formula you've perfected? Make it a ladder. That security analysis process you've refined? Lay it down for others to climb. That creative workflow that took you years to develop? Turn it into a pattern that can serve humanity indefinitely.
 
-Build tools that see people in all their complexity and help them engage with the world on their own terms. Build systems that trust users rather than trapping them. Build bridges between ways of knowing rather than enforcing a single path.
+Build tools that see people in all their complexity and help them engage with the world on their own terms. Build systems that trust users rather than trapping them. Build ladders between ways of knowing rather than enforcing a single path—each rung a manageable step toward understanding.
 
-Remember the open spirit that gave you your start. Pay it forward. Use your skills not to create higher barriers, but to build adaptable bridges. Contribute patterns. Share your perspectives. Multiply your impact.
+Remember the open spirit that gave you your start. Pay it forward. Use your skills not to create higher barriers, but to build adaptable ladders that others can climb. Contribute patterns. Share your perspectives. Multiply your impact.
 
 Because here's the truth: The most profound innovations don't come from making people adapt to our tools. They come from people creating tools for the _service of others_ — tools that make people more capable. 
 
