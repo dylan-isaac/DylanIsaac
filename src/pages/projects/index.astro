@@ -2,6 +2,7 @@
 import Layout from '../../layouts/Layout.astro';
 import Header from '../../components/Header.astro';
 import Heading from '../../components/Heading.astro';
+import DecorativeEmoji from '../../components/DecorativeEmoji.astro';
 import { getCollection } from 'astro:content';
 
 const projects = await getCollection('projects');
@@ -27,8 +28,9 @@ const sortedProjects = projects.sort((a, b) => Number(b.data.featured) - Number(
       {sortedProjects.filter(p => p.data.featured).map((project, index) => (
         <section class="mb-20" aria-labelledby={`featured-project-${index}`}>
           <div class="mb-8">
-            <span class="text-small px-3 py-1 bg-accent-yellow text-content rounded-full font-medium" role="img" aria-label="Featured project">
-              ⭐ Featured Project
+            <span class="text-small px-3 py-1 bg-accent-yellow text-content rounded-full font-medium">
+              <DecorativeEmoji emoji="⭐" class="inline-block mr-1" />
+              Featured Project
             </span>
           </div>
           
@@ -46,7 +48,7 @@ const sortedProjects = projects.sort((a, b) => Number(b.data.featured) - Number(
                   />
                 ) : (
                   <div class="aspect-video flex items-center justify-center" role="img" aria-label={`Placeholder image for ${project.data.title} project`}>
-                    <span class="text-8xl opacity-50" aria-hidden="true">🚀</span>
+                    <DecorativeEmoji emoji="🚀" class="text-8xl opacity-50" />
                   </div>
                 )}
                 
@@ -153,7 +155,7 @@ const sortedProjects = projects.sort((a, b) => Number(b.data.featured) - Number(
       <section class="text-center py-20" aria-labelledby="coming-soon-heading">
         <div class="max-w-3xl mx-auto">
           <div class="mb-8">
-            <span class="text-8xl opacity-10" role="img" aria-label="Rocket ship">🚀</span>
+            <DecorativeEmoji emoji="🚀" class="text-8xl opacity-10" />
           </div>
           <Heading level={2} class="text-h3 font-bold mb-4 text-content dark:text-dark-content" id="coming-soon-heading">
             More Projects Coming Soon
@@ -167,21 +169,21 @@ const sortedProjects = projects.sort((a, b) => Number(b.data.featured) - Number(
               href="/writing" 
               class="group inline-flex items-center gap-2 px-6 py-3 bg-surface dark:bg-dark-surface rounded-lg border-2 border-transparent hover:border-accent-yellow focus:border-accent-yellow transition-[background-color,border-color,transform] duration-200 font-medium hover:scale-105 focus:scale-105 transform-gpu focus:outline-none focus:ring-2 focus:ring-accent-yellow focus:ring-offset-2"
             >
-              <span class="text-2xl group-hover:animate-bounce" role="img" aria-label="Writing">📝</span>
+              <DecorativeEmoji emoji="📝" class="text-2xl group-hover:animate-bounce" />
               Read My Writing
             </a>
             <a 
               href="/resources" 
               class="group inline-flex items-center gap-2 px-6 py-3 bg-surface dark:bg-dark-surface rounded-lg border-2 border-transparent hover:border-accent-yellow focus:border-accent-yellow transition-[background-color,border-color,transform] duration-200 font-medium hover:scale-105 focus:scale-105 transform-gpu focus:outline-none focus:ring-2 focus:ring-accent-yellow focus:ring-offset-2"
             >
-              <span class="text-2xl group-hover:animate-bounce" role="img" aria-label="Tools and resources">🔧</span>
+              <DecorativeEmoji emoji="🔧" class="text-2xl group-hover:animate-bounce" />
               Explore Resources
             </a>
             <a 
               href="/about" 
               class="group inline-flex items-center gap-2 px-6 py-3 bg-surface dark:bg-dark-surface rounded-lg border-2 border-transparent hover:border-accent-yellow focus:border-accent-yellow transition-[background-color,border-color,transform] duration-200 font-medium hover:scale-105 focus:scale-105 transform-gpu focus:outline-none focus:ring-2 focus:ring-accent-yellow focus:ring-offset-2"
             >
-              <span class="text-2xl group-hover:animate-bounce" role="img" aria-label="About page">👋</span>
+              <DecorativeEmoji emoji="👋" class="text-2xl group-hover:animate-bounce" />
               Learn About Me
             </a>
           </nav>

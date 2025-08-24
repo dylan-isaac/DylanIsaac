@@ -3,6 +3,7 @@ import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
 import EmailCTA from '../components/EmailCTA.astro';
 import Heading from '../components/Heading.astro';
+import DecorativeEmoji from '../components/DecorativeEmoji.astro';
 
 const focusAreas = [
   {
@@ -15,7 +16,7 @@ const focusAreas = [
     title: "Systems & Automation",
     icon: "⚡",
     description: "Automation should be like a dishwasher for information work—handling the soulless drudgery so you can focus on what matters. I design transparent, human-in-the-loop systems that automate the mechanical connections between your ideas, not the ideas themselves. Think of it as having a calculator for prose or a Roomba for repetitive workflows: the tool handles the tedious parts while you retain control over everything meaningful.",
-    projects: ["Glass-box workflows", "Human-in-the-loop systems", "Context automation"]
+    projects: ["Glass box workflows", "Human-in-the-loop systems", "Context automation"]
   },
   {
     title: "Semantic Understanding",
@@ -60,9 +61,7 @@ const focusAreas = [
           {focusAreas.map(({ title, icon, description, projects }, index) => (
             <article class="group bg-surface dark:bg-dark-surface rounded-xl p-8 border-b-4 border-transparent hover:border-accent-yellow focus-within:border-accent-yellow transition-[background-color,border-color] duration-200">
               <div class="flex items-start gap-6">
-                <span class="text-4xl flex-shrink-0" role="img" aria-label={`${title} icon`}>
-                  {icon}
-                </span>
+                <DecorativeEmoji emoji={icon} class="text-4xl flex-shrink-0" />
                 <div class="flex-1">
                   <Heading level={3} class="text-2xl font-bold mb-3 text-content dark:text-dark-content group-hover:text-primary dark:group-hover:text-primary-light transition-colors" id={`focus-area-${index}`}>
                     {title}

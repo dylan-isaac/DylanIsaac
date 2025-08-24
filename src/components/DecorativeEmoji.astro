@@ -1,0 +1,10 @@
+---
+export interface Props {
+  emoji: string;
+  class?: string;
+}
+
+const { emoji, class: className = "" } = Astro.props;
+---
+
+<span class={className} aria-hidden="true">{emoji}</span>

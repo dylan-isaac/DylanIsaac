@@ -4,6 +4,7 @@ import Header from '../../components/Header.astro';
 import Tag from '../../components/Tag.astro';
 import Heading from '../../components/Heading.astro';
 import ArrowLink from '../../components/ArrowLink.astro';
+import DecorativeEmoji from '../../components/DecorativeEmoji.astro';
 import { getCollection } from 'astro:content';
 import { format } from 'date-fns';
 import { getTagColorIndex } from '../../utils/tags';
@@ -85,9 +86,7 @@ function getTypeIcon(type: string) {
                   <!-- Article Header -->
                   <div class="flex items-start justify-between mb-4">
                     <div class="flex items-center gap-3">
-                      <span class="text-2xl" role="img" aria-label={`${post.data.type || 'article'} type`}>
-                        {typeIcon}
-                      </span>
+                      <DecorativeEmoji emoji={typeIcon} class="text-2xl" />
                       <div id={`post-meta-${index}`} class="flex items-center gap-3 text-small text-content-muted dark:text-dark-content-muted">
                         <time datetime={post.data.publishDate.toISOString()} aria-label={`Published ${format(post.data.publishDate, 'MMMM d, yyyy')}`}>
                           {format(post.data.publishDate, 'MMMM d, yyyy')}

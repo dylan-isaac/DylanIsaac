@@ -30,7 +30,7 @@ const groupedDefinitions = sortedDefinitions.reduce((acc, def) => {
       <Heading level={1} class="text-h1 font-bold mb-4">Definitions</Heading>
       
       <div class="prose prose-lg max-w-none mb-12">
-        <p class="text-xl text-content-muted">
+        <p class="text-xl text-content-muted dark:text-dark-content-muted">
           A glossary of terms I use frequently in my writing. These definitions 
           help establish a shared vocabulary for discussing complex concepts around 
           accessibility, AI, and human-centered technology.
@@ -39,7 +39,7 @@ const groupedDefinitions = sortedDefinitions.reduce((acc, def) => {
 
       {/* Quick navigation */}
       <nav class="mb-12 pb-6 border-b border-surface-muted dark:border-dark-surface-muted" aria-label="Jump to alphabetical section">
-        <Heading level={2} class="text-small font-bold text-content-subtle uppercase tracking-wider mb-4">
+        <Heading level={2} class="text-small font-bold text-content-subtle dark:text-dark-content-subtle uppercase tracking-wider mb-4">
           Jump to Letter
         </Heading>
         <div class="flex flex-wrap gap-2">
@@ -74,13 +74,13 @@ const groupedDefinitions = sortedDefinitions.reduce((acc, def) => {
                       {def.data.term}
                     </Heading>
                     
-                    <p class="text-content-muted">
+                    <p class="text-content-muted dark:text-dark-content-muted">
                       {def.data.definition}
                     </p>
                     
                     {def.data.relatedTerms.length > 0 && (
                       <div class="flex items-center gap-2 text-small mb-4">
-                        <span class="text-content-subtle">Related:</span>
+                        <span class="text-content-subtle dark:text-dark-content-subtle">Related:</span>
                         <div class="flex flex-wrap gap-2" aria-label="Related terms">
                           {def.data.relatedTerms.map(term => (
                             <span class="text-primary dark:text-primary-light">{term}</span>

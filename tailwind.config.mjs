@@ -33,7 +33,7 @@ export default {
         },
         surface: {
           DEFAULT: '#FEFCFA',
-          secondary: '#FDF9F6',
+          secondary: '#FEFEFE',
           muted: '#FAF7F3',
         },
         // Dark mode variants

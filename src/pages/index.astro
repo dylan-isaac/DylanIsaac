@@ -3,6 +3,7 @@ import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
 import Card from '../components/Card.astro';
 import Heading from '../components/Heading.astro';
+import DecorativeEmoji from '../components/DecorativeEmoji.astro';
 
 const contentAreas = [
   {
@@ -62,13 +63,125 @@ const contentAreas = [
           Enablement Engineer & Systems Thinker
         </p>
         
-        <p class="text-lg leading-relaxed max-w-2xl mx-auto">
-          I build accessible AI solutions that adapt to human needs, working to 
-          <strong>democratize technology</strong> and <strong>empower people</strong> 
-          through thoughtful design and engineering.
+        <p class="text-xl font-bold mb-4 text-content dark:text-dark-content">
+          For decades, we've forced humans to adapt to computers.<br/>
+          I'm reversing that.
+        </p>
+        
+        <p class="text-lg leading-relaxed max-w-2xl mx-auto text-content-muted dark:text-dark-content-muted">
+          I <a href="/definitions/building-ladders" class="text-primary-dark dark:text-primary-light hover:text-primary font-medium">build ladders</a>—technology 
+          that meets you where you are and helps you climb to expertise previously out of reach. 
+          No forced adaptation. No prerequisite knowledge. Just tools that speak your language.
         </p>
       </div>
     </section>
+
+    <!-- Core Beliefs Section -->
+    <section class="py-12 border-y border-surface-muted dark:border-dark-surface-muted" aria-labelledby="philosophy-heading">
+      <div class="max-w-4xl mx-auto">
+        <Heading level={2} class="text-h3 font-bold text-content dark:text-dark-content text-center mb-8" id="philosophy-heading">
+          Core Beliefs
+        </Heading>
+        
+        <div class="grid md:grid-cols-2 gap-x-8 gap-y-6">
+          <div class="flex gap-4 min-h-[4.5rem]">
+            <DecorativeEmoji emoji="🧭" class="text-2xl flex-shrink-0" />
+            <div class="flex-1">
+              <p class="font-semibold text-content dark:text-dark-content mb-1">Adaptive Technology</p>
+              <p class="text-content-muted dark:text-dark-content-muted">Technology should adapt to how you think, not vice versa</p>
+            </div>
+          </div>
+          
+          <div class="flex gap-4 min-h-[4.5rem]">
+            <DecorativeEmoji emoji="🪜" class="text-2xl flex-shrink-0" />
+            <div class="flex-1">
+              <p class="font-semibold text-content dark:text-dark-content mb-1">Multiplying Expertise</p>
+              <p class="text-content-muted dark:text-dark-content-muted">Expertise should multiply, not gatekeep</p>
+            </div>
+          </div>
+          
+          <div class="flex gap-4 min-h-[4.5rem]">
+            <DecorativeEmoji emoji="🌍" class="text-2xl flex-shrink-0" />
+            <div class="flex-1">
+              <p class="font-semibold text-content dark:text-dark-content mb-1">Universal Computation</p>
+              <p class="text-content-muted dark:text-dark-content-muted">Every way of knowing deserves computational power</p>
+            </div>
+          </div>
+          
+          <div class="flex gap-4 min-h-[4.5rem]">
+            <DecorativeEmoji emoji="🔍" class="text-2xl flex-shrink-0" />
+            <div class="flex-1">
+              <p class="font-semibold text-content dark:text-dark-content mb-1">Transparent AI</p>
+              <p class="text-content-muted dark:text-dark-content-muted">AI should show its work (<a href="/definitions/glass-box" class="text-primary-dark dark:text-primary-light hover:text-primary">glass box</a>, not black box)</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Social Proof -->
+    <section class="text-center space-y-6 py-8" aria-labelledby="credentials-heading">
+      <Heading level={2} class="text-h3 font-bold text-content dark:text-dark-content" id="credentials-heading">
+        What I've Built
+      </Heading>
+      
+      <div class="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
+        <div class="p-6 bg-surface dark:bg-dark-surface rounded-xl">
+          <p class="text-small text-content-subtle dark:text-dark-content-subtle mb-2">Innovation</p>
+          <p class="font-bold text-content dark:text-dark-content">Inventor of axe Assistant</p>
+          <p class="text-small text-content-muted dark:text-dark-content-muted mt-1">Deque Systems</p>
+        </div>
+        
+        <div class="p-6 bg-surface dark:bg-dark-surface rounded-xl">
+          <p class="text-small text-content-subtle dark:text-dark-content-subtle mb-2">Framework</p>
+          <p class="font-bold text-content dark:text-dark-content">Building Ladders</p>
+          <p class="text-small text-content-muted dark:text-dark-content-muted mt-1">Philosophy & Practice</p>
+        </div>
+        
+        <div class="p-6 bg-surface dark:bg-dark-surface rounded-xl">
+          <p class="text-small text-content-subtle dark:text-dark-content-subtle mb-2">Approach</p>
+          <p class="font-bold text-content dark:text-dark-content">Pattern Creation</p>
+          <p class="text-small text-content-muted dark:text-dark-content-muted mt-1">Reusable Expertise</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Value Proposition - COMMENTED OUT UNTIL SOLO DEV -->
+    {/* <section class="text-center space-y-6 py-12 px-6 bg-gradient-to-r from-primary/5 to-secondary/5 dark:from-primary/10 dark:to-secondary/10 rounded-2xl" aria-labelledby="value-heading">
+      <Heading level={2} class="text-h2 font-bold text-content dark:text-dark-content" id="value-heading">
+        For Organizations
+      </Heading>
+      
+      <p class="text-xl font-medium text-content dark:text-dark-content max-w-3xl mx-auto">
+        I help organizations turn their best people's expertise into ladders everyone can climb
+      </p>
+      
+      <div class="grid md:grid-cols-3 gap-4 max-w-4xl mx-auto text-left">
+        <div class="flex items-start gap-3">
+          <span class="text-2xl">🔄</span>
+          <div>
+            <p class="font-medium text-content dark:text-dark-content">Your senior engineer's debugging process</p>
+            <p class="text-small text-content-muted dark:text-dark-content-muted">→ Available to every developer</p>
+          </div>
+        </div>
+        
+        <div class="flex items-start gap-3">
+          <span class="text-2xl">🎯</span>
+          <div>
+            <p class="font-medium text-content dark:text-dark-content">Your accessibility expert's knowledge</p>
+            <p class="text-small text-content-muted dark:text-dark-content-muted">→ Embedded in every design decision</p>
+          </div>
+        </div>
+        
+        <div class="flex items-start gap-3">
+          <span class="text-2xl">🚀</span>
+          <div>
+            <p class="font-medium text-content dark:text-dark-content">Your domain expertise</p>
+            <p class="text-small text-content-muted dark:text-dark-content-muted">→ Scalable competitive advantage</p>
+          </div>
+        </div>
+      </div>
+    </section> */}
 
     <!-- Content Navigation -->
     <section aria-labelledby="explore-heading">

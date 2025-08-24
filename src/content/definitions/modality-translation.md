@@ -1,7 +1,7 @@
 ---
 term: "Modality Translation"
 definition: "The conversion of information from one sensory or cognitive mode to another, ensuring equivalent experiences across different ways of perceiving and processing information."
-relatedTerms: ["Epistemological Translation", "Ladders"]
+relatedTerms: ["Epistemological Translation", "Ladders", "Building Ladders", "Glass Box"]
 tags: ["accessibility", "translation", "UX", "inclusive-design"]
 ---
 
@@ -39,3 +39,9 @@ Good modality translation doesn't just convert information—it creates an equiv
 ## AI's Role
 
 Large Language Models excel at modality translation because they can understand context and intent across different representations. They can extract the "why" behind information presentation and recreate that purpose in a different modality, making them powerful tools for creating more inclusive experiences.
+
+## See Also
+
+- [Epistemological Translation](/definitions/epistemological-translation) - Translating between different ways of knowing
+- [Building Ladders](/definitions/building-ladders) - The philosophy of creating tools that perform modality translation
+- [Alt Text Generation](/resources/alt-text-generation) - A practical example of visual to textual modality translation

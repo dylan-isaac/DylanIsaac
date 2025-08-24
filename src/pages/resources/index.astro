@@ -2,6 +2,7 @@
 import Layout from '../../layouts/Layout.astro';
 import Header from '../../components/Header.astro';
 import Heading from '../../components/Heading.astro';
+import DecorativeEmoji from '../../components/DecorativeEmoji.astro';
 import { getCollection } from 'astro:content';
 
 const resources = await getCollection('resources');
@@ -60,10 +61,10 @@ const typeLabels = {
 
 const typeDescriptions = {
   'definition': 'Terms that establish a shared vocabulary',
-  'ladder': 'Bridges between human intention and computational power',
+  'ladder': 'Tools that help you climb to expertise previously out of reach',
   'prompt': 'AI prompts that encode expert knowledge for specific tasks',
   'script': 'Code that extends capabilities and automates complex processes',
-  'pattern': 'Reusable approaches that bridge different ways of understanding',
+  'pattern': 'Reusable approaches that translate between different ways of understanding',
   'tool': 'Utilities and applications that enhance productivity',
   'guide': 'Step-by-step instructions and educational content'
 };
@@ -72,20 +73,30 @@ const typeDescriptions = {
 const availableTypes = Object.keys(typeCounts).sort();
 
 // Type indicators with icons
-const typeIndicators = {
-  'definition': '📖 Definition',
-  'ladder': '🪜 Ladder',
-  'prompt': '🎯 Prompt',
-  'script': '📝 Script',
-  'pattern': '🎨 Pattern',
-  'tool': '🔧 Tool',
-  'guide': '📚 Guide'
+const typeEmojis = {
+  'definition': '📖',
+  'ladder': '🪜',
+  'prompt': '🎯',
+  'script': '📝',
+  'pattern': '🎨',
+  'tool': '🔧',
+  'guide': '📚'
+};
+
+const typeNames = {
+  'definition': 'Definition',
+  'ladder': 'Ladder',
+  'prompt': 'Prompt',
+  'script': 'Script',
+  'pattern': 'Pattern',
+  'tool': 'Tool',
+  'guide': 'Guide'
 };
 ---
 
 <Layout 
   title="Resources | Dylan Isaac"
-  description="Browse AI prompts, scripts, patterns, and definitions that bridge human intention and computational power—tools that adapt to how you think."
+  description="Browse AI prompts, scripts, patterns, and definitions that help you climb to expertise previously out of reach—ladders that adapt to your way of knowing."
 >
   <Header />
   <main id="main" class="max-w-content-wide mx-auto px-6 md:px-8 py-16" tabindex="-1">
@@ -94,9 +105,9 @@ const typeIndicators = {
       
       <div class="prose prose-lg max-w-none mb-12">
         <p class="text-xl text-content-muted dark:text-dark-content-muted">
-          Definitions, prompts, scripts, and patterns that give people new capabilities. 
-          These are bridges between human intention and computational power—tools 
-          that adapt to how you think rather than forcing you to adapt to them.
+          Definitions, prompts, scripts, and patterns that let you climb to expertise 
+          previously out of reach. These are ladders—meeting you at your current understanding 
+          and adapting to your way of knowing, rather than forcing you to adapt to them.
         </p>
         <p class="text-content-muted dark:text-dark-content-muted">
           Learn more about the philosophy behind ladders in 
@@ -146,8 +157,9 @@ const typeIndicators = {
               >
                 <div class="space-y-2">
                   <div class="flex items-center gap-2 mb-2">
-                    <span class="text-xs text-content-subtle dark:text-dark-content-subtle font-medium">
-                      {typeIndicators[item.data.type]}
+                    <span class="text-xs text-content-subtle dark:text-dark-content-subtle font-medium flex items-center gap-1">
+                      <DecorativeEmoji emoji={typeEmojis[item.data.type]} class="inline-block" />
+                      {typeNames[item.data.type]}
                     </span>
                   </div>
                   <Heading level={3} class="text-h5 font-serif font-bold group-hover:text-primary-dark dark:group-hover:text-primary-light transition-colors duration-200">
@@ -166,8 +178,9 @@ const typeIndicators = {
               >
                 <div class="space-y-4">
                   <div class="flex items-center justify-between">
-                    <span class="text-xs text-content-subtle dark:text-dark-content-subtle font-medium">
-                      {typeIndicators[item.data.type]}
+                    <span class="text-xs text-content-subtle dark:text-dark-content-subtle font-medium flex items-center gap-1">
+                      <DecorativeEmoji emoji={typeEmojis[item.data.type]} class="inline-block" />
+                      {typeNames[item.data.type]}
                     </span>
                     {item.data.featured && (
                       <span class="inline-block px-2 py-1 text-small bg-accent-yellow text-content rounded">

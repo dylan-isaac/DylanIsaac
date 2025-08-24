@@ -9,7 +9,7 @@ draft: false
 
 ## Introduction
 
-Accessibility is fundamentally about **epistemological translation**—ensuring that meaning remains legible across different ways of perceiving, operating, and understanding digital experiences. The challenge is that digital interfaces are typically designed **from a dominant epistemology** (such as a visual-first, mouse-driven perspective), which does not inherently align with the diverse ways users experience technology.
+Accessibility is fundamentally about **[epistemological translation](/definitions/epistemological-translation)**—ensuring that meaning remains legible across different ways of perceiving, operating, and understanding digital experiences. The challenge is that digital interfaces are typically designed **from a dominant epistemology** (such as a visual-first, mouse-driven perspective), which does not inherently align with the diverse ways users experience technology.
 
 ### A Simple Example of an Epistemological Gap
 

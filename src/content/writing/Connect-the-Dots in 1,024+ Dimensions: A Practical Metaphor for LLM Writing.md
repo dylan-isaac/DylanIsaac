@@ -34,7 +34,7 @@ Notice: these aren't things you create—they're things you already have. You're
 **Process: PLAN → DRAFT → VERIFY**
 
 1.  **PLAN:** Prompt the model for a one-screen transition plan that connects your dots and proposes any necessary bridge dots.
-2.  **DRAFT:** Using the approved plan, ask the model to draft the full text. Require it to add paragraph-level `[source]` tags that trace back to your context, forcing it to map claims to evidence.
+2.  **DRAFT:** Using the approved plan, ask the model to draft the full text. Require it to add paragraph-level `[source]` tags that trace back to your context, forcing it to map claims to evidence. This [glass box](/definitions/glass-box) approach makes the AI's reasoning transparent and auditable.
 3.  **VERIFY:** Read through the draft. For every claim, check the source. Replace any unsupported sentence with a direct quote from your context or mark it as needing a source.
 
 A note on models: Some models will tends toward verbose connections and academic tone and technical precision. Others can often produces tighter, more conversational prose. The same dots fed to different models yield different styles—experiment to find which 'drawing style' matches your voice.

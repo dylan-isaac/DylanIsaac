@@ -13,11 +13,11 @@ tags: ["accessibility", "AI", "translation", "alt-text", "web-development"]
 featured: true
 ---
 
-This ladder enables anyone to generate contextually appropriate alt text by encoding accessibility expertise into a reusable pattern. It extracts the creator's epistemology—their way of understanding and organizing information—from the page's markup, headings, proximity relationships, and metadata.
+This ladder enables anyone to generate contextually appropriate alt text by encoding accessibility expertise into a reusable pattern. It extracts previously intangible information like author intention from key programmatic page contexts, using the same lines of questioning accessibility professionals have refined over decades.
 
 ## Key Innovation: Extracting Author Intention
 
-Traditional alt text generators only analyze the image itself. This pattern is different—it reads the entire context to understand *why* the author chose this image. By analyzing:
+Traditional alt text generators only analyze the image itself. This pattern is different—it analyzes key contextual signals to understand *why* the author chose this image and which of the metaphorical 1000 words an image contains should be featured in the alt text. By analyzing:
 
 - **Page structure** through DOM headings and title
 - **Proximity and size** indicating relationships
