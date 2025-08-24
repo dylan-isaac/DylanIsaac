@@ -28,7 +28,10 @@ const typeLabel = {
 }[resource.data.type];
 ---
 
-<Layout title={`${resource.data.title} | Resources | Dylan Isaac`}>
+<Layout 
+  title={`${resource.data.title} | Resources | Dylan Isaac`}
+  description={resource.data.description}
+>
   <Header />
   <main id="main" class="max-w-content-wide mx-auto px-6 md:px-8 py-16" tabindex="-1">
     <article class="max-w-content mx-auto">
