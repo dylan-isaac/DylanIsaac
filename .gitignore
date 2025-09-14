@@ -30,3 +30,11 @@ inbox/*
 
 # Playwright MCP screenshots
 .playwright-mcp/
+
+# Private directories
+for pickle 🌵/
+**/for pickle*/
+
+# Pickle files
+*.pickle
+*.pkl
