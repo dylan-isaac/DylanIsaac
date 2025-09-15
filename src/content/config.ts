@@ -54,4 +54,15 @@ export const collections = {
       tags: z.array(z.string()).default([]),
     }),
   }),
+  events: defineCollection({
+    schema: z.object({
+      title: z.string(),
+      date: z.date(),
+      location: z.string(),
+      description: z.string(),
+      tags: z.array(z.string()).default([]),
+      featured: z.boolean().default(false),
+      registrationUrl: z.string().url().optional(),
+    }),
+  }),
 }; 

@@ -1,0 +1,69 @@
+name: Process Guestbook Entry
+
+on:
+  issues:
+    types: [labeled]
+
+jobs:
+  process-guestbook:
+    # Only run when guestbook label is added
+    if: contains(github.event.label.name, 'guestbook')
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Process with Claude Code
+        uses: anthropics/claude-code-action@beta
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          max_turns: 5
+          prompt: |
+            Read issue #${{ github.event.issue.number }} and extract the guestbook entry data from the JSON in the automation data section.
+
+            Review the content for appropriateness. If the content contains:
+            - Offensive language
+            - Spam or promotional content
+            - Personal attacks or harassment
+            - Inappropriate content
+
+            Then add a comment to the issue explaining why it was rejected and close the issue with the 'rejected' label.
+
+            If the content is appropriate:
+            1. Add the guestbook entry to src/content/events/${eventSlug}.mdx
+            2. Use the GuestbookEntry component format already in the file
+            3. Add the new entry at the end of the Guestbook section
+            4. Preserve all existing content
+            5. Commit with message: "Add guestbook entry from ${name}"
+            6. Close the issue with 'approved' label
+
+            The entry should look like:
+            <GuestbookEntry
+              name="${name}"
+              title="${title}"
+              message="${message}"
+              photo="${photoUrl}"
+              timestamp="${timestamp}"
+            />
+
+      - name: Close issue if still open
+        if: always()
+        uses: peter-evans/close-issue@v3
+        with:
+          issue-number: ${{ github.event.issue.number }}
+          comment: |
+            ✅ Guestbook entry has been processed.
+
+            Thank you for signing our guestbook!

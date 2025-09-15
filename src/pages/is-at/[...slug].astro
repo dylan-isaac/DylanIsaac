@@ -1,0 +1,127 @@
+---
+import { getCollection, getEntry } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import GuestbookDialog from '../../components/GuestbookDialog';
+import Heading from '../../components/Heading.astro';
+import Tag from '../../components/Tag.astro';
+import { format } from 'date-fns';
+
+export async function getStaticPaths() {
+  const events = await getCollection('events');
+  return events.map(event => ({
+    params: { slug: event.slug },
+    props: { event }
+  }));
+}
+
+const { slug } = Astro.params;
+const { event } = Astro.props;
+
+if (!event) {
+  return Astro.redirect('/404');
+}
+
+const { Content } = await event.render();
+---
+
+<Layout
+  title={event.data.title}
+  description={event.data.description}
+>
+  <Header />
+  <main id="main" class="w-full" tabindex="-1">
+    {/* Hero Section */}
+    <section class="bg-gradient-to-br from-primary/10 via-secondary/10 to-accent/10 dark:from-primary/5 dark:via-secondary/5 dark:to-accent/5 py-xl">
+      <div class="container mx-auto px-6 max-w-6xl">
+        <header class="text-center mb-lg">
+          <Heading level={1} class="text-display mb-md bg-gradient-to-r from-primary-dark via-secondary-dark to-accent-dark dark:from-primary-light dark:via-secondary-light dark:to-accent-light bg-clip-text text-transparent">
+            {event.data.title}
+          </Heading>
+
+          <div class="flex flex-wrap items-center justify-center gap-sm text-h4 text-content-muted dark:text-dark-content-muted mb-md">
+            <div class="flex items-center gap-xs">
+              <span class="text-secondary-dark dark:text-secondary-light">📅</span>
+              <time datetime={event.data.date.toISOString()}>
+                {format(event.data.date, 'EEEE, MMMM d, yyyy')}
+              </time>
+            </div>
+            <span class="hidden sm:inline">•</span>
+            <div class="flex items-center gap-xs">
+              <span class="text-accent-dark dark:text-accent-light">📍</span>
+              <span>{event.data.location}</span>
+            </div>
+          </div>
+
+          <p class="text-h3 text-content dark:text-dark-content mb-lg max-w-4xl mx-auto leading-relaxed">
+            {event.data.description}
+          </p>
+
+          {/* Prominent Guestbook CTA */}
+          <div class="bg-white dark:bg-dark-surface-secondary rounded-2xl shadow-xl p-lg max-w-2xl mx-auto border-4 border-primary/20 dark:border-primary-light/20">
+            <h2 class="text-h2 font-bold mb-sm text-primary-dark dark:text-primary-light">
+              Join Our Community
+            </h2>
+            <p class="text-body text-content-muted dark:text-dark-content-muted mb-md">
+              Be part of the conversation! Share your thoughts, connect with fellow attendees, and leave your mark on this historic event.
+            </p>
+            <button
+              id="open-guestbook"
+              class="inline-flex items-center gap-sm px-lg py-md bg-gradient-to-r from-primary-dark to-secondary-dark dark:from-primary-light dark:to-secondary-light text-white text-h4 rounded-xl font-bold hover:scale-105 transform transition-all duration-200 shadow-lg"
+            >
+              <span class="text-2xl">✨</span>
+              <span>Sign the Digital Guestbook</span>
+              <span class="text-2xl">📝</span>
+            </button>
+          </div>
+
+          <div class="flex flex-wrap gap-xs justify-center mt-lg">
+            {event.data.tags.map((tag: string, index: number) => (
+              <Tag name={tag} colorIndex={index} />
+            ))}
+          </div>
+        </header>
+      </div>
+    </section>
+
+    <article class="container mx-auto px-6 py-xl max-w-5xl">
+
+      {/* Event Content */}
+      <div class="prose prose-lg dark:prose-invert max-w-none space-y-xl">
+        <Content />
+      </div>
+
+      {/* Secondary Guestbook CTA */}
+      <div class="mt-xl text-center">
+        <div class="bg-gradient-to-r from-secondary/10 to-accent/10 dark:from-secondary/5 dark:to-accent/5 rounded-xl p-lg">
+          <h3 class="text-h3 font-bold mb-sm text-secondary-dark dark:text-secondary-light">
+            Haven't signed the guestbook yet?
+          </h3>
+          <p class="text-body text-content-muted dark:text-dark-content-muted mb-md">
+            Add your voice to our community of innovators and advocates.
+          </p>
+          <button
+            onclick="document.getElementById('open-guestbook').click()"
+            class="inline-flex items-center gap-xs px-md py-sm bg-secondary-dark dark:bg-secondary-light text-white dark:text-dark-content rounded-lg font-medium hover:opacity-90 transition-opacity"
+          >
+            <span>📝</span>
+            <span>Sign the Guestbook</span>
+          </button>
+        </div>
+      </div>
+
+      {/* Guestbook Dialog */}
+      <GuestbookDialog client:load eventSlug={slug || ''} />
+    </article>
+  </main>
+</Layout>
+
+<script>
+  // Handle opening the guestbook dialog
+  const openButton = document.getElementById('open-guestbook');
+
+  openButton?.addEventListener('click', () => {
+    const event = new CustomEvent('open-guestbook-dialog');
+    window.dispatchEvent(event);
+  });
+</script>

@@ -1,0 +1,60 @@
+---
+interface Props {
+  time: string;
+}
+
+const { time } = Astro.props;
+---
+
+<div class="event-update flex gap-sm my-md">
+  <div class="flex-shrink-0">
+    <span class="inline-block px-xs py-1 bg-accent dark:bg-accent-dark text-white text-small font-medium rounded">
+      {time}
+    </span>
+  </div>
+  <div class="flex-grow">
+    <div class="text-body text-content dark:text-dark-content">
+      <slot />
+    </div>
+  </div>
+</div>
+
+<style>
+  .event-update {
+    position: relative;
+    padding-left: 2rem;
+  }
+
+  .event-update::before {
+    content: '';
+    position: absolute;
+    left: 0.5rem;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(
+      to bottom,
+      var(--color-accent),
+      transparent
+    );
+  }
+
+  .event-update::after {
+    content: '';
+    position: absolute;
+    left: 0.25rem;
+    top: 0.5rem;
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
+    background: var(--color-accent);
+  }
+
+  :root {
+    --color-accent: #87CB28;
+  }
+
+  :root.dark {
+    --color-accent: #2E5600;
+  }
+</style>
