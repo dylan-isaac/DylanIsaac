@@ -110,6 +110,39 @@ export default {
             p: {
               marginBottom: theme('spacing.md'),
             },
+            table: {
+              width: '100%',
+              tableLayout: 'auto',
+              textAlign: 'left',
+              marginTop: theme('spacing.lg'),
+              marginBottom: theme('spacing.lg'),
+              fontSize: theme('fontSize.small[0]'),
+              lineHeight: theme('fontSize.small[1].lineHeight'),
+            },
+            thead: {
+              borderBottomWidth: '1px',
+              borderBottomColor: theme('colors.content.muted'),
+            },
+            'thead th': {
+              color: theme('colors.content.DEFAULT'),
+              fontWeight: theme('fontWeight.semibold'),
+              verticalAlign: 'bottom',
+              paddingRight: theme('spacing.md'),
+              paddingBottom: theme('spacing.sm'),
+              paddingLeft: theme('spacing.md'),
+            },
+            'tbody tr': {
+              borderBottomWidth: '1px',
+              borderBottomColor: theme('colors.content.subtle'),
+            },
+            'tbody td': {
+              color: theme('colors.content.DEFAULT'),
+              verticalAlign: 'baseline',
+              paddingTop: theme('spacing.sm'),
+              paddingRight: theme('spacing.md'),
+              paddingBottom: theme('spacing.sm'),
+              paddingLeft: theme('spacing.md'),
+            },
           },
         },
         invert: {
@@ -121,6 +154,18 @@ export default {
               '&:hover': {
                 textDecorationColor: '#FFB3D9',
               },
+            },
+            thead: {
+              borderBottomColor: theme('colors.dark-content.muted'),
+            },
+            'thead th': {
+              color: theme('colors.dark-content.DEFAULT'),
+            },
+            'tbody tr': {
+              borderBottomColor: theme('colors.dark-content.subtle'),
+            },
+            'tbody td': {
+              color: theme('colors.dark-content.DEFAULT'),
             },
           },
         },
