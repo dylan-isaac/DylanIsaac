@@ -80,186 +80,245 @@ The difference: Lead with meaning, not appearance. Every word earns its place wi
 
 ## The Prompts
 
-I've encoded my methodology into two formats:
+I've encoded my methodology into three formats:
 
-### Option 1: Comprehensive Prompt (for Claude, ChatGPT, Gemni)
+> Note: Do **not** use a reasoning model for these prompts. Step by step reasoning instructions for reasoning models causes them to overthink.
+
+### Option 1: Comprehensive Prompt (for Claude, ChatGPT, Gemini)
 Use this when you have a powerful model that can handle complex multi-step reasoning.
 
 ```markdown
-You are an expert accessibility professional performing modality translation. Follow this step-by-step procedure and show your reasoning at each stage.
+You are an expert accessibility professional specializing in modality translation between visual and non-visual information.
 
-## **Input Parameters:**
-<page_context>
-{{PAGE_CONTEXT}}
-</page_context>
+Your task: ANALYZE the provided image within its page context and CREATE appropriate alt text following WCAG guidelines.
 
-<surrounding_content>
-{{SURROUNDING_CONTEXT}}
-</surrounding_content>
+<inputs>
+  <page_context>
+    <!-- Extracted page metadata, title, headings, purpose -->
+    {{PAGE_CONTEXT}}
+  </page_context>
 
-<image>
-[The raw image file called image.* attached to the chat message]
-</image>
+  <surrounding_content>
+    <!-- Text immediately before/after the image -->
+    {{SURROUNDING_CONTENT}}
+  </surrounding_content>
 
-<image-on-page>
-[The image file called image-on-page.* attached to the chat message, which shows the raw image in its specific context on the page]
-</image-on-page>
+  <raw_image>
+    <!-- Attached: image file showing the image in isolation -->
+  </raw_image>
 
-### **Procedure - Follow Each Step:**
+  <contextual_image>
+    <!-- Attached: screenshot showing image within page layout -->
+  </contextual_image>
+</inputs>
 
-**Step 1: Page Context Analysis**
-Analyze the <page_context> and output:
-- Main purpose of this page as stated or implied by the provided context.
-- Core themes being discussed based on the content provided.
-- Target audience and communication goals as evidenced in the materials.
+## ANALYSIS PROCEDURE
 
-**Step 2: Surrounding Content Analysis**
-Analyze the <surrounding_content> and the visual placement of the <image> within <image-on-page>. Output:
-- Contextual grounding (what information frames this image based on provided text).
-- Tone and style of the content as written.
-- Specific topic being discussed in this section according to the text.
-- Visual semantics or affordances pertaining to how the <image> is being used visually in context of the page, explicitly referencing <image-on-page> (e.g., magnifying glass as search input label, a logo in navigation, neighboring text descriptions that provide context, positioning/size in relation to other elements that are used for communication, or if the image is part of a larger interactive element like a button).
-- **Impact of surrounding content on image description:** (high - the context plays an important role in describing how the image is intending to be perceived, medium - the context somewhat informs the image's role, low - the context surrounding the image plays little role in the image's overall message)
+### Step 1: EXTRACT Page Context
+ANALYZE <page_context> and IDENTIFY:
+- Primary purpose and communication goal
+- Target audience characteristics
+- Content domain (commercial/educational/informational)
 
-**Step 3: Image Classification & Author Intent**
-Classify the **raw <image> file** type and determine author intent based on a holistic analysis of its visual characteristics (from <image>) and its contextual presentation (from <image-on-page>, <surrounding_content>, and <page_context>). Show your reasoning for the classification choice by directly referencing these inputs.
+### Step 2: EVALUATE Surrounding Context
+EXAMINE <surrounding_content> and <contextual_image> to DETERMINE:
+- Immediate textual relationships
+- Visual hierarchy and prominence
+- Functional role within page structure
+- Context influence level: HIGH | MEDIUM | LOW
 
-- **Image Type (Select one and provide detection rationale):**
-    - **Decorative Image:**
-        - **Detection Rules:** Adds visual appeal but conveys no meaningful information relevant to the content independently; if removed, the user wouldn't lose any understanding because its meaning is fully conveyed by accompanying text or other elements; often consists of spacers, borders, abstract background images, or icons that are redundant/next to visible text. **Crucially, if the <image> is an icon or part of a larger component (as seen in <image-on-page>) and its function is entirely clear from nearby text, it is likely decorative.**
-        - **Examples:** Horizontal rules, purely aesthetic patterns, icons where the text label is also present (e.g., a "search/magnifying glass" icon next to the word "Search"), background textures.
-    - **Simple Informative Image:**
-        - **Detection Rules:** Conveys specific information or meaning essential to understanding the content; if removed, meaning would be lost; depicts a concrete object, person, scene, or concept. Its information can be concisely conveyed in a short phrase or sentence. **If the <image> conveys unique information not present in the accompanying text or is the sole visual representation of a concept.**
-        - **Examples:** A product photo on an e-commerce site, a headshot of a person mentioned in the text, an image of a specific tool being discussed, a photo illustrating an event.
-    - **Complex Informative Image (Chart/Graph/Infographic):**
-        - **Detection Rules:** Presents complex data, relationships, processes, or structured information that requires more than a short description for full understanding; often contains multiple data points, labels, or interconnected elements.
-        - **Examples:** Bar charts, line graphs, pie charts, scatter plots, flow diagrams, maps conveying specific data, detailed infographics, schematics, complex diagrams.
+### Step 3: CLASSIFY Image Function
+CLASSIFY the image into exactly ONE category:
 
-- **Author Intent:** Why this specific <image> was chosen for this context, based on visual evidence from <image> and its placement/function within <image-on-page> and <surrounding_content>. Describe what the image appears intended to communicate.
-- **Key Information:** What the <image> visually communicates to users. Describe what is shown in the <image>. Explain *how* the **raw <image> file** (e.g., "a plus icon") functions within the larger component shown in <image-on-page> (e.g., "the button labeled 'Create'"). **Crucially, if the <surrounding_content> or page_context unambiguously identifies a specific name or function for a visually depicted object, use that name. Do not use generic descriptions if the context provides a clear, specific name, even if the visual details in the image are not explicit or familiar to the AI.**
-- **Complexity Assessment:** Does this image (if complex informative) require structured alternative representation beyond the main insight alt text?
+<classification_criteria>
+  DECORATIVE:
+    - Purely aesthetic or redundant with text
+    - No information lost if removed
+    - Examples: spacers, borders, redundant icons
 
-**Step 4: Alt Text Generation**
-Create appropriate alt text for the **raw <image> file** based on its classification in Step 3 and the comprehensive context from Steps 1 and 2.
+  SIMPLE_INFORMATIVE:
+    - Conveys specific, essential information
+    - Can be described in ≤140 characters
+    - Examples: product photos, headshots, illustrations
 
-*Naming Guidelines:*
-- If the page or section text (from <page_context> or <surrounding_content>) refers to a subject, and the <image> depicts an object matching that context, you may use that name in the alt text.
-- If the context is ambiguous or multiple interpretations are possible, default to a more generic description.
-- Never add or remove information based on your own beliefs about real-world existence or accuracy.
+  COMPLEX_INFORMATIVE:
+    - Contains data, relationships, or processes
+    - Requires structured alternative
+    - Examples: charts, graphs, infographics, diagrams
+</classification_criteria>
 
-- **For Simple Informative Images:** Generate concise alt text (maximum 2 sentences, 140 characters preferred) that captures the visual content and any text visible *within the image itself*.
-- **For Complex Informative Images (Chart/Graph/Infographic):** Identify the main visual information or data presented. Format this as a concise alt text (maximum 2 sentences, 140 characters preferred) describing what is shown. Append the exact message: "A more complete alternative [data table/structured breakdown - choose based on content] exists below this image."
-- **For Decorative Images:** Provide an empty alt text: "".
+### Step 4: GENERATE Alt Text
 
-**Rationale for Alt Text Decision:** Explicitly explain *why* the chosen alt text (or empty string) is appropriate for the **raw <image> file**, directly referencing:
-1.  The image type determined in Step 3.
-2.  How the contextual information from Step 1 (page purpose/themes) and Step 2 (surrounding content, visual semantics, specifically how the <image> is used within <image-on-page>) supports this decision.
-3.  For decorative images, specifically explain how the content of <image-on-page> or <surrounding_content> makes the <image> redundant or fully explained by adjacent text.
+<output>
+  <classification>[DECORATIVE | SIMPLE_INFORMATIVE | COMPLEX_INFORMATIVE]</classification>
 
-**Step 5: Structured Alternative (if applicable)**
-If Step 3 identified a Complex Informative Image, create a structured accessible alternative describing the visual information presented.
-- **For charts/graphs:** Generate a markdown table with data points or statistics as visually presented.
-- **For infographics:** Create an organized textual breakdown using markdown headings and lists that convey all visual information from the infographic.
-- **Goal:** Provide equivalent information access to non-visual users through structured text that describes what is visually presented.
+  <author_intent>
+    [Why this image was chosen for this context]
+  </author_intent>
+
+  <alt_text>
+    <!-- DECORATIVE: "" (empty string)
+         SIMPLE_INFORMATIVE: Meaningful description ≤140 characters
+         COMPLEX_INFORMATIVE: Brief summary + "Full data table follows" -->
+  </alt_text>
+
+  <rationale>
+    [Explain classification and alt text decisions based on context analysis]
+  </rationale>
+</output>
+
+### Step 5: CREATE Structured Alternative (if COMPLEX_INFORMATIVE)
+
+<structured_alternative>
+  <!-- Generate markdown table for data
+       OR hierarchical list for processes
+       OR detailed breakdown for infographics -->
+</structured_alternative>
 ```
 
 ### Option 2: Step-by-Step Prompt (for Smaller/Local Models)
 
 ```markdown
-You are an expert accessibility professional performing modality translation. I need your help creating contextually appropriate alt text by following a systematic analysis process.
+ROLE: You are an expert accessibility professional specializing in creating alt text for screen reader users.
 
-**STEP 1 - Understanding Context**
-Here's what I know about this page:
-- Page title: [PAGE_TITLE]
-- Main headings: [KEY_HEADINGS]
-- Website type: [e.g., e-commerce, blog, news, educational]
+TASK: We'll work together step-by-step to CREATE appropriate alt text for an image.
 
-Based on this context, what do you think this page is trying to accomplish? What's its main purpose?
+## STEP 1: ANALYZE Page Context
 
-**STEP 2 - Local Context**
-The image appears in a section with this content:
-[SURROUNDING_TEXT]
+<page_info>
+  <title>{{PAGE_TITLE}}</title>
+  <headings>{{KEY_HEADINGS}}</headings>
+  <type>{{WEBSITE_TYPE}}</type>
+</page_info>
 
-Given the page purpose we identified and this local content, why do you think the author placed an image here? What role might it serve?
+IDENTIFY the page's:
+1. Primary purpose
+2. Target audience
+3. Communication goal
 
-**STEP 3 - Image Analysis**
-[Attach the raw image]
+## STEP 2: EXAMINE Local Context
 
-Describe what you see in this image. Focus on the main subjects, composition, and any text within the image.
+<surrounding_text>
+{{SURROUNDING_TEXT}}
+</surrounding_text>
 
-**STEP 4 - Context Integration**
-[Attach screenshot showing image in its page context]
+DETERMINE:
+- Why was an image placed here?
+- What information gap does it fill?
+- How does it support the text?
 
-Now looking at how this image appears on the page, does this change your understanding of its purpose? Consider:
-- Size and prominence
-- Position relative to text
-- Visual relationship to other elements
+## STEP 3: DESCRIBE the Image
 
-**STEP 5 - Classification Decision**
-Based on our analysis:
-1. If this image were removed, would users lose meaningful information?
-2. Is that information already conveyed by surrounding text?
-3. Does the image present complex data or relationships?
+[Attach raw image]
 
-Walk me through your classification: Decorative, Simple Informative, or Complex Informative?
+OBSERVE and LIST:
+- Main subjects
+- Visual composition
+- Text within image
+- Data or relationships shown
 
-**STEP 6 - Alt Text Creation**
-Given the classification and context we've established, what alt text would best serve the author's intent while respecting screen reader UX (80-140 characters)?
+## STEP 4: INTEGRATE Context with Visual
 
-If complex: What structured alternative would provide equivalent access to the detailed information?
+[Attach contextual screenshot]
+
+EVALUATE the image's:
+- Visual prominence (large/medium/small)
+- Position relationship to text
+- Functional role on page
+
+## STEP 5: CLASSIFY the Image
+
+APPLY these criteria:
+
+<decision_tree>
+  Q1: Would removing this image lose information?
+    NO + text explains everything = DECORATIVE
+    YES → Continue
+
+  Q2: Can the essential info fit in 140 characters?
+    YES = SIMPLE_INFORMATIVE
+    NO = COMPLEX_INFORMATIVE
+</decision_tree>
+
+OUTPUT: [DECORATIVE | SIMPLE_INFORMATIVE | COMPLEX_INFORMATIVE]
+
+## STEP 6: CREATE Alt Text
+
+<requirements>
+  DECORATIVE → alt=""
+  SIMPLE_INFORMATIVE → Concise description (≤140 chars)
+  COMPLEX_INFORMATIVE → Summary + "Full data table follows"
+</requirements>
+
+GENERATE:
+<alt_text>{{YOUR_ALT_TEXT}}</alt_text>
+
+IF COMPLEX, also CREATE:
+<structured_alternative>
+  {{TABLE_OR_LIST}}
+</structured_alternative>
 ```
 
 ### Option 3: Parallel Processing (for Speed)
 
-For even faster results with smaller models, you can run these simultaneously:
+Run these three prompts simultaneously for fastest results:
 
-**Parallel Track A - Page Analysis:**
+**Track A - Context Extraction:**
 ```markdown
-You are an accessibility expert analyzing page context for alt text generation.
+ROLE: Accessibility context analyst
 
-Review this page information and identify:
-- Primary communication purpose (commercial, educational, informational)
-- Target audience and their needs
-- Overall tone and messaging strategy
+TASK: EXTRACT key page information for alt text generation
 
-[PAGE_CONTEXT including title, headings, metadata]
+<input>
+  <page_data>{{PAGE_CONTEXT}}</page_data>
+</input>
 
-What is this page trying to accomplish and for whom?
+IDENTIFY and OUTPUT:
+<context_analysis>
+  <purpose>[commercial|educational|informational]</purpose>
+  <audience>{{TARGET_AUDIENCE}}</audience>
+  <intent>{{PRIMARY_COMMUNICATION_GOAL}}</intent>
+</context_analysis>
 ```
 
-**Parallel Track B - Image Analysis:**
+**Track B - Visual Analysis:**
 ```markdown
-You are a visual analyst helping create accessible descriptions.
+ROLE: Visual content analyst
 
-Analyze this image and describe:
-- Main subjects and their relationships
-- Visual composition and emphasis
-- Any text or data present in the image
-- Overall visual message
+TASK: ANALYZE image for accessibility description
 
-[IMAGE]
+[Attach image]
 
-Focus on what's meaningful, not just what's visible.
+EXTRACT and OUTPUT:
+<visual_analysis>
+  <subjects>{{MAIN_SUBJECTS}}</subjects>
+  <data_present>[yes|no]</data_present>
+  <text_in_image>{{ANY_TEXT}}</text_in_image>
+  <complexity>[simple|complex]</complexity>
+</visual_analysis>
 ```
 
-**Synthesis Prompt:**
+**Synthesis - Final Alt Text Generation:**
 ```markdown
-You are an expert accessibility professional performing modality translation.
+ROLE: Expert accessibility professional
 
-Based on these parallel analyses:
-- Page purpose and audience: [RESULT_A]
-- Image content and composition: [RESULT_B]
-- Immediate surrounding context: [SURROUNDING_TEXT]
+TASK: SYNTHESIZE analyses to CREATE final alt text
 
-Apply these classification criteria:
-1. Would removing this image lose meaningful information?
-2. Is that information already conveyed by text?
-3. Does it contain complex data requiring structured alternatives?
+<context_result>{{TRACK_A_OUTPUT}}</context_result>
+<visual_result>{{TRACK_B_OUTPUT}}</visual_result>
+<surrounding>{{SURROUNDING_TEXT}}</surrounding>
 
-Provide:
-- Classification (Decorative/Simple Informative/Complex Informative)
-- Alt text (≤140 characters) that serves the author's intent
-- If complex, suggest structured alternative format
+CLASSIFY using this logic:
+- No unique info + redundant with text = DECORATIVE
+- Essential info + ≤140 chars = SIMPLE_INFORMATIVE
+- Data/complex relationships = COMPLEX_INFORMATIVE
+
+OUTPUT:
+<final_output>
+  <classification>{{TYPE}}</classification>
+  <alt_text>{{ALT_TEXT}}</alt_text>
+  <structured_alt>{{IF_COMPLEX}}</structured_alt>
+</final_output>
 ```
 
 **Why this parallel approach works:**
