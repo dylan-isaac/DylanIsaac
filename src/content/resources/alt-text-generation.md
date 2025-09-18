@@ -13,20 +13,77 @@ tags: ["accessibility", "AI", "translation", "alt-text", "web-development"]
 featured: true
 ---
 
-This ladder enables anyone to generate contextually appropriate alt text by encoding accessibility expertise into a reusable pattern. It extracts previously intangible information like author intention from key programmatic page contexts, using the same lines of questioning accessibility professionals have refined over decades.
+This is my personal methodology for creating alt text, encoded as a [ladder](/writing/building-ladders-extending-human-agency-with-ai) you can climb. After years as an accessibility expert, I've mapped the line of questioning I use when writing alt text into prompts that extract author intention from page structure—the implicit human variables that were previously locked behind expert judgment.
 
-## Key Innovation: Extracting Author Intention
+**How this is different:** Traditional alt text generators analyze only the image pixels. This pattern analyzes the entire page context first, then the image. It uses the same questioning process I use: What's the page purpose? Why is this image here? What would someone miss without it? Which of the metaphorical "1000 words" an image contains should actually be in the alt text?
 
-Traditional alt text generators only analyze the image itself. This pattern is different—it analyzes key contextual signals to understand *why* the author chose this image and which of the metaphorical 1000 words an image contains should be featured in the alt text. By analyzing:
+The same photo needs completely different descriptions on a product page (focus on features), news article (focus on context), or portfolio (focus on technique). By extracting context from DOM structure, headings, and surrounding text, this pattern identifies which description serves the author's intent.
 
-- **Page structure** through DOM headings and title
-- **Proximity and size** indicating relationships
-- **Visual semantics** from the image placement
-- **Structural patterns** showing usage intent
+## How Expert Questioning Becomes Automated Analysis
 
-The AI can determine not just what's in the image, but what the author intended to communicate through it.
+When I analyze an image for alt text, I ask four strategic questions:
+1. **"What's the purpose of this page?"** → Reveals communication context
+2. **"Why is this image positioned here?"** → Indicates functional role
+3. **"What would someone miss without this image?"** → Identifies essential information
+4. **"How much detail serves the author's intent?"** → Determines description depth
 
-## The Prompt Pattern
+These questions extract implicit variables from explicit page structure:
+
+```javascript
+// Programmatically available signals
+const pageTitle = document.title;
+const headings = document.querySelectorAll('h1, h2, h3');
+const surroundingText = getSiblingContent(image);
+
+// LLM interprets these signals through expert questioning
+// DOM heading + adjacent chart → Business performance intent
+// Hero image + minimal text → Primary visual communication
+// Small inline image + detailed text → Check for redundancy
+```
+
+The breakthrough: LLMs can systematically apply this questioning process to derive the same insights I would manually—extracting author intention from page structure.
+
+## My Three-Phase Methodology
+
+### Phase 1: Extract Context to Decode Intention
+I analyze page structure, headings, and surrounding text to understand *why* this image was chosen. The same photo needs different descriptions in different contexts.
+
+### Phase 2: Classify Function to Determine Detail
+- **Decorative**: No unique information → Empty alt text
+- **Simple Informative**: Essential info in <140 characters
+- **Complex Informative**: Data/relationships → Alt text + structured alternative
+
+### Phase 3: Optimize for Screen Reader UX
+- **Alt text**: 80-140 characters (cognitive load limit for audio processing)
+- **Structured alternatives**: Tables/lists for complex data exploration
+- **Information architecture**: Designed for sequential, non-visual navigation
+
+## How the Prompts Encode This Process
+
+The prompts below translate my methodology into five specific steps:
+
+1. **Page Context Analysis** → Establishes communication framework from titles, headings, metadata
+2. **Surrounding Content Analysis** → Narrows to section-level intent and visual placement
+3. **Classification & Intent** → Synthesizes context with image content to determine function
+4. **Alt Text Generation** → Creates concise description (≤140 chars) serving author's intent
+5. **Structured Alternative** → Provides tables/lists for complex visual data when needed
+
+## Good Alt Text vs Bad Alt Text
+
+**❌ Poor:** "Image of a graph with blue and red bars showing different heights representing data points across time periods with labels and a legend"
+
+**✅ Good:** "Quarterly sales up 40%, mobile revenue leading growth"
+
+The difference: Lead with meaning, not appearance. Every word earns its place within the 140-character cognitive load limit.
+
+---
+
+## The Prompts
+
+I've encoded my methodology into two formats:
+
+### Option 1: Comprehensive Prompt (for Claude, ChatGPT, Gemni)
+Use this when you have a powerful model that can handle complex multi-step reasoning.
 
 ```markdown
 You are an expert accessibility professional performing modality translation. Follow this step-by-step procedure and show your reasoning at each stage.
@@ -106,7 +163,122 @@ If Step 3 identified a Complex Informative Image, create a structured accessible
 - **Goal:** Provide equivalent information access to non-visual users through structured text that describes what is visually presented.
 ```
 
-## Supporting Script: Extract Page Context
+### Option 2: Step-by-Step Prompt (for Smaller/Local Models)
+
+```markdown
+You are an expert accessibility professional performing modality translation. I need your help creating contextually appropriate alt text by following a systematic analysis process.
+
+**STEP 1 - Understanding Context**
+Here's what I know about this page:
+- Page title: [PAGE_TITLE]
+- Main headings: [KEY_HEADINGS]
+- Website type: [e.g., e-commerce, blog, news, educational]
+
+Based on this context, what do you think this page is trying to accomplish? What's its main purpose?
+
+**STEP 2 - Local Context**
+The image appears in a section with this content:
+[SURROUNDING_TEXT]
+
+Given the page purpose we identified and this local content, why do you think the author placed an image here? What role might it serve?
+
+**STEP 3 - Image Analysis**
+[Attach the raw image]
+
+Describe what you see in this image. Focus on the main subjects, composition, and any text within the image.
+
+**STEP 4 - Context Integration**
+[Attach screenshot showing image in its page context]
+
+Now looking at how this image appears on the page, does this change your understanding of its purpose? Consider:
+- Size and prominence
+- Position relative to text
+- Visual relationship to other elements
+
+**STEP 5 - Classification Decision**
+Based on our analysis:
+1. If this image were removed, would users lose meaningful information?
+2. Is that information already conveyed by surrounding text?
+3. Does the image present complex data or relationships?
+
+Walk me through your classification: Decorative, Simple Informative, or Complex Informative?
+
+**STEP 6 - Alt Text Creation**
+Given the classification and context we've established, what alt text would best serve the author's intent while respecting screen reader UX (80-140 characters)?
+
+If complex: What structured alternative would provide equivalent access to the detailed information?
+```
+
+### Option 3: Parallel Processing (for Speed)
+
+For even faster results with smaller models, you can run these simultaneously:
+
+**Parallel Track A - Page Analysis:**
+```markdown
+You are an accessibility expert analyzing page context for alt text generation.
+
+Review this page information and identify:
+- Primary communication purpose (commercial, educational, informational)
+- Target audience and their needs
+- Overall tone and messaging strategy
+
+[PAGE_CONTEXT including title, headings, metadata]
+
+What is this page trying to accomplish and for whom?
+```
+
+**Parallel Track B - Image Analysis:**
+```markdown
+You are a visual analyst helping create accessible descriptions.
+
+Analyze this image and describe:
+- Main subjects and their relationships
+- Visual composition and emphasis
+- Any text or data present in the image
+- Overall visual message
+
+[IMAGE]
+
+Focus on what's meaningful, not just what's visible.
+```
+
+**Synthesis Prompt:**
+```markdown
+You are an expert accessibility professional performing modality translation.
+
+Based on these parallel analyses:
+- Page purpose and audience: [RESULT_A]
+- Image content and composition: [RESULT_B]
+- Immediate surrounding context: [SURROUNDING_TEXT]
+
+Apply these classification criteria:
+1. Would removing this image lose meaningful information?
+2. Is that information already conveyed by text?
+3. Does it contain complex data requiring structured alternatives?
+
+Provide:
+- Classification (Decorative/Simple Informative/Complex Informative)
+- Alt text (≤140 characters) that serves the author's intent
+- If complex, suggest structured alternative format
+```
+
+**Why this parallel approach works:**
+- **Separation of concerns**: Each track focuses on one domain (context vs. visual)
+- **Expert framing**: Each prompt activates specialized knowledge
+- **Clear synthesis**: Final prompt explicitly combines insights
+- **Maintains rigor**: Classification criteria prevent arbitrary decisions
+
+## Which Prompt Should You Use?
+
+**Option 1 (Comprehensive):** Best for Claude Opus/Sonnet or GPT-4+ when accuracy matters most
+**Option 2 (Step-by-Step):** Best for GPT-3.5, smaller models, or when you want to see the reasoning process
+**Option 3 (Parallel):** Best when speed matters and you can run multiple prompts simultaneously
+
+---
+
+## Supporting Tools
+
+### JavaScript for Context Extraction
 
 This JavaScript extracts the contextual information needed for the prompt:
 
@@ -254,20 +426,20 @@ function extractPageContext() {
   extractPageContext();
 ```
 
-## How to Use This Ladder
+## How to Use This Pattern
 
-1. **Run the extraction script** on the page containing the image to get the page context
-2. **Capture a screenshot** of the image in its page context
-3. **Feed both to an LLM** along with this prompt pattern
-4. **Receive contextually appropriate alt text** that reflects the author's intention
+1. **Extract page context** using the JavaScript in Supporting Tools
+2. **Capture screenshots** of both the raw image and image-in-context
+3. **Choose your prompt** based on your model's capabilities (see guide above)
+4. **Run the prompt** with the extracted context and images
+5. **Receive alt text** optimized for the author's intent and screen reader UX
 
-## What Makes This a Ladder
+---
 
-This pattern builds a bridge between visual and non-visual understanding by:
-- Encoding accessibility expertise into a reusable format
-- Extracting implicit author intention from explicit page structure
-- Translating between epistemologies (ways of knowing)
-- Making expert knowledge accessible to non-experts
-- Creating equivalent experiences across modalities
+## Why This Is a Ladder
 
-As described in ["Building Ladders: Extending Human Agency with AI"](/writing/building-ladders-extending-human-agency-with-ai), this tool doesn't force users to adapt to technology—it makes technology adapt to human needs by understanding context and intention.
+This pattern embodies the [ladder philosophy](/writing/building-ladders-extending-human-agency-with-ai): encoding expert knowledge into rungs others can climb.
+
+Instead of forcing creators to learn accessibility guidelines, it meets them where they are—letting them express through visual design while the ladder translates their intent into equivalent non-visual experiences. Each step is a rung: understanding context, recognizing patterns, making classification decisions, applying UX constraints.
+
+The result: My years of accessibility expertise become a tool anyone can use. Technology adapts to humans, not the other way around.
