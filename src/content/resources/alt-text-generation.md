@@ -5,7 +5,7 @@ type: "ladder"
 capabilities:
   - "Extracts author intention from page structure and context"
   - "Classifies images as decorative, simple informative, or complex informative"
-  - "Generates contextually appropriate alt text within 140 character limit"
+  - "Generates contextually appropriate alt text within 150 character limit"
   - "Creates structured alternatives for complex data visualizations"
   - "Performs epistemological translation between visual and non-visual modalities"
 usage: "Use this prompt with an LLM to analyze images in their page context and generate appropriate alternative text that creates equivalent experiences for screen reader users"
@@ -41,32 +41,52 @@ const surroundingText = getSiblingContent(image);
 // Small inline image + detailed text → Check for redundancy
 ```
 
-The breakthrough: LLMs can systematically apply this questioning process to derive the same insights I would manually—extracting author intention from page structure.
+The breakthrough: Author intent and page purpose aren't hidden—they're embedded in programmatically accessible content. DOM structure, headings, surrounding text, and metadata all contain the contextual signals needed for meaningful alt text. By extracting these signals and feeding them to an LLM with the right questioning framework, we can generate alt text that serves the author's actual communication intent.
 
-## My Three-Phase Methodology
+## The Five-Step Methodology I Designed for LLMs
 
-### Phase 1: Extract Context to Decode Intention
-I analyze page structure, headings, and surrounding text to understand *why* this image was chosen. The same photo needs different descriptions in different contexts.
+The following is a process I've designed for LLMs to follow, based on my accessibility expertise. Each step extracts specific programmatic signals and transforms them into meaningful descriptions that can be used to assist in writing contextual alt-text:
 
-### Phase 2: Classify Function to Determine Detail
+### Checklist Overview
+1. **Extract page context** → Decode author intent from structure
+2. **Analyze surrounding content** → Determine functional placement
+3. **Classify image type** → Apply systematic decision criteria
+4. **Generate alt text** → Create description serving author's intent
+5. **Validate output** → Confirm accuracy and screen reader UX
+
+### Step-by-Step Process
+
+#### Step 1: Extract Context to Decode Intention
+Analyze page structure, headings, and metadata to understand *why* this image was chosen. The same photo needs different descriptions in different contexts—product page vs. news article vs. portfolio.
+
+#### Step 2: Analyze Surrounding Content for Functional Role
+Examine immediate text context, visual prominence, and placement to determine what information gap the image fills.
+
+#### Step 3: Classify Function Using Decision Criteria
+Apply systematic classification:
 - **Decorative**: No unique information → Empty alt text
-- **Simple Informative**: Essential info in <140 characters
+- **Simple Informative**: Essential info in ≤150 characters
 - **Complex Informative**: Data/relationships → Alt text + structured alternative
 
-### Phase 3: Optimize for Screen Reader UX
-- **Alt text**: 80-140 characters (cognitive load limit for audio processing)
-- **Structured alternatives**: Tables/lists for complex data exploration
-- **Information architecture**: Designed for sequential, non-visual navigation
+#### Step 4: Generate Optimized Alt Text
+Create functional descriptions that serve as true text alternatives:
+- **Character limit**: Maximum 150 characters (users can't navigate within alt text like regular text)
+- **Lead with purpose**: Convey function and meaning, not visual appearance
+- **Serve author's intent**: What would someone miss without this image?
+- **Avoid redundancy**: Never include "image of", "picture of", or "graphic of"—screen readers already announce the image role
+
+#### Step 5: Validate for Screen Reader UX
+Confirm output serves sequential, non-visual navigation needs. For complex visuals, provide structured alternatives (tables/lists) for data exploration.
 
 ## How the Prompts Encode This Process
 
-The prompts below translate my methodology into five specific steps:
+The prompts below translate my methodology into five specific steps with built-in validation:
 
 1. **Page Context Analysis** → Establishes communication framework from titles, headings, metadata
 2. **Surrounding Content Analysis** → Narrows to section-level intent and visual placement
 3. **Classification & Intent** → Synthesizes context with image content to determine function
-4. **Alt Text Generation** → Creates concise description (≤140 chars) serving author's intent
-5. **Structured Alternative** → Provides tables/lists for complex visual data when needed
+4. **Alt Text Generation** → Creates concise description (≤150 chars) serving author's intent
+5. **Self-Validation & Error Handling** → Verifies output quality and handles insufficient context
 
 ## Good Alt Text vs Bad Alt Text
 
@@ -74,23 +94,30 @@ The prompts below translate my methodology into five specific steps:
 
 **✅ Good:** "Quarterly sales up 40%, mobile revenue leading growth"
 
-The difference: Lead with meaning, not appearance. Every word earns its place within the 140-character cognitive load limit.
+The difference: Lead with meaning, not appearance. Every word earns its place within the 150-character cognitive load limit.
 
 ---
 
 ## The Prompts
 
-I've encoded my methodology into three formats:
+I've encoded my methodology into two formats:
 
 > Note: Do **not** use a reasoning model for these prompts. Step by step reasoning instructions for reasoning models causes them to overthink.
 
 ### Option 1: Comprehensive Prompt (for Claude, ChatGPT, Gemini)
 Use this when you have a powerful model that can handle complex multi-step reasoning. This is the optimized version after refinement through OpenAI's prompt optimizer.
 
+You'll notice that much of the prompt is wrapped in XML tags. Language models speak the conventions of programming languages just as well as natural language. The XML tags give us a clear grammar for establishing consistent symbols for semi-structured data like the structure below. 
+
 ```markdown
 Role: Accessibility expert specializing in converting visual images into accessible textual formats compliant with WCAG standards.
 
-Checklist: (1) Extract page purpose, author intent, intended audience, and domain, (2) Analyze surrounding content and image display context, (3) Classify image, (4) Generate output in strict XML-like structure, (5) Include error handling if information is insufficient.
+Checklist:
+1. Extract page purpose, author intent, intended audience, and domain
+2. Analyze surrounding content and image display context
+3. Classify image
+4. Generate output in strict XML-like structure
+5. Include error handling if information is insufficient
 
 <inputs>
   <page_context>
@@ -123,12 +150,12 @@ Instructions:
 
 3. Classify the image as DECORATIVE, SIMPLE_INFORMATIVE, or COMPLEX_INFORMATIVE using the provided explicit criteria:
    - **DECORATIVE**: Purely aesthetic or redundant with text, no information lost if removed
-   - **SIMPLE_INFORMATIVE**: Conveys specific, essential information in ≤140 characters
+   - **SIMPLE_INFORMATIVE**: Conveys specific, essential information in ≤150 characters
    - **COMPLEX_INFORMATIVE**: Contains data, relationships, or processes requiring structured alternative
 
 4. Generate alt text and rationale according to classification:
    - For **DECORATIVE**: alt_text = ""
-   - For **SIMPLE_INFORMATIVE**: Alt description ≤140 characters
+   - For **SIMPLE_INFORMATIVE**: Alt description ≤150 characters
    - For **COMPLEX_INFORMATIVE**: Concise summary plus "Full data table follows." and structured alternative (markdown table, list, or detailed breakdown)
    - For **insufficient context**: Output error in all required fields, classification = "UNDETERMINED"
 
@@ -149,182 +176,148 @@ Output Format:
 </output>
 ```
 
-### Option 2: Step-by-Step Prompt (for Smaller/Local Models)
+### Option 2: Prompt Chain for Small/Local Models
 
+Small and local models often cannot hold complex state across multiple steps. Instead of one long prompt trying to guide them through everything, break it into 5 focused prompts that chain together. Each prompt does ONE thing well, then passes its output to the next. You review and can correct at each natural decision point.
+
+> **Parallelization Note:** Prompts 1 and 2 can run simultaneously since they analyze different inputs (page context vs. image). Their outputs then feed into Prompt 3. This can save time on final determination
+
+**Prompt 1: Extract Page Context**
 ```markdown
-ROLE: You are an expert accessibility professional specializing in creating alt text for screen reader users.
+ROLE: Context analyst specializing in understanding page purpose and author intent as it relates to an image.
 
-TASK: We'll work together step-by-step to CREATE appropriate alt text for an image.
+INPUTS:
+- PAGE_TITLE: The browser tab title (from <title> tag)
+- KEY_HEADINGS: The h1, h2, h3 headers that structure the page
+- PAGE_URL: The web address showing domain and path
+- TEXT_NEAR_IMAGE: Paragraphs immediately before/after the image location
 
-## STEP 1: ANALYZE Page Context
-
-<page_info>
+INPUT:
+<page_data>
   <title>{{PAGE_TITLE}}</title>
   <headings>{{KEY_HEADINGS}}</headings>
-  <type>{{WEBSITE_TYPE}}</type>
-</page_info>
+  <url>{{PAGE_URL}}</url>
+  <surrounding_text>{{TEXT_NEAR_IMAGE}}</surrounding_text>
+</page_data>
 
-IDENTIFY the page's:
-1. Primary purpose
-2. Target audience
-3. Communication goal
+TASK: Extract the page's essential context to understand its purpose and how it may relate to the image we're critically analyzing.
 
-## STEP 2: EXAMINE Local Context
-
-<surrounding_text>
-{{SURROUNDING_TEXT}}
-</surrounding_text>
-
-DETERMINE:
-- Why was an image placed here?
-- What information gap does it fill?
-- How does it support the text?
-
-## STEP 3: DESCRIBE the Image
-
-[Attach raw image]
-
-OBSERVE and LIST:
-- Main subjects
-- Visual composition
-- Text within image
-- Data or relationships shown
-
-## STEP 4: INTEGRATE Context with Visual
-
-[Attach contextual screenshot]
-
-EVALUATE the image's:
-- Visual prominence (large/medium/small)
-- Position relationship to text
-- Functional role on page
-
-## STEP 5: CLASSIFY the Image
-
-APPLY these criteria:
-
-<decision_tree>
-  Q1: Would removing this image lose information?
-    NO + text explains everything = DECORATIVE
-    YES → Continue
-
-  Q2: Can the essential info fit in 140 characters?
-    YES = SIMPLE_INFORMATIVE
-    NO = COMPLEX_INFORMATIVE
-</decision_tree>
-
-OUTPUT: [DECORATIVE | SIMPLE_INFORMATIVE | COMPLEX_INFORMATIVE]
-
-## STEP 6: CREATE Alt Text
-
-<requirements>
-  DECORATIVE → alt=""
-  SIMPLE_INFORMATIVE → Concise description (≤140 chars)
-  COMPLEX_INFORMATIVE → Summary + "Full data table follows"
-</requirements>
-
-GENERATE:
-<alt_text>{{YOUR_ALT_TEXT}}</alt_text>
-
-IF COMPLEX, also CREATE:
-<structured_alternative>
-  {{TABLE_OR_LIST}}
-</structured_alternative>
-```
-
-### Option 3: Parallel Processing (for Speed)
-
-Run these three prompts simultaneously for fastest results:
-
-**Track A - Context Extraction:**
-```markdown
-ROLE: Accessibility context analyst
-
-TASK: EXTRACT key page information for alt text generation
-
-<input>
-  <page_data>{{PAGE_CONTEXT}}</page_data>
-</input>
-
-IDENTIFY and OUTPUT:
+OUTPUT exactly this structure:
 <context_analysis>
-  <purpose>[commercial|educational|informational]</purpose>
-  <audience>{{TARGET_AUDIENCE}}</audience>
-  <intent>{{PRIMARY_COMMUNICATION_GOAL}}</intent>
+  <purpose>{{WHY_THIS_PAGE_EXISTS}}</purpose>
+  <audience>{{WHO_THIS_IS_FOR}}</audience>
+  <image_placement_reason>{{WHY_AN_IMAGE_IS_HERE}}</image_placement_reason>
 </context_analysis>
 ```
 
-**Track B - Visual Analysis:**
+**Prompt 2: Analyze Visual Content**
 ```markdown
-ROLE: Visual content analyst
+ROLE: Visual analyst specializing in systematic image description.
 
-TASK: ANALYZE image for accessibility description
+DEFINITIONS:
+- MAIN_SUBJECTS: The primary objects, people, or elements visible
+- TEXT_IN_IMAGE: Actual words/labels that appear within the image itself
+- DATA_PRESENT: Whether the image shows charts, graphs, or data visualizations
+- VISUAL_COMPLEXITY: Simple (few elements) or Complex (many elements/relationships)
 
 [Attach image]
 
-EXTRACT and OUTPUT:
+TASK: Describe what you see factually, without interpretation.
+
+OUTPUT exactly this structure:
 <visual_analysis>
-  <subjects>{{MAIN_SUBJECTS}}</subjects>
-  <data_present>[yes|no]</data_present>
-  <text_in_image>{{ANY_TEXT}}</text_in_image>
-  <complexity>[simple|complex]</complexity>
+  <main_subjects>{{WHAT_IS_IN_THE_IMAGE}}</main_subjects>
+  <text_in_image>{{ANY_TEXT_VISIBLE}}</text_in_image>
+  <data_present>{{yes|no}}</data_present>
+  <visual_complexity>{{simple|complex}}</visual_complexity>
 </visual_analysis>
 ```
 
-**Synthesis - Final Alt Text Generation:**
+**Prompt 3: Classify Image Function**
 ```markdown
-ROLE: Expert accessibility professional
+ROLE: Accessibility expert determining image classification.
 
-TASK: SYNTHESIZE analyses to CREATE final alt text
+DEFINITIONS:
+- DECORATIVE: Image adds no information beyond what text already provides
+- SIMPLE_INFORMATIVE: Image conveys essential info that fits in 150 characters
+- COMPLEX_INFORMATIVE: Image contains data/relationships requiring detailed description
 
-<context_result>{{TRACK_A_OUTPUT}}</context_result>
-<visual_result>{{TRACK_B_OUTPUT}}</visual_result>
-<surrounding>{{SURROUNDING_TEXT}}</surrounding>
+INPUTS from previous steps:
+<context>{{PROMPT_1_OUTPUT}}</context>
+<visual>{{PROMPT_2_OUTPUT}}</visual>
 
-CLASSIFY using this logic:
-- No unique info + redundant with text = DECORATIVE
-- Essential info + ≤140 chars = SIMPLE_INFORMATIVE
-- Data/complex relationships = COMPLEX_INFORMATIVE
+DECISION TREE:
+1. Would removing this image lose information?
+   NO + text explains it = DECORATIVE
+   YES → Continue
+
+2. Can essential info fit in 150 characters?
+   YES = SIMPLE_INFORMATIVE
+   NO = COMPLEX_INFORMATIVE
+
+OUTPUT exactly:
+<classification>
+  <type>{{DECORATIVE|SIMPLE_INFORMATIVE|COMPLEX_INFORMATIVE}}</type>
+  <reasoning>{{WHY_THIS_CLASSIFICATION}}</reasoning>
+</classification>
+```
+
+**Prompt 4: Generate Alt Text**
+```markdown
+ROLE: Alt text writer creating screen reader-optimized descriptions.
+
+INPUTS:
+<context>{{PROMPT_1_OUTPUT}}</context>
+<visual>{{PROMPT_2_OUTPUT}}</visual>
+<classification>{{PROMPT_3_OUTPUT}}</classification>
+
+RULES:
+- DECORATIVE → alt=""
+- SIMPLE_INFORMATIVE → Description ≤150 characters, lead with meaning not appearance
+- COMPLEX_INFORMATIVE → Brief summary + "Full data table follows"
+
+OUTPUT:
+<alt_text>
+  <text>{{YOUR_ALT_TEXT}}</text>
+  <character_count>{{NUMBER}}</character_count>
+</alt_text>
+
+[If COMPLEX_INFORMATIVE, also output:]
+<structured_alternative>
+{{TABLE_OR_LIST}}
+</structured_alternative>
+```
+
+**Prompt 5: Validate and Finalize**
+```markdown
+ROLE: Quality validator ensuring accessibility standards.
+
+INPUTS:
+<context>{{PROMPT_1_OUTPUT}}</context>
+<classification>{{PROMPT_3_OUTPUT}}</classification>
+<alt_text>{{PROMPT_4_OUTPUT}}</alt_text>
+
+VALIDATE:
+1. Does classification match the alt text format?
+2. Is character count appropriate?
+3. Does it serve the page's purpose?
+4. Would a screen reader user understand the same thing?
 
 OUTPUT:
 <final_output>
   <classification>{{TYPE}}</classification>
-  <alt_text>{{ALT_TEXT}}</alt_text>
-  <structured_alt>{{IF_COMPLEX}}</structured_alt>
+  <alt_text>{{FINAL_TEXT}}</alt_text>
+  <validation_status>{{passed|needs_revision}}</validation_status>
+  [<revision_notes>{{WHAT_TO_FIX}}</revision_notes>]
 </final_output>
 ```
 
-**Why this parallel approach works:**
-- **Separation of concerns**: Each track focuses on one domain (context vs. visual)
-- **Expert framing**: Each prompt activates specialized knowledge
-- **Clear synthesis**: Final prompt explicitly combines insights
-- **Maintains rigor**: Classification criteria prevent arbitrary decisions
 
 ## Which Prompt Should You Use?
 
-**Option 1 (Comprehensive):** Best for Claude Opus/Sonnet or GPT-4+ when accuracy matters most
-**Option 2 (Step-by-Step):** Best for GPT-3.5, smaller models, or when you want to see the reasoning process
-**Option 3 (Parallel):** Best when speed matters and you can run multiple prompts simultaneously
+**Option 1 (Comprehensive):** Best for top of the line models like the higher end Claude, ChatGPT, and Gemini models when accuracy matters most. One prompt handles everything.
 
----
-
-## How This Pattern Was Refined
-
-This methodology didn't emerge fully formed—it evolved through systematic refinement using [glass box](/definitions/glass-box) principles, most notably through OpenAI's [prompt optimization tool](https://cookbook.openai.com/examples/gpt-5/prompt-optimization-cookbook).
-
-When I first encoded my accessibility expertise into prompts, they were verbose and unfocused. I knew *what* needed to happen but struggled to translate expert intuition into structured instructions an LLM could follow consistently.
-
-The optimizer became my refinement laboratory. I'd input my initial attempt, and it would show me exactly how to improve the prompt structure:
-
-- **"Make constraints more specific"** → Led to the precise 140-character limit and classification criteria
-- **"Clarify the reasoning chain"** → Resulted in the five-phase methodology structure
-- **"Separate analysis from synthesis"** → Created the distinct context/visual/classification workflow
-
-Every suggested change came with explicit reasoning tied to [published best practices](https://cookbook.openai.com/examples/gpt-5/gpt-5_prompting_guide). I could see why "analyze the image for alt text" became "EXTRACT author intention from page context to CREATE equivalent experiences through accessibility metadata." The tool translated my accessibility domain knowledge into effective prompt engineering patterns while keeping me in control.
-
-This iterative refinement process exemplifies [glass box](/definitions/glass-box#prompt-engineering-translation) methodology: the AI showed its optimization reasoning, I maintained agency over every change, and each iteration built on documented improvements rather than mysterious adjustments. It's a perfect demonstration of [epistemological translation](/definitions/epistemological-translation)—the tool understood both my accessibility expertise and prompt engineering best practices, then served as a bridge between these two domains.
-
-The result is prompts that systematically apply the same line of questioning I use manually—but encoded so precisely that LLMs can follow the expert reasoning path consistently. This is how tools should enhance expertise: by making implicit knowledge structures explicit and shareable, not by replacing human judgment with black box magic. It's a [ladder](/definitions/ladders) that helped me build a better ladder—proving that these tools are composable and can strengthen each other while preserving human expertise.
+**Option 2 (Prompt Chain):** Best for smaller and local models, or when you want human review at each decision point. Five focused prompts that each do one thing well.
 
 ---
 
