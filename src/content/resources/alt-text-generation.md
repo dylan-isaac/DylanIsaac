@@ -13,7 +13,7 @@ tags: ["accessibility", "AI", "translation", "alt-text", "web-development"]
 featured: true
 ---
 
-This is my personal methodology for creating alt text, encoded as a [ladder](/writing/building-ladders-extending-human-agency-with-ai) you can climb. After years as an accessibility expert, I've mapped the line of questioning I use when writing alt text into prompts that extract author intention from page structure—the implicit human variables that were previously locked behind expert judgment.
+This is my personal methodology for creating alt text, encoded as a [ladder](/writing/building-ladders-extending-human-agency-with-ai) you can climb. After years as an accessibility expert, I've mapped the line of questioning I use when writing alt text into prompts that extract author intention from page structure—the implicit human variables that were previously locked behind expert judgment. It's [modality translation](/definitions/modality-translation) in action—converting visual information into equivalent textual experiences.
 
 **How this is different:** Traditional alt text generators analyze only the image pixels. This pattern analyzes the entire page context first, then the image. It uses the same questioning process I use: What's the page purpose? Why is this image here? What would someone miss without it? Which of the metaphorical "1000 words" an image contains should actually be in the alt text?
 
@@ -85,12 +85,12 @@ I've encoded my methodology into three formats:
 > Note: Do **not** use a reasoning model for these prompts. Step by step reasoning instructions for reasoning models causes them to overthink.
 
 ### Option 1: Comprehensive Prompt (for Claude, ChatGPT, Gemini)
-Use this when you have a powerful model that can handle complex multi-step reasoning.
+Use this when you have a powerful model that can handle complex multi-step reasoning. This is the optimized version after refinement through OpenAI's prompt optimizer.
 
 ```markdown
-You are an expert accessibility professional specializing in modality translation between visual and non-visual information.
+Role: Accessibility expert specializing in converting visual images into accessible textual formats compliant with WCAG standards.
 
-Your task: ANALYZE the provided image within its page context and CREATE appropriate alt text following WCAG guidelines.
+Checklist: (1) Extract page purpose, author intent, intended audience, and domain, (2) Analyze surrounding content and image display context, (3) Classify image, (4) Generate output in strict XML-like structure, (5) Include error handling if information is insufficient.
 
 <inputs>
   <page_context>
@@ -112,68 +112,41 @@ Your task: ANALYZE the provided image within its page context and CREATE appropr
   </contextual_image>
 </inputs>
 
-## ANALYSIS PROCEDURE
+Instructions:
+- Begin with the checklist above for each image.
+- Analyze the provided image and its full page context to generate accurate alt text.
+- Follow the specified multi-step analysis procedure to ensure contextually appropriate image classification and description:
 
-### Step 1: EXTRACT Page Context
-ANALYZE <page_context> and IDENTIFY:
-- Primary purpose and communication goal
-- Target audience characteristics
-- Content domain (commercial/educational/informational)
+1. Extract main purpose, communication goal, intended audience, and domain from <page_context>.
 
-### Step 2: EVALUATE Surrounding Context
-EXAMINE <surrounding_content> and <contextual_image> to DETERMINE:
-- Immediate textual relationships
-- Visual hierarchy and prominence
-- Functional role within page structure
-- Context influence level: HIGH | MEDIUM | LOW
+2. Evaluate <surrounding_content> and <contextual_image> for the image's role, visual prominence, and textual associations.
 
-### Step 3: CLASSIFY Image Function
-CLASSIFY the image into exactly ONE category:
+3. Classify the image as DECORATIVE, SIMPLE_INFORMATIVE, or COMPLEX_INFORMATIVE using the provided explicit criteria:
+   - **DECORATIVE**: Purely aesthetic or redundant with text, no information lost if removed
+   - **SIMPLE_INFORMATIVE**: Conveys specific, essential information in ≤140 characters
+   - **COMPLEX_INFORMATIVE**: Contains data, relationships, or processes requiring structured alternative
 
-<classification_criteria>
-  DECORATIVE:
-    - Purely aesthetic or redundant with text
-    - No information lost if removed
-    - Examples: spacers, borders, redundant icons
+4. Generate alt text and rationale according to classification:
+   - For **DECORATIVE**: alt_text = ""
+   - For **SIMPLE_INFORMATIVE**: Alt description ≤140 characters
+   - For **COMPLEX_INFORMATIVE**: Concise summary plus "Full data table follows." and structured alternative (markdown table, list, or detailed breakdown)
+   - For **insufficient context**: Output error in all required fields, classification = "UNDETERMINED"
 
-  SIMPLE_INFORMATIVE:
-    - Conveys specific, essential information
-    - Can be described in ≤140 characters
-    - Examples: product photos, headshots, illustrations
+Output Policy:
+- Always use the required structured XML-like output format below.
+- Never generate <structured_alternative> for images classified as DECORATIVE or SIMPLE_INFORMATIVE.
+- For ambiguous or incomplete information, supply error messages in designated fields and set classification to 'UNDETERMINED.'
 
-  COMPLEX_INFORMATIVE:
-    - Contains data, relationships, or processes
-    - Requires structured alternative
-    - Examples: charts, graphs, infographics, diagrams
-</classification_criteria>
+After generating the output, validate that each required output field is present, corresponds with the image classification, and that no <structured_alternative> is included except for COMPLEX_INFORMATIVE classifications. If validation fails, self-correct and return a revised output.
 
-### Step 4: GENERATE Alt Text
-
+Output Format:
 <output>
-  <classification>[DECORATIVE | SIMPLE_INFORMATIVE | COMPLEX_INFORMATIVE]</classification>
-
-  <author_intent>
-    [Why this image was chosen for this context]
-  </author_intent>
-
-  <alt_text>
-    <!-- DECORATIVE: "" (empty string)
-         SIMPLE_INFORMATIVE: Meaningful description ≤140 characters
-         COMPLEX_INFORMATIVE: Brief summary + "Full data table follows" -->
-  </alt_text>
-
-  <rationale>
-    [Explain classification and alt text decisions based on context analysis]
-  </rationale>
+  <classification>DECORATIVE | SIMPLE_INFORMATIVE | COMPLEX_INFORMATIVE | UNDETERMINED</classification>
+  <author_intent>Why this image appears in this location / error message if unknown</author_intent>
+  <alt_text>Concise and contextually appropriate description / error message</alt_text>
+  <rationale>Justification for your classification and alt text / error message</rationale>
+  [<structured_alternative>Markdown table, list, or detailed breakdown when image is COMPLEX_INFORMATIVE only</structured_alternative>]
 </output>
-
-### Step 5: CREATE Structured Alternative (if COMPLEX_INFORMATIVE)
-
-<structured_alternative>
-  <!-- Generate markdown table for data
-       OR hierarchical list for processes
-       OR detailed breakdown for infographics -->
-</structured_alternative>
 ```
 
 ### Option 2: Step-by-Step Prompt (for Smaller/Local Models)
@@ -332,6 +305,26 @@ OUTPUT:
 **Option 1 (Comprehensive):** Best for Claude Opus/Sonnet or GPT-4+ when accuracy matters most
 **Option 2 (Step-by-Step):** Best for GPT-3.5, smaller models, or when you want to see the reasoning process
 **Option 3 (Parallel):** Best when speed matters and you can run multiple prompts simultaneously
+
+---
+
+## How This Pattern Was Refined
+
+This methodology didn't emerge fully formed—it evolved through systematic refinement using [glass box](/definitions/glass-box) principles, most notably through OpenAI's [prompt optimization tool](https://cookbook.openai.com/examples/gpt-5/prompt-optimization-cookbook).
+
+When I first encoded my accessibility expertise into prompts, they were verbose and unfocused. I knew *what* needed to happen but struggled to translate expert intuition into structured instructions an LLM could follow consistently.
+
+The optimizer became my refinement laboratory. I'd input my initial attempt, and it would show me exactly how to improve the prompt structure:
+
+- **"Make constraints more specific"** → Led to the precise 140-character limit and classification criteria
+- **"Clarify the reasoning chain"** → Resulted in the five-phase methodology structure
+- **"Separate analysis from synthesis"** → Created the distinct context/visual/classification workflow
+
+Every suggested change came with explicit reasoning tied to [published best practices](https://cookbook.openai.com/examples/gpt-5/gpt-5_prompting_guide). I could see why "analyze the image for alt text" became "EXTRACT author intention from page context to CREATE equivalent experiences through accessibility metadata." The tool translated my accessibility domain knowledge into effective prompt engineering patterns while keeping me in control.
+
+This iterative refinement process exemplifies [glass box](/definitions/glass-box#prompt-engineering-translation) methodology: the AI showed its optimization reasoning, I maintained agency over every change, and each iteration built on documented improvements rather than mysterious adjustments. It's a perfect demonstration of [epistemological translation](/definitions/epistemological-translation)—the tool understood both my accessibility expertise and prompt engineering best practices, then served as a bridge between these two domains.
+
+The result is prompts that systematically apply the same line of questioning I use manually—but encoded so precisely that LLMs can follow the expert reasoning path consistently. This is how tools should enhance expertise: by making implicit knowledge structures explicit and shareable, not by replacing human judgment with black box magic. It's a [ladder](/definitions/ladders) that helped me build a better ladder—proving that these tools are composable and can strengthen each other while preserving human expertise.
 
 ---
 

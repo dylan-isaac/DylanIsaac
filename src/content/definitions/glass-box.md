@@ -106,6 +106,19 @@ Rather than producing unexplained insights:
 - Explains outlier handling
 - Presents confidence intervals, not just point estimates
 
+### Prompt Engineering Translation
+OpenAI's [prompt optimization tool](https://cookbook.openai.com/examples/gpt-5/prompt-optimization-cookbook) demonstrates glass box principles in AI-assisted prompt engineering:
+- Shows explicit analysis of the prompt's structure and intent
+- Documents each improvement with clear reasoning
+- Links optimizations to [published best practices](https://cookbook.openai.com/examples/gpt-5/gpt-5_prompting_guide), making the knowledge base transparent
+- Engages in bidirectional dialogue—explaining changes and allowing human refinement
+
+![Prompt optimizer showing "will apply best practices to your prompt" and links to them.](/images/best-practice-link.jpg)
+
+This is glass box AI at its best: I describe what I want in my terms, the system translates to its optimization space while showing every step, then presents the refined prompt with full reasoning. I never lose agency because I can see and approve each translation decision. The tool enhances my prompt engineering capability without requiring me to become a prompt engineering expert. This tool is adapting to where I am, gives me the ability to express my personal judgement and to learn, all while increasing my abilities beyond what I currently know off the top of my head.
+
+When I used this to refine my [alt text generation pattern](/resources/alt-text-generation#how-this-pattern-was-refined), it preserved my accessibility expertise while adding prompt engineering rigor—a perfect example of [ladders](/definitions/ladders) enhancing other ladders.
+
 ## Why Glass Box Matters
 
 ### Trust Through Transparency
