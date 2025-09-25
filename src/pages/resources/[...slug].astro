@@ -4,6 +4,7 @@ import Layout from '../../layouts/Layout.astro';
 import Header from '../../components/Header.astro';
 import Heading from '../../components/Heading.astro';
 import Tag from '../../components/Tag.astro';
+import CodeBlockEnhancer from '../../components/CodeBlockEnhancer.astro';
 import { getTagColorIndex } from '../../utils/tags';
 import type { GetStaticPaths } from 'astro';
 
@@ -113,6 +114,7 @@ const typeLabel = {
       </div>
     </article>
   </main>
+  <CodeBlockEnhancer />
 </Layout>
 
 <style>

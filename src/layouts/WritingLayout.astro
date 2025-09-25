@@ -2,6 +2,7 @@
 import Layout from './Layout.astro';
 import Header from '../components/Header.astro';
 import Tag from '../components/Tag.astro';
+import CodeBlockEnhancer from '../components/CodeBlockEnhancer.astro';
 import { format } from 'date-fns';
 import { getTagColorIndex } from '../utils/tags';
 
@@ -84,4 +85,5 @@ const articleSchema = {
       </div>
     </article>
   </main>
+  <CodeBlockEnhancer />
 </Layout> 

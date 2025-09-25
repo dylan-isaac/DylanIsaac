@@ -1,0 +1,130 @@
+---
+// This component adds copy buttons to all code blocks on the page
+---
+
+<script>
+  function enhanceCodeBlocks() {
+    // Find all code blocks (pre elements with code children)
+    const codeBlocks = document.querySelectorAll('pre > code');
+
+    codeBlocks.forEach((codeElement) => {
+      const preElement = codeElement.parentElement as HTMLPreElement;
+
+      // Skip if already enhanced
+      if (preElement.querySelector('.copy-button')) return;
+
+      // Create wrapper div for positioning
+      const wrapper = document.createElement('div');
+      wrapper.className = 'relative group';
+
+      // Move pre element into wrapper
+      preElement.parentNode?.insertBefore(wrapper, preElement);
+      wrapper.appendChild(preElement);
+
+      // Create copy button - always visible with higher contrast
+      const button = document.createElement('button');
+      button.className = 'copy-button absolute top-2 right-2 px-3 py-1.5 text-xs font-semibold rounded bg-surface dark:bg-dark-surface border-2 border-content/20 dark:border-dark-content/20 text-content dark:text-dark-content hover:bg-primary hover:dark:bg-primary-light hover:text-white hover:dark:text-content hover:border-primary dark:hover:border-primary-light focus:bg-primary focus:dark:bg-primary-light focus:text-white focus:dark:text-content focus:border-primary focus:dark:border-primary-light transition-colors duration-200 focus:ring-2 focus:ring-primary/50 focus:outline-none';
+      button.setAttribute('aria-label', 'Copy code to clipboard');
+      button.innerHTML = `
+        <span class="copy-text">Copy</span>
+        <span class="copied-text hidden">Copied!</span>
+      `;
+
+      // Add copy functionality
+      button.addEventListener('click', async () => {
+        const code = codeElement.textContent || '';
+
+        try {
+          await navigator.clipboard.writeText(code);
+
+          // Show feedback
+          const copyText = button.querySelector('.copy-text');
+          const copiedText = button.querySelector('.copied-text');
+
+          copyText?.classList.add('hidden');
+          copiedText?.classList.remove('hidden');
+
+          // Reset after 2 seconds
+          setTimeout(() => {
+            copyText?.classList.remove('hidden');
+            copiedText?.classList.add('hidden');
+          }, 2000);
+        } catch (err) {
+          console.error('Failed to copy code:', err);
+          // Fallback for older browsers
+          const textArea = document.createElement('textarea');
+          textArea.value = code;
+          textArea.style.position = 'fixed';
+          textArea.style.opacity = '0';
+          document.body.appendChild(textArea);
+          textArea.select();
+          try {
+            document.execCommand('copy');
+            // Show feedback
+            const copyText = button.querySelector('.copy-text');
+            const copiedText = button.querySelector('.copied-text');
+
+            copyText?.classList.add('hidden');
+            copiedText?.classList.remove('hidden');
+
+            setTimeout(() => {
+              copyText?.classList.remove('hidden');
+              copiedText?.classList.add('hidden');
+            }, 2000);
+          } catch (err) {
+            console.error('Fallback copy failed:', err);
+          }
+          document.body.removeChild(textArea);
+        }
+      });
+
+      // Add button to wrapper
+      wrapper.appendChild(button);
+    });
+  }
+
+  // Run on initial load
+  document.addEventListener('DOMContentLoaded', enhanceCodeBlocks);
+
+  // Also run after Astro page transitions (if using View Transitions)
+  document.addEventListener('astro:after-swap', enhanceCodeBlocks);
+</script>
+
+<style>
+  /* Ensure pre elements don't have their own relative positioning that might conflict */
+  :global(pre) {
+    position: static !important;
+  }
+
+  /* Make sure the wrapper div properly contains the pre element */
+  :global(.relative.group) {
+    position: relative;
+  }
+
+  /* Button hover and active states */
+  :global(.copy-button) {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  :global(.dark .copy-button) {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  }
+
+  :global(.copy-button:hover) {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  }
+
+  :global(.dark .copy-button:hover) {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+  }
+
+  :global(.copy-button:active) {
+    transform: translateY(0);
+  }
+
+  /* Ensure code blocks have enough padding for the button */
+  :global(pre:has(+ .copy-button)) {
+    padding-top: 2.5rem !important;
+  }
+</style>

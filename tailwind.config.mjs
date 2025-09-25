@@ -110,6 +110,19 @@ export default {
             p: {
               marginBottom: theme('spacing.md'),
             },
+            blockquote: {
+              borderLeftColor: theme('colors.primary.DEFAULT'),
+              borderLeftWidth: '4px',
+              paddingLeft: theme('spacing.md'),
+              fontStyle: 'normal',
+              quotes: 'none',
+            },
+            'blockquote p:first-of-type::before': {
+              content: 'none',
+            },
+            'blockquote p:last-of-type::after': {
+              content: 'none',
+            },
             table: {
               width: '100%',
               tableLayout: 'auto',
@@ -166,6 +179,16 @@ export default {
             },
             'tbody td': {
               color: theme('colors.dark-content.DEFAULT'),
+            },
+            blockquote: {
+              borderLeftColor: theme('colors.primary.light'),
+              quotes: 'none',
+            },
+            'blockquote p:first-of-type::before': {
+              content: 'none',
+            },
+            'blockquote p:last-of-type::after': {
+              content: 'none',
             },
           },
         },
