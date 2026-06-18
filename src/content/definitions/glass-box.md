@@ -117,7 +117,7 @@ OpenAI's [prompt optimization tool](https://cookbook.openai.com/examples/gpt-5/p
 
 This is glass box AI at its best: I describe what I want in my terms, the system translates to its optimization space while showing every step, then presents the refined prompt with full reasoning. I never lose agency because I can see and approve each translation decision. The tool enhances my prompt engineering capability without requiring me to become a prompt engineering expert. This tool is adapting to where I am, gives me the ability to express my personal judgement and to learn, all while increasing my abilities beyond what I currently know off the top of my head.
 
-When I used this to refine my [alt text generation pattern](/resources/alt-text-generation#how-this-pattern-was-refined), it preserved my accessibility expertise while adding prompt engineering rigor—a perfect example of [ladders](/definitions/ladders) enhancing other ladders.
+When I used this to refine my [alt text generation pattern](/resources/alt-text-generation#the-prompts), it preserved my accessibility expertise while adding prompt engineering rigor—a perfect example of [ladders](/definitions/ladders) enhancing other ladders.
 
 ## Why Glass Box Matters
 

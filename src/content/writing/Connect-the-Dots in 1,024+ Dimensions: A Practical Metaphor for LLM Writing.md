@@ -1,7 +1,7 @@
 ---
 title: "Connect-the-Dots in 1,024+ Dimensions"
 publishDate: 2025-08-18T12:00:00.000Z
-description: "A Practical Metaphor for LLM Writing"
+description: "A practical metaphor for understanding embeddings, context, and why LLM writing works by connecting semantic patterns across high-dimensional space."
 tags: ["AI", "Writing", "Patterns", "Translation", "Prompt-Engineering", "Context-Engineering"]
 type: "article"
 draft: true

@@ -5,7 +5,9 @@ import WritingLayout from '../../layouts/WritingLayout.astro';
 // Generate static paths for all writing posts
 export async function getStaticPaths() {
   const posts = await getCollection('writing');
-  return posts.map(post => ({
+  const isDevelopment = import.meta.env.DEV;
+  const filteredPosts = posts.filter(post => isDevelopment || !post.data.draft);
+  return filteredPosts.map(post => ({
     params: { slug: post.slug },
     props: { post },
   }));
