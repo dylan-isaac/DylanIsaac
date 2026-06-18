@@ -95,7 +95,7 @@ const typeLabel = {
         
         <div class="flex flex-wrap gap-2">
           {resource.data.tags.map((tag) => (
-            <Tag name={tag} colorIndex={getTagColorIndex(tag)} />
+            <Tag name={tag} colorIndex={getTagColorIndex(tag)} clickable={false} />
           ))}
         </div>
       </header>

@@ -8,7 +8,7 @@ interface Props {
 
 const { 
   title, 
-  description = " - Enablement Engineer and Systems Thinker dedicated to democratizing technology and empowering people through accessible AI solutions.",
+  description = "Dylan Isaac builds AI and accessibility systems that preserve meaning, make expert knowledge usable, and help technology adapt to people.",
   image = "/me-square.jpg",
   ogType = "website"
 } = Astro.props;
@@ -20,15 +20,10 @@ const jsonLD = {
   "@context": "https://schema.org",
   "@type": "Person",
   "name": "Dylan Isaac",
-  "jobTitle": "Lead AI Engineer",
-  "worksFor": {
-    "@type": "Organization",
-    "name": "Deque Systems",
-    "url": "https://deque.com"
-  },
+  "jobTitle": "AI Accessibility Engineer",
   "url": canonicalURL.toString(),
   "sameAs": [
-    "https://github.com/dylansheffer",
+    "https://github.com/dylan-isaac",
     "https://www.linkedin.com/in/dylan--isaac/"
   ],
   "description": description,
@@ -87,7 +82,7 @@ const jsonLD = {
     <meta property="og:image" content={ogImageURL} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="1200" />
-    <meta property="og:image:alt" content="Dylan Isaac - Enablement Engineer" />
+    <meta property="og:image:alt" content="Dylan Isaac" />
     <meta property="og:site_name" content="Dylan Isaac" />
     <meta property="og:locale" content="en_US" />
     
@@ -101,7 +96,7 @@ const jsonLD = {
     <!-- Additional SEO -->
     <meta name="author" content="Dylan Isaac" />
     <meta name="robots" content="index, follow" />
-    <meta name="keywords" content="Dylan Isaac, Enablement Engineer, Systems Thinker, Accessibility, AI, Deque Systems, axe Assistant" />
+    <meta name="keywords" content="Dylan Isaac, AI Accessibility Engineer, Systems Thinker, Accessibility, AI, Semantic Documents, axe Assistant, Equalify Reflow, Gobbler" />
     
     <!-- Structured Data -->
     <script type="application/ld+json" is:inline set:html={JSON.stringify(jsonLD)} />
